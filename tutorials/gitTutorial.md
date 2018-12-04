@@ -41,8 +41,12 @@ Med
 ```
 git status
 ```
-ser du alla filer du har ändrat på.
-När du har gjort något du vill spara "committar" du det. För att markera vilka filer som ska commitas ("stagea") skriver du
+ser du alla filer du har ändrat på och med 
+```
+git diff
+```
+ser du de exakta ändringarna.
+När du har gjort något du vill spara "committar" du det. För att markera vilka filer som ska commitas ("stageas") skriver du
 ```
 git add <fileName>
 ```
@@ -55,6 +59,10 @@ Sedan kan du commita ändringarna genom att skriva
 git commit -m <"This is a commit message">
 ```
 Flaggan -m anger ett commit message och det är **VÄLDIGT** viktigt att du alltid skriver tydliga meddelanden.
+För att unstagea en fil skriver du
+```
+git reset HEAD <fileName>
+```
 För att "pusha" dina commits till github repon skriver du
 ```
 git push origin <branchName>
@@ -71,8 +79,7 @@ git pull origin <branchName>
 ```
 Du bör köra pull varje gång du har varit borta från projektet.
 
-Det kan även hända att branches som ligger på github tas bort medans de ligger kvar på din maskin. För att uppdatera vilka branches
-som ligger på github skriver du
+Det kan även hända att branches som ligger på github tas bort medans de ligger kvar på din maskin. För att uppdatera vilka branches som ligger på github skriver du
 ```
 git remote update origin --prune
 ```
