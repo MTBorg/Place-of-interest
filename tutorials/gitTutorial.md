@@ -37,11 +37,12 @@ alternativt för att skapa och komma direkt till den nya branchen
 ```
 git checkout -b <branchName>
 ```
+när du branchar blir den nya en sub-branch av den branch du branchar ifrån.
 Med
 ```
 git status
 ```
-ser du alla filer du har ändrat på och med 
+ser du alla filer du har ändrat på sedan den senaste committen och med 
 ```
 git diff
 ```
@@ -54,11 +55,11 @@ eller för att stagea alla filer
 ```
 git add -A
 ```
-Sedan kan du commita ändringarna genom att skriva 
+Sedan kan du committa ändringarna genom att skriva 
 ```
 git commit -m <"This is a commit message">
 ```
-Flaggan -m anger ett commit message och det är **VÄLDIGT** viktigt att du alltid skriver tydliga meddelanden.
+Flaggan -m anger ett commit message och det är bra om du alltid skriver tydliga meddelanden.
 För att unstagea en fil skriver du
 ```
 git reset HEAD <fileName>
