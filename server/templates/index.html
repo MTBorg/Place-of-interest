@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+            {{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419, -122.1419)])}}
+            {{mymap.js}}
+            {{sndmap.js}}
+    </head>
+    <body>
+        <h1>Flask Google Maps Example</h1>
+
+        <h2> Template function centered, no marker </h2>
+        {{googlemap("simple-map", 37.4419, -122.1419)}}
+
+        <h2> Template filter decoupled with single marker </h2>
+        {{"decoupled-map"|googlemap_html(37.4419, -122.1419)}}
+
+        <h2> Template function with multiple markers </h2>
+        {% with map=googlemap_obj("another-map", 37.4419, -122.1419, markers=[(37.4419, -122.1419), (37.4300, -122.1400)]) %}
+            {{map.html}}
+            {{map.js}}
+        {% endwith %}
+
+        <h2> First map generated in view</h2>
+        {{mymap.html}}
+
+        <h2> Second map generated in view</h2>
+        <h3> Example for different icons in multiple markers with infoboxes</h3>
+        {{sndmap.html}}
+
+    </body>
+</html>
