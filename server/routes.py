@@ -7,33 +7,31 @@ GoogleMaps(app)
 
 @app.route("/")
 def mapview():
-    # creating a map in the view
-    mymap = Map(
-        identifier="view-side",
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[(37.4419, -122.1419)]
-    )
+
+    #icon to show on map (flagged location)
+    icon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
+    #lng & lat for positions to show
+    flaggedLocations = [(65.621650, 22.117025), (65.618776, 22.139475)]
+    #marks which combine the icon and flaggedLocations
+    marks = []
+    for i in range(len(flaggedLocations)):
+        marks.append({
+            "icon": icon,
+            "lat": flaggedLocations[i][0],
+            "lng": flaggedLocations[i][1],
+            "infobox": "<p>testing</p>"
+        })
+
+    #render the map for HTML
     sndmap = Map(
         identifier="sndmap",
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[
-          {
-             'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-             'lat': 37.4419,
-             'lng': -122.1419,
-             'infobox': "<b>Hello World</b>"
-          },
-          {
-             'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-             'lat': 37.4300,
-             'lng': -122.1400,
-             'infobox': "<b>Hello World from other place</b>"
-          }
-        ]
+        lat=65.618776,
+        lng=22.139475,
+        markers=marks,
+        style="height: 700px; width: 1200px;",
+        zoom=12,
     )
-    return render_template('./templates/index.html', mymap=mymap, sndmap=sndmap)
+    return render_template('./templates/index.html', sndmap=sndmap)
 
 if __name__ == "__main__":
     app.run(debug=True)
