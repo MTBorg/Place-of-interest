@@ -3,15 +3,25 @@ from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 
 app = Flask(__name__, template_folder=".")
+
+#read in the google maps API key
+try:
+    f = open("../API-key/key.txt", "r") #text file with your API key
+except IOError:
+    print("Couldn't fetch key for google maps API.")
+else:
+    app.config['GOOGLEMAPS_KEY'] = f.read()
+    f.close()
+
 GoogleMaps(app)
 
 @app.route("/")
 def mapview():
 
-    #icon to show on map (flagged location)
+    #What icon to show on map (flagged location)
     icon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
-    #lng & lat for positions to show
-    flaggedLocations = [(65.621650, 22.117025), (65.618776, 22.139475)]
+    #lng & lat for positions to show.
+    flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
     #marks which combine the icon and flaggedLocations
     marks = []
     for i in range(len(flaggedLocations)):
@@ -19,7 +29,7 @@ def mapview():
             "icon": icon,
             "lat": flaggedLocations[i][0],
             "lng": flaggedLocations[i][1],
-            "infobox": "<p>testing</p>"
+            "infobox": flaggedLocations[i][2],
         })
 
     #render the map for HTML
