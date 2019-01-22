@@ -11,5 +11,5 @@
 * Python 3.6 + pip
 * Flask 1.0.2
 * Postgresql 10.6
-* PostGis 2.4
+* PostGis 2.5.1
 * Google Maps API Key
