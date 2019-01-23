@@ -50,7 +50,7 @@ def mapview():
         lat=65.618776,
         lng=22.139475,
         markers=marks,
-        style="height: 700px; width: 1200px;",
+        style="height: 600px; width: 1920px; margin-left: -10px;",
         zoom=12,
         center_on_user_location=True
     )
