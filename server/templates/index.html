@@ -8,6 +8,34 @@
         <h2> Second map generated in view</h2>
         <h3> Example for different icons in multiple markers with infoboxes</h3>
         {{sndmap.html}}
-
+        <form id="formen" method="POST" action="/">
+            <input id="form1" name="value1" type="hidden">
+            <input id="form2" name="value2" type="hidden">
+            <input id="form3" name="value3" type="hidden">
+            <button onclick="getLocation()">submit</button>
+        </form>
     </body>
 </html>
+
+<script>
+    var worked = document.getElementById("form1")
+    var lat = document.getElementById("form2")
+    var lng = document.getElementById("form3")
+    var form = document.getElementById("formen")
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        worked.value = "Geolocation is not supported by this browser.";
+      }
+    }
+    
+    function showPosition(position) {
+        lat.value = position.coords.latitude; 
+        lng.value = position.coords.longitude;
+        if(lat != null && lng != null){
+            form.submit()
+        }
+    }
+</script>
