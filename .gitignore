@@ -2,3 +2,5 @@
 
 **/api_key/*
 !readme.md
+
+**/__pycache__/
