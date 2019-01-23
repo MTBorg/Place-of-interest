@@ -5,7 +5,7 @@
 	}],
 
 	"connection" :	{
-		"dbname" : "PlaceOfInterest",
+		"dbname" : "placeofinterest",
 		"user" : "postgres",
 		"host" : "localhost",
 		"password" : "123",
