@@ -1,14 +1,17 @@
 from flask import Flask, render_template
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
+import os
 
 app = Flask(__name__, template_folder=".")
+#path from where this file is executed.
+path = os.path.dirname(os.path.realpath(__file__))
 
 #read in the google maps API key
 try:
-    f = open("../API-key/key.txt", "r") #text file with your API key
+    f = open(os.path.realpath(path+"/api_key/key.txt"), "r") #text file with your API key
 except IOError:
-    print("Couldn't fetch key for google maps API.")
+    print("Couldn't fetch key for google maps API from "+path)
 else:
     app.config['GOOGLEMAPS_KEY'] = f.read()
     f.close()
@@ -17,7 +20,6 @@ GoogleMaps(app)
 
 @app.route("/")
 def mapview():
-
     #What icon to show on map (flagged location)
     icon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
     #lng & lat for positions to show.
@@ -31,7 +33,6 @@ def mapview():
             "lng": flaggedLocations[i][1],
             "infobox": flaggedLocations[i][2],
         })
-
     #render the map for HTML
     sndmap = Map(
         identifier="sndmap",
