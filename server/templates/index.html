@@ -14,7 +14,6 @@
             <input id="form3" name="value3" type="hidden">
             <button onclick="getLocation()">submit</button>
         </form>
-       <!-- <button onclick="getLocation()" type="submit">Get location</button> -->
     </body>
 </html>
 
@@ -37,7 +36,6 @@
         lng.value = position.coords.longitude;
         if(lat != null && lng != null){
             form.submit()
-            console.log(lat+" "+lng);
         }
     }
 </script>
