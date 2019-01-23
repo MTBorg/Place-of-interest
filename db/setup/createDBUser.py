@@ -18,8 +18,7 @@ def createDBUser(hostName, hostPort, psqlPass, dbPass, dbOwner):
         connection.autocommit=True
         cursor = connection.cursor()
         SQL = "CREATE USER %s WITH ENCRYPTED PASSWORD %s"
-        query = "CREATE DATABASE %s OWNER %s;"
         data = (AsIs(dbOwner), psqlPass)
         cursor.execute(SQL, data)
     except Exception as e:
-        print("Exception:", e)
+        print("Exception creating user:", e)

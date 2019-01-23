@@ -20,5 +20,5 @@ def createTables(dbname, username, hostname, password, portnr):
         SQL = "CREATE TABLE Markers(id INTEGER NOT NULL, marker POINT, created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, PRIMARY KEY (id))"
         cursor.execute(SQL)
     except Exception as e:
-        print("Exception:", e)
+        print("Exception creating tables:", e)
 
