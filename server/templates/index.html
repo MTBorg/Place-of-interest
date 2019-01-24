@@ -1,27 +1,31 @@
 <!DOCTYPE html>
     <html>
     <head>
-            {{sndmap.js}}
+        {{sndmap.js}}
     </head>
-    <body>
+    <body onload="getLocation()">
         <h1>Flask Google Maps Example</h1>
         <h2> Second map generated in view</h2>
         <h3> Example for different icons in multiple markers with infoboxes</h3>
         {{sndmap.html}}
-        <form id="formen" method="POST" action="/">
-            <input id="form1" name="value1" type="hidden">
-            <input id="form2" name="value2" type="hidden">
-            <input id="form3" name="value3" type="hidden">
-            <button onclick="getLocation()">submit</button>
+        <form id="sendLatLng" method="POST" action="/">
+            <input id="latInput" name="lat" type="hidden">
+            <input id="lngInput" name="lng" type="hidden">
+            <button style="float:left;" type="submit">submit</button>
         </form>
+        <button style="float:left;" onclick="reCenterMap()">Center current position</button> 
     </body>
 </html>
 
 <script>
-    var worked = document.getElementById("form1")
-    var lat = document.getElementById("form2")
-    var lng = document.getElementById("form3")
-    var form = document.getElementById("formen")
+    var lat = document.getElementById("latInput")
+    var lng = document.getElementById("lngInput")
+    var form = document.getElementById("sendLatLng")
+
+    function reCenterMap(){
+        map.setCenter(new google.maps.LatLng(lat.value, lng.value));
+        map.setZoom(16);
+    }
 
     function getLocation() {
       if (navigator.geolocation) {
@@ -34,8 +38,11 @@
     function showPosition(position) {
         lat.value = position.coords.latitude; 
         lng.value = position.coords.longitude;
-        if(lat != null && lng != null){
-            form.submit()
-        }
+        new google.maps.Marker({
+            position: new google.maps.LatLng(lat.value, lng.value),
+            map: map,
+            icon: "http://maps.google.com/mapfiles/dir_0.png",
+            title: "Current location",
+        });
     }
 </script>
