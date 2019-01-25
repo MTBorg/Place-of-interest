@@ -8,7 +8,7 @@
 		"dbname" : "placeofinterest",
 		"user" : "postgres",
 		"host" : "localhost",
-		"password" : "123",
+		"password" : "postgres",
 		"port" : "5432"
 
 	}
