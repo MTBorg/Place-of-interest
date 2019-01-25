@@ -4,7 +4,13 @@ import createTables
 import json
 
 
-def __runSetupFiles(filedata):
+def __runSetupFiles(filedata):    
+    """Runs the three setup scripts and feeds them data from the variable filedata
+
+    Parameters
+    ----------
+    filedata: Is a dictionary with all the json data containing the keys connect and users
+    """
     connection_dict = filedata["connection"]
     try:
         for user in filedata["users"]:
@@ -21,6 +27,16 @@ def __runSetupFiles(filedata):
         print("Error 1, Exception:", e)
 
 def __loadJasonFile(filename):
+    """Loads file and returns all the data
+
+    Parameters
+    ----------
+    filename: Name of the json file that will be loaded
+    
+    Returns
+    ----------
+    A dictionary with all the data from the json file
+    """
     try:
         with open(filename) as f:
             filedata = json.load(f)
@@ -30,6 +46,8 @@ def __loadJasonFile(filename):
     return filedata 
 
 def run():
+    """Runs the script and it's functions
+    """
     filename = 'data.json'
     filedata = __loadJasonFile(filename)
     __runSetupFiles(filedata)
