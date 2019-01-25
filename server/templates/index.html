@@ -1,3 +1,4 @@
+
 <!DOCTYPE html> <!--Style should be put in a seperate document-->
     <html style="height: 100%;">
     <head>	
@@ -5,7 +6,7 @@
 			
             {{sndmap.js}}
     </head>
-    <body style="height: 100%; background-color:#1B1B1B;"> <!--Sets the background color -->
+    <body style="height: 100%; background-color:#1B1B1B;" onload="getLocation()"> <!--Sets the background color -->
         <div class="container-fluid" style="float: left; height: 100%;"> <!-- contains the gridsystem-->
             <div class="row "style="height: 5%;"> <!-- The row in which the column is placed -->	
 				<div class="col-lg-12"style="height: 100%; text-align: center; color: rgb(9, 133, 204);"><!-- Column making the map adjustable to differnt devices-->
@@ -22,24 +23,22 @@
                     <nav class="navbar navbar-expand fixed-bottom navbar-dark bg-dark" style="height: 10%; "> <!-- Menu in the bottom of the page -->
                         <ul class="navbar-nav" style="width: 100%; height: 100%;">
                              <li class="nav-item" style="float: left; width: 29%; height: 100%;">
-                            <form id="formen" method="POST" action="/" style="height: 100%;"> <!-- Form sending location to python code -->
-                                <input id="form1" name="value1" type="hidden">
-                                <input id="form2" name="value2" type="hidden">
-                                <input id="form3" name="value3" type="hidden">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="getLocation()" style="height: 100%; font-size: 2.5em;"  >
-                                    Set marker
-                                </button>
-                                
-                            </form>
+                                <form id="sendLatLng" method="POST" action="/" style="height: 100%;">
+                                    <input id="latInput" name="lat" type="hidden">
+                                    <input id="lngInput" name="lng" type="hidden">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block"  style="height: 100%; font-size: 2.5em;"  >
+                                        Set marker
+                                    </button>
+                                </form>
                              </li> 
                             <li class="nav-item mx-auto" style=" width: 29%; height: 100%;">  <!-- Just none-functions buttons for display-->
-                                <button class="btn btn-primary btn-lg btn-block" style="height: 100%; font-size:  2.5em;">Timer</button>
+                                <button style="height: 100%; font-size:  2em;" class="btn btn-primary btn-lg btn-block" onclick="reCenterMap()">
+                                    Current location
+                                </button> 
                             </li>
                             <li class="nav-item" style="float: right; width: 29%; height: 100%;"> 
                                 <button class="btn btn-primary btn-lg btn-block" style="height: 100%; font-size:  2.5em;">Settings </button>
-                            </li>
-
-                            
+                            </li>               
                         </ul>
                     </nav>
                 </div>
@@ -51,12 +50,14 @@
     </body>
 </html>
 <!-- Script for collecting location-->
-<script> 
-    var worked = document.getElementById("form1")
-    var lat = document.getElementById("form2")
-    var lng = document.getElementById("form3")
-    var form = document.getElementById("formen")
-
+<script>
+    var lat = document.getElementById("latInput")
+    var lng = document.getElementById("lngInput")
+    var form = document.getElementById("sendLatLng")
+    function reCenterMap(){
+        map.setCenter(new google.maps.LatLng(lat.value, lng.value));
+        map.setZoom(16);
+    }
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -68,8 +69,11 @@
     function showPosition(position) {
         lat.value = position.coords.latitude; 
         lng.value = position.coords.longitude;
-        if(lat != null && lng != null){
-            form.submit()
-        }
+        new google.maps.Marker({
+            position: new google.maps.LatLng(lat.value, lng.value),
+            map: map,
+            icon: "http://maps.google.com/mapfiles/dir_0.png",
+            title: "Current location",
+        });
     }
 </script>

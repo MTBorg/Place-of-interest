@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
-import os
+import os   
 
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
@@ -21,13 +21,14 @@ GoogleMaps(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
-    #What icon to show on map (flagged location & current location of user)
+    #What icon to show on map (flagged location & current location of user).
     flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
     currentLocationIcon = "http://maps.google.com/mapfiles/dir_0.png"
     #lng & lat for positions to show.
     flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
-    #marks which combine the icon and flaggedLocations
+    #marks which combine the icon and flaggedLocations.
     marks = []
+    #append the marks to marks list so we can render them into the map.
     for i in range(len(flaggedLocations)):
         marks.append({
             "icon": flaggedLocationsIcon,
@@ -35,15 +36,18 @@ def mapview():
             "lng": flaggedLocations[i][1],
             "infobox": flaggedLocations[i][2],
         })
+
+    #If there's a POST to the site.
     if request.method == "POST":
-        lat = request.form["value2"]
-        lng = request.form["value3"]
+        lat = request.form["lat"]
+        lng = request.form["lng"]
         marks.append({
             "icon": flaggedLocationsIcon,
             "lat": lat,
             "lng": lng,
             "infobox": "Current location",
         })
+
     #render the map for HTML
     sndmap = Map(
         identifier="sndmap",
