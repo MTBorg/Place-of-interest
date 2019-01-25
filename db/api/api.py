@@ -30,7 +30,17 @@ def get_markers_from_distTime(origin, radius, startTime, endTime):
     '''
     pass
 
-def get_markers_from_userId():
+def get_markers_from_userId(user_id):
+    '''Retrieves all markers associated with a given user id
+
+    Parameters
+    ----------
+    user_id - The id of the user
+
+    Returns
+    -------
+    A list containing all markers associated with the user
+    '''
     pass
 
 def save_marker():
