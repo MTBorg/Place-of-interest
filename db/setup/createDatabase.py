@@ -26,5 +26,6 @@ def createDatabase(hostName, hostPort, psqlPass, dbName, dbOwner):
         query = "CREATE DATABASE %s OWNER %s;"
         params = (AsIs(dbName), dbOwner)
         cursor.execute(query, params)
+        cursor.execute("CREATE EXTENSION postgis;")
     except Exception as e:
         print("Exception creating database:", e)
