@@ -44,4 +44,14 @@ def get_markers_from_userId(user_id):
     pass
 
 def save_marker():
+    '''Stores a given point in the database
+
+    Parameters
+    ----------
+    point - The point to store
+
+    Returns
+    -------
+    True if point was succesfully stored in the database, otherwise False
+    '''
     pass
