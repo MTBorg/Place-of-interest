@@ -24,7 +24,7 @@ def __runSetupFiles(filedata):
         createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
     except Exception as e:
-        print("Error 1, Exception:", e)
+        print("Exception while running setup scripts:", e)
 
 def __loadJsonFile(filename):
     """Loads file and returns all the data
@@ -42,7 +42,7 @@ def __loadJsonFile(filename):
         with open(filepath) as f:
             filedata = json.load(f)
     except Exception as e:
-        print("Error 2, Exception:", e)
+        print("Exception while loading JSON file:", e)
         return
     return filedata 
 
