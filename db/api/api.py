@@ -41,7 +41,11 @@ def get_markers_from_userId(user_id):
     -------
     A list containing all markers associated with the user
     '''
-    pass
+    connection = None #TODO Use an actual connection
+    connection.autocommit = True
+    cursor = connection.cursor()
+    query = "SELECT marker FROM markers WHERE userid=%s"
+    cursor.execute(query, user_id)
 
 def save_marker():
     '''Stores a given point in the database
