@@ -26,7 +26,7 @@ def __runSetupFiles(filedata):
     except Exception as e:
         print("Error 1, Exception:", e)
 
-def __loadJasonFile(filename):
+def __loadJsonFile(filename):
     """Loads file and returns all the data
 
     Parameters
