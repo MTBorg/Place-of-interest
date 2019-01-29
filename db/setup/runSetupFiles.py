@@ -2,7 +2,7 @@ import createDatabase
 import createDBUser
 import createTables
 import json
-
+import os
 
 def __runSetupFiles(filedata):    
     """Runs the three setup scripts and feeds them data from the variable filedata
@@ -25,7 +25,8 @@ def __runSetupFiles(filedata):
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
 
     except Exception as e:
-        print("Error 1, Exception:", e)
+        print("Exception while running setup scripts:", e)
+
 
 def loadJasonFile(filename):
     """Loads file and returns all the data
@@ -39,10 +40,11 @@ def loadJasonFile(filename):
     A dictionary with all the data from the json file
     """
     try:
-        with open(filename) as f:
+        filepath = os.path.dirname(__file__) + "/" + filename
+        with open(filepath) as f:
             filedata = json.load(f)
     except Exception as e:
-        print("Error 2, Exception:", e)
+        print("Exception while loading JSON file:", e)
         return
     return filedata 
 

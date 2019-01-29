@@ -12,7 +12,7 @@ class db():
     def __init__(self):
         '''Setup a database object based on json-file
         '''
-        filename = 'setup/data.json'
+        filename = 'data.json'
         filedata = setup.loadJasonFile(filename)
 
         db_data = filedata["connection"]
@@ -38,7 +38,3 @@ class db():
             return connection.cursor()
         except Exception as e:
             print("Failed to connect to database:", e)
-
-
-# test script
-# = db();
