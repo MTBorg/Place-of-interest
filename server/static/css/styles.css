@@ -1,0 +1,46 @@
+
+#Cont{
+	float: left;
+	height: 100%;
+}
+
+#row2{
+	height: 85%;
+}
+#row2col1{
+	height: 100%;
+}
+#row3{
+	height: 10%;
+}
+#row3col1{
+	height: 100%;
+}
+#nav{
+	height: 10%;
+}
+#navUL{
+	width: 100%; 
+	height: 100%;
+}
+#navLI1{
+	float: left; 
+	width: 29%; 
+	height: 100%;
+}
+#navForm{
+	height: 100%;
+}
+#navBtn{
+	height: 100%; 
+	font-size: 2.5em;
+}
+#navLI2{
+	width: 29%; 
+	height: 100%;
+}
+#navLI3{
+	float: right; 
+	width: 29%; 
+	height: 100%;
+}
