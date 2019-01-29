@@ -1,8 +1,8 @@
 {
-	"users" : [{
+	"user" : {
 		"username" : "admin",
 		"password" : "123"
-	}],
+	},
 
 	"connection" :	{
 		"dbname" : "placeofinterest",

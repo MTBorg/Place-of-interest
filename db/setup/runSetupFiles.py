@@ -1,6 +1,13 @@
 import createDatabase
 import createDBUser
 import createTables
+#from ..api import api
+
+import sys
+# Add the parent folder path to the sys.path list
+sys.path.insert(0,'..')
+import db_credentials
+
 import json
 
 
@@ -11,18 +18,24 @@ def __runSetupFiles(filedata):
     ----------
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
-    connection_dict = filedata["connection"]
+    connection_dict = filedata["connection"]    # basic setup connection
+    rw_user = filedata["user"]                  # user for read write access
     try:
-        for user in filedata["users"]:
-            createDBUser.createDBUser(connection_dict["host"], connection_dict["port"], 
-                    user["password"], 
-                    connection_dict["password"], user["username"])
+        createDBUser.createDBUser(connection_dict["host"], connection_dict["port"], 
+                rw_user["password"], connection_dict["password"], rw_user["username"])
         
         createDatabase.createDatabase(connection_dict["host"], 
                 connection_dict["port"], connection_dict["password"], 
                 connection_dict["dbname"], connection_dict["user"])
+        
         createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
+
+        db = db.db(connection_dict["dbname"], connection_dict["host"], connection_dict["port"],
+                rw_user["username"], rw_user["password"])
+
+        db.connect();
+        
     except Exception as e:
         print("Error 1, Exception:", e)
 
