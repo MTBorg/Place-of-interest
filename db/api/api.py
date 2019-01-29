@@ -12,7 +12,20 @@ def get_markers_from_dist(origin, radius):
     -------
     A list containing all markers within the given circle 
     '''
-    pass
+    connection = None #TODO Use an actual connection
+
+    connection.autocommit = True
+
+    cursor = connection.cursor()
+
+    query = "SELECT marker FROM MARKERS WHERE ST_DWithin(%s, marker, %s)"
+
+    data = (origin, radius)
+
+    cursor.execute(query, data)
+
+    return cursor.fetchall()
+    
 
 def get_markers_from_distTime(origin, radius, startTime, endTime):
     '''Retrieves all markers within a given circle and within a given time interval
