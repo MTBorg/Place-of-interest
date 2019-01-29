@@ -43,7 +43,7 @@ def get_markers_from_userId(user_id):
     '''
     pass
 
-def save_marker():
+def save_marker(connection, lng, lat, user_id):
     '''Stores a given point in the database
 
     Parameters
