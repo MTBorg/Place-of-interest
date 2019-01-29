@@ -39,8 +39,6 @@ def mapview():
 
     #If there's a POST to the site.
     if request.method == "POST":
-        information = request.headers.get("User-Agent")
-        print(information)
         lat = request.form["lat"]
         lng = request.form["lng"]
         marks.append({
@@ -56,7 +54,14 @@ def mapview():
         lat=65.618776,
         lng=22.139475,
         markers=marks,
-        style="height: 700px; width: 1200px;",
+        style=(
+            "height:100%;"
+            "width:100%;"
+            "top:0;"
+            "left:0;"
+            "position: absoulte;"
+            "z-index:200;"
+        ),
         zoom=12,
         center_on_user_location=True
     )
