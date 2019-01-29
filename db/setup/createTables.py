@@ -17,7 +17,7 @@ def createTables(dbname, username, hostname, password, portnr):
         connection = psycopg2.connect(dbname=dbname, user=username, host=hostname, password=password, port=portnr)
         connection.autocommit=True
         cursor = connection.cursor()
-        SQL = "CREATE TABLE Markers(id INTEGER NOT NULL, marker POINT, created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, PRIMARY KEY (id))"
+        SQL = "CREATE TABLE Markers(id INTEGER NOT NULL, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, PRIMARY KEY (id))"
         cursor.execute(SQL)
     except Exception as e:
         print("Exception creating tables:", e)
