@@ -1,6 +1,6 @@
 import psycopg2
 
-def get_markers_from_dist(origin, radius):
+def get_markers_from_dist(connection, origin, radius):
     '''Retrieves all markers within a given circle
 
     Parameters
@@ -12,11 +12,7 @@ def get_markers_from_dist(origin, radius):
     -------
     A list containing all markers within the given circle 
     '''
-    connection = None #TODO Use an actual connection
-
-    connection.autocommit = True
-
-    cursor = connection.cursor()
+    cursor = connection
 
     query = "SELECT marker FROM MARKERS WHERE ST_DWithin(%s, marker, %s)"
 
