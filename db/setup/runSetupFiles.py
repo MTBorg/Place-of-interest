@@ -1,12 +1,6 @@
 import createDatabase
 import createDBUser
 import createTables
-#from ..api import api
-
-import sys
-# Add the parent folder path to the sys.path list
-sys.path.insert(0,'..')
-import db
 import json
 
 
@@ -30,15 +24,10 @@ def __runSetupFiles(filedata):
         createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
 
-        db_conn = db.db(connection_dict["dbname"], connection_dict["host"], connection_dict["port"],
-                rw_user["username"], rw_user["password"])
-
-        db_conn.connect();
-
     except Exception as e:
         print("Error 1, Exception:", e)
 
-def __loadJasonFile(filename):
+def loadJasonFile(filename):
     """Loads file and returns all the data
 
     Parameters
@@ -61,8 +50,9 @@ def run():
     """Runs the script and it's functions
     """
     filename = 'data.json'
-    filedata = __loadJasonFile(filename)
+    filedata = loadJasonFile(filename)
     __runSetupFiles(filedata)
 
 
-run()
+#test script
+#run()
