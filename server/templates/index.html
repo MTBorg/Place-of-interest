@@ -11,8 +11,8 @@
     <body style="background-color: rgba(34, 34, 34, 0.945);"onload="getLocation()"> <!--Sets the background color -->
         <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
             <div class="row" style="height: 5%;"> <!-- The row in which the column is placed -->	
-				<div class="col-sm-6" style="	height: 100%; text-align: left;  color: rgb(9, 133, 204); font-size: 3em;"><!-- Column making the map adjustable to differnt devices-->
-                    <h1> POI DEMO </h1>
+				<div class="col-sm-6" style="	height: 100%; text-align: left;  "><!-- Column making the map adjustable to differnt devices-->
+                    <h1 style="color: white; font-size: 2.9em; "> POI DEMO </h1>
                 </div>
                 <div class="col-sm-6" style="	height: 100%;">
                     <div class="input-group mb-3" style="float:right;  height: 90%; margin-top: 2px;">
@@ -32,22 +32,22 @@
 				<div class="col-sm-12" style="height: 100%;"><!-- Column making the map adjustable to differnt devices-->
                     <nav class="navbar navbar-expand fixed-bottom navbar-dark bg-dark" style="height: 10%; "> <!-- Menu in the bottom of the page -->
                         <ul class="navbar-nav" style="width: 100%; height: 100%;">
-                             <li class="nav-item" style="float: left; width: 29%; height: 100%;">
+                             <li class="nav-item" style="float: left; width: 33.33%; height: 100%; border: 1px solid black;">
                                 <form id="sendLatLng" method="POST" action="/" style="height: 100%;">
                                     <input id="latInput" name="lat" type="hidden">
                                     <input id="lngInput" name="lng" type="hidden">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block"  style="height: 100%; font-size: 2.5em;"  >
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block"  style="height: 100%; font-size: 2.5em;  background-color: grey;"  >
                                         Set marker
                                     </button>
                                 </form>
                              </li> 
-                            <li class="nav-item mx-auto" style=" width: 29%; height: 100%;">  <!-- Just none-functions buttons for display-->
-                                <button style="height: 100%; font-size:  2em;" class="btn btn-primary btn-lg btn-block" onclick="reCenterMap()">
+                            <li class="nav-item mx-auto" style=" width: 33.33%; height: 100%;  border: 1px solid black;">  <!-- Just none-functions buttons for display-->
+                                <button style="height: 100%; font-size:  2em;  background-color: grey;" class="btn btn-primary btn-lg btn-block" onclick="reCenterMap()">
                                     Current location
                                 </button> 
                             </li>
-                            <li class="nav-item" style="float: right; width: 29%; height: 100%;"> 
-                                <button class="btn btn-primary btn-lg btn-block" style="height: 100%; font-size:  2.5em;">Settings </button>
+                            <li class="nav-item" style="float: right; width: 33.33%; height: 100%;  border: 1px solid black;"> 
+                                <button class="btn btn-primary btn-lg btn-block" style="height: 100%; font-size:  2.5em; background-color: grey;">Settings </button>
                             </li>               
                         </ul>
                     </nav>
