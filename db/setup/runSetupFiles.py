@@ -50,7 +50,7 @@ def run():
     """Runs the script and it's functions
     """
     filename = 'data.json'
-    filedata = __loadJasonFile(filename)
+    filedata = __loadJsonFile(filename)
     __runSetupFiles(filedata)
 
 
