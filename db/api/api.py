@@ -1,10 +1,11 @@
 import psycopg2
 
-def get_markers_from_dist(origin, radius):
+def get_markers_from_dist(connection, origin, radius):
     '''Retrieves all markers within a given circle
 
     Parameters
     ----------
+    connection - Cursor for open connection
     origin - The center of the circle
     radius - The radius of the circle
 
@@ -12,9 +13,18 @@ def get_markers_from_dist(origin, radius):
     -------
     A list containing all markers within the given circle 
     '''
-    pass
+    cursor = connection
 
-def get_markers_from_distTime(origin, radius, startTime, endTime):
+    query = "SELECT marker FROM MARKERS WHERE ST_DWithin(%s, marker, %s)"
+
+    data = (origin, radius)
+
+    cursor.execute(query, data)
+
+    return cursor.fetchall()
+    
+
+def get_markers_from_distTime(connection, origin, radius, startTime, endTime):
     '''Retrieves all markers within a given circle and within a given time interval
 
     Parameters
@@ -28,7 +38,15 @@ def get_markers_from_distTime(origin, radius, startTime, endTime):
     -------
     A list containing all markers within the given circle and time interval
     '''
-    pass
+    cursor = connection
+
+    query = "SELECT marker FROM MARKERS WHERE ST_DWithin(%s, marker, %s) AND %s <= created_at AND %s >= created_at AND"
+
+    data = (origin, radius, startTime, endTime)
+
+    cursor.execute(query, data)
+
+    return cursor.fetchall()
 
 def get_markers_from_userId(user_id):
     '''Retrieves all markers associated with a given user id
