@@ -59,13 +59,17 @@ def mapview():
             "width:100%;"
             "top:0;"
             "left:0;"
-            "position: absoulte;"
+            "position: absolute;"
             "z-index:200;"
         ),
         zoom=12,
         center_on_user_location=True
     )
     return render_template('./templates/index.html', sndmap=sndmap)
+@app.route("/settings")
+def settignsView():
+    return render_template('./templates/settings.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
