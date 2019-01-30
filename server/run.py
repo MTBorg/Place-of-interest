@@ -42,27 +42,37 @@ def mapview():
             "infobox": flaggedLocations[i][2],
         })
 
-    #If there's a POST to the site.
+    #If there's a POST to the site. SMÄLL IN I SANITIZE ISTÄLLET OBS OBS OBS ***************
     if request.method == "POST":
         if("hash" in request.cookies and sanitizer.checkHashCookie(request.cookies.get("hash"))):
             if(sanitizer.checkTimeCookie(request.cookies.get("time"))):
                 addMark(request.form["lat"], request.form["lng"])
                 response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-                response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             else:
                 print(marks)
                 return render_template('./templates/index.html', sndmap=renderMap())
         else:
             addMark(request.form["lat"], request.form["lng"])
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-            response.set_cookie("hash", sanitizer.getHashCookie())
-            response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            response.set_cookie("hash", sanitizer.getHashCookie(), expires=datetime.datetime.now() + datetime.timedelta(days=30))
+            response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
         return response
+
     return render_template('./templates/index.html', sndmap=renderMap())
 
-
-#add a marker to the map
 def addMark(lat, lng):
+    '''Retrieves all markers within a given circle from database
+
+    Parameters
+    ----------
+    lat - latitude
+    lng - longitude
+
+    Returns
+    -------
+    A list containing all markers within the given circle 
+    '''
     marks.append({
         "icon": flaggedLocationsIcon,
         "lat": lat,
@@ -71,7 +81,12 @@ def addMark(lat, lng):
     })
 
 def renderMap():
-    #render the map for HTML
+    '''Renders the map to send to client.
+
+    Returns
+    -------
+    The map with markers added.
+    '''
     sndmap = Map(
         identifier="sndmap",
         lat=65.618776,
