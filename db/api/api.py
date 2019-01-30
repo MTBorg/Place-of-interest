@@ -1,6 +1,6 @@
 import psycopg2
 
-def get_markers_from_dist(connection, origin, radius):
+def get_markers_from_dist(db, origin, radius):
     '''Retrieves all markers within a given circle
 
     Parameters
@@ -13,12 +13,9 @@ def get_markers_from_dist(connection, origin, radius):
     -------
     A list containing all markers within the given circle 
     '''
-    cursor = connection
-
+    cursor = db.connect()
     query = "SELECT marker FROM MARKERS WHERE ST_DWithin(%s, marker, %s)"
-
     data = (origin, radius)
-
     cursor.execute(query, data)
 
     return cursor.fetchall()
@@ -48,7 +45,7 @@ def get_markers_from_distTime(connection, origin, radius, startTime, endTime):
 
     return cursor.fetchall()
 
-def get_markers_from_userId(user_id):
+def get_markers_from_userId(db, user_id):
     '''Retrieves all markers associated with a given user id
 
     Parameters
@@ -59,9 +56,7 @@ def get_markers_from_userId(user_id):
     -------
     A list of tuples of form (longtiude, latitude) associated with the user
     '''
-    connection = None #TODO Use an actual connection
-    connection.autocommit = True
-    cursor = connection.cursor()
+    cursor = db.connect()
     query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE userid=%s;"
     cursor.execute(query, user_id)
     return cursor.fetchall()

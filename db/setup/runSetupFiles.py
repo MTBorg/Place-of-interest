@@ -23,6 +23,9 @@ def __runSetupFiles(filedata):
         
         createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
+        
+        createDBUser.grantDBUserPrivileges(connection_dict["dbname"],connection_dict["host"], connection_dict["port"], 
+                connection_dict["password"], rw_user["username"])
 
     except Exception as e:
         print("Exception while running setup scripts:", e)
