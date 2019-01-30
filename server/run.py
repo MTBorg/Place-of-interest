@@ -10,6 +10,13 @@ path = os.path.dirname(os.path.realpath(__file__))
 #sanitizie
 sanitizer = sanitize.Sanitizer()
 
+#What icon to show on map (flagged location & current location of user).
+flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
+currentLocationIcon = "http://maps.google.com/mapfiles/dir_0.png"
+
+#marks which combine the icon and flaggedLocations.
+marks = []
+
 #read in the google maps API key
 try:
     f = open(os.path.realpath(path+"/api_key/key.txt"), "r") #text file with your API key
@@ -24,13 +31,8 @@ GoogleMaps(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
-    #What icon to show on map (flagged location & current location of user).
-    flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
-    currentLocationIcon = "http://maps.google.com/mapfiles/dir_0.png"
     #lng & lat for positions to show.
     flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
-    #marks which combine the icon and flaggedLocations.
-    marks = []
     #append the marks to marks list so we can render them into the map.
     for i in range(len(flaggedLocations)):
         marks.append({
@@ -40,7 +42,29 @@ def mapview():
             "infobox": flaggedLocations[i][2],
         })
 
+    #If there's a POST to the site.
+    if request.method == "POST":
+        if("hash" in request.cookies and sanitizer.checkHashCookie(request.cookies.get("hash"))):
+            sanitizer.checkTimeCookie(request.cookies.get("time"))
+        else:
+            addMark(request.form["lat"], request.form["lng"])
+            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+            response.set_cookie("hash", sanitizer.getHashCookie())
+            response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            return response
+    return render_template('./templates/index.html', sndmap=renderMap())
 
+
+
+def addMark(lat, lng):
+    marks.append({
+        "icon": flaggedLocationsIcon,
+        "lat": lat,
+        "lng": lng,
+        "infobox": "Current location",
+    })
+
+def renderMap():
     #render the map for HTML
     sndmap = Map(
         identifier="sndmap",
@@ -58,26 +82,7 @@ def mapview():
         zoom=12,
         center_on_user_location=True
     )
-
-
-    #If there's a POST to the site.
-    if request.method == "POST":
-        if("hash" in request.cookies and sanitizer.checkHashCookie(request.cookies.get("hash"))):
-            sanitizer.checkTimeCookie(request.cookies.get("time"))
-        else:
-            response = make_response(render_template('./templates/index.html', sndmap=sndmap))
-            response.set_cookie("hash", sanitizer.getHashCookie())
-            response.set_cookie("time", datetime.datetime())
-            lat = request.form["lat"]
-            lng = request.form["lng"]
-            marks.append({
-                "icon": flaggedLocationsIcon,
-                "lat": lat,
-                "lng": lng,
-                "infobox": "Current location",
-            })
-            return response
-    return render_template('./templates/index.html', sndmap=sndmap)
+    return sndmap
 
 if __name__ == "__main__":
     app.run(debug=True)

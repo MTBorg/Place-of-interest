@@ -19,5 +19,11 @@ class Sanitizer(object):
             return False
 
     def checkTimeCookie(self, cookieTime):
-        print(cookieTime, " haha ")
+        cookieTime = datetime.datetime.strptime(cookieTime, "%Y-%m-%d %H-%M-%S")
+        if(datetime.datetime.now()-cookieTime >= 60):
+            print("ya")
+            return True
+        else:
+            print("na")
+            return False
         
