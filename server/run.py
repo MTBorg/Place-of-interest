@@ -45,17 +45,23 @@ def mapview():
     #If there's a POST to the site.
     if request.method == "POST":
         if("hash" in request.cookies and sanitizer.checkHashCookie(request.cookies.get("hash"))):
-            sanitizer.checkTimeCookie(request.cookies.get("time"))
+            if(sanitizer.checkTimeCookie(request.cookies.get("time"))):
+                addMark(request.form["lat"], request.form["lng"])
+                response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+                response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            else:
+                print(marks)
+                return render_template('./templates/index.html', sndmap=renderMap())
         else:
             addMark(request.form["lat"], request.form["lng"])
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("hash", sanitizer.getHashCookie())
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            return response
+        return response
     return render_template('./templates/index.html', sndmap=renderMap())
 
 
-
+#add a marker to the map
 def addMark(lat, lng):
     marks.append({
         "icon": flaggedLocationsIcon,
@@ -79,7 +85,7 @@ def renderMap():
             "position: absolute;"
             "z-index:200;"
         ),
-        zoom=12,
+        zoom=14,
         center_on_user_location=True
     )
     return sndmap
