@@ -57,9 +57,8 @@ def save_marker(connection, lng, lat, user_id):
     -------
     True if point was succesfully stored in the database, otherwise False
     '''
-    
     cursor = connection
     coordinates = "POINT(%s %s)" % (lng, lat)
-    query = "INSERT INTO markers (id, marker, user_id) VALUES (%s, ST_GeomFromText(%s, 4326), %s)"
-    data = (1, coordinates, user_id)
+    query = "INSERT INTO markers (marker, user_id) VALUES (ST_GeomFromText(%s, 4326), %s)"
+    data = (coordinates, user_id)
     cursor.execute(query, data)
