@@ -1,11 +1,14 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
-import os, sys
+import os, sys, sanitize, datetime
 
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
+
+#sanitizie
+sanitizer = sanitize.Sanitizer()
 
 #read in the google maps API key
 try:
@@ -37,16 +40,6 @@ def mapview():
             "infobox": flaggedLocations[i][2],
         })
 
-    #If there's a POST to the site.
-    if request.method == "POST":
-        lat = request.form["lat"]
-        lng = request.form["lng"]
-        marks.append({
-            "icon": flaggedLocationsIcon,
-            "lat": lat,
-            "lng": lng,
-            "infobox": "Current location",
-        })
 
     #render the map for HTML
     sndmap = Map(
@@ -65,6 +58,25 @@ def mapview():
         zoom=12,
         center_on_user_location=True
     )
+
+
+    #If there's a POST to the site.
+    if request.method == "POST":
+        if("hash" in request.cookies and sanitizer.checkHashCookie(request.cookies.get("hash"))):
+            sanitizer.checkTimeCookie(request.cookies.get("time"))
+        else:
+            response = make_response(render_template('./templates/index.html', sndmap=sndmap))
+            response.set_cookie("hash", sanitizer.getHashCookie())
+            response.set_cookie("time", datetime.datetime())
+            lat = request.form["lat"]
+            lng = request.form["lng"]
+            marks.append({
+                "icon": flaggedLocationsIcon,
+                "lat": lat,
+                "lng": lng,
+                "infobox": "Current location",
+            })
+            return response
     return render_template('./templates/index.html', sndmap=sndmap)
 
 if __name__ == "__main__":

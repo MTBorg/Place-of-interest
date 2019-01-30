@@ -1,9 +1,16 @@
-import sys
+import sys, bcrypt
 
 sys.path.insert(0,"../db")
 #import db
 #import db.setup.runSetupFiles as setup
-import api.api as api
+#import api.api as api
+
+namn = b"randomstring"
+test = bcrypt.hashpw(namn, bcrypt.gensalt())
+if(bcrypt.checkpw(namn, test)):
+    print("stämmer")
+print(test)
+
 
 class Controller:
 
@@ -12,6 +19,7 @@ class Controller:
 
     def __init__(self):
         #create database connection instance to use for db calls.
+        self.db = None
 
     def getMarkersAroundLocation(self, lat, lng):
         '''Retrieves all markers within a given circle from database
