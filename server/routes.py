@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
-import os   
+import os, sys
 
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
@@ -59,7 +59,7 @@ def mapview():
             "width:100%;"
             "top:0;"
             "left:0;"
-            "position: absoulte;"
+            "position: absolute;"
             "z-index:200;"
         ),
         zoom=12,
