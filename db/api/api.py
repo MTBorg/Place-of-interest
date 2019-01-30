@@ -43,7 +43,7 @@ def get_markers_from_userId(user_id):
     '''
     pass
 
-def save_marker(connection, lng, lat, user_id):
+def save_marker(db, lng, lat, user_id):
     '''Stores a given point in the database
 
     Parameters
@@ -57,7 +57,7 @@ def save_marker(connection, lng, lat, user_id):
     -------
     True if point was succesfully stored in the database, otherwise False
     '''
-    cursor = connection
+    cursor = db.connect()
     coordinates = "POINT(%s %s)" % (lng, lat)
     query = "INSERT INTO markers (marker, user_id) VALUES (ST_GeomFromText(%s, 4326), %s)"
     data = (coordinates, user_id)
