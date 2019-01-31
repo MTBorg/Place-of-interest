@@ -11,35 +11,29 @@
     <body style="background-color: rgba(34, 34, 34, 0.945); height: 100%;"onload="getLocation()"> <!--Sets the background color -->
         <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
             <div class="row" style="height: 5%;"> <!-- The row in which the column is placed -->	
-				<div class="col-sm-6" style="	height: 100%; text-align: left;  "><!-- Column making the map adjustable to differnt devices-->
+				<div class="col-sm-6 date-margin" style="	height: 100%; text-align: left;  "><!-- Column making the map adjustable to differnt devices-->
                     <h1 style="color: white; font-size: 2.9em; "> POI DEMO </h1>
                 </div>
-                <div class="col-sm-6" style=" height: 80%;">
+                <form method="post" id="date-form" style="margin-top:8px;"></form>
+                <div class="col-sm-2 date-margin" style=" height: 80%;">
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker10'>
                             <span class="input-group-addon">
-                                <select id="year_selector">
-                                    <option>Year</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                </select>
-                                <select id="day_selector">
-                                    <option>Day</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                </select>
-                                <select id="hour_selector">
-                                    <option>Hour</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                </select>
-
-
+                            
+                                <input type="date" min="2019-01-01" value="2019-05-05">
                                 <span class="glyphicon glyphicon-calendar">
+                            </form>
+                                
                                 </span>
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-2 date-margin">
+                        <input type="date" min="2019-01-01" value="2019-05-05">
+                </div>
+                <div class="col-sm-2 date-margin">
+                        <input type="submit">
                 </div>
             </div>
             <div class="row "style="height: 85%;"> <!-- The row in which the column is placed -->	
@@ -86,6 +80,7 @@
     function reCenterMap(){
         map.setCenter(new google.maps.LatLng(lat.value, lng.value));
         map.setZoom(16);
+
     }
     function getLocation() {
       if (navigator.geolocation) {
