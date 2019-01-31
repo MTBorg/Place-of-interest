@@ -88,7 +88,7 @@ class db:
         return result
         
 
-    def get_markers_from_distTime(self, lng, lat, radius, startTime, endTime):
+    def get_markers_from_dist_time(self, lng, lat, radius, startTime, endTime):
         '''Retrieves all markers within a given circle and within a given time interval
 
         Parameters

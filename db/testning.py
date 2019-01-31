@@ -17,6 +17,6 @@ api_return1 = db.get_markers_from_dist(40, 20, 10000)
 
 start = datetime.datetime(2019, 1, 31, 0, 0, 0, 0)  
 end = datetime.datetime(2019, 2, 1, 0, 0, 0, 0)  
-api_return2 = db.get_markers_from_distTime(40, 20, 10000, start,end)
+api_return2 = db.get_markers_from_dist_time(40, 20, 10000, start,end)
 
 print(api_return2)
