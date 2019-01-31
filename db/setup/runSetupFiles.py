@@ -12,7 +12,7 @@ def __run_setup_files(filedata):
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
     connection_dict = filedata["connection"]    # basic setup connection
-    rw_user = filedata["user"]           uuu       # user for read write access
+    rw_user = filedata["user"]                  # user for read write access
     try:
         createDBUser.create_dbuser(connection_dict["host"], connection_dict["port"], 
                 rw_user["password"], connection_dict["password"], rw_user["username"])
