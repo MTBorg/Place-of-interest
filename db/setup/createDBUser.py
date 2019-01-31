@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extensions import AsIs
 
-def createDBUser(hostName, hostPort, psqlPass, dbPass, dbOwner):
+def create_dbuser(hostName, hostPort, psqlPass, dbPass, dbOwner):
     """Creates a user for access to database
 
     Parameters
@@ -23,7 +23,7 @@ def createDBUser(hostName, hostPort, psqlPass, dbPass, dbOwner):
     except Exception as e:
         print("Exception creating user:", e)
 
-def grantDBUserPrivileges(database, hostName, hostPort, dbPass, dbOwner):
+def grant_dbuser_privileges(database, hostName, hostPort, dbPass, dbOwner):
     """Granting privileges to a database user 
 
     Parameters
