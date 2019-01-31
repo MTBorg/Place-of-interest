@@ -1,8 +1,8 @@
 import psycopg2
 
-import sys
-# Add the parent folder path to the sys.path list
-sys.path.insert(0,'setup')
+import os
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+os.path.join(ROOT_DIR, 'db/setup')
 import setup.runSetupFiles as setup
 
 import json
@@ -13,7 +13,7 @@ class db():
         '''Setup a database object based on json-file
         '''
         filename = 'data.json'
-        filedata = setup.load_json_file(filename)
+        filedata = setup.loadJasonFile(filename)
 
         db_data = filedata["connection"]
         user_data = filedata["user"]
