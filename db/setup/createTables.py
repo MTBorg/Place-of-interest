@@ -1,6 +1,6 @@
 import psycopg2
 
-def createTables(dbname, username, hostname, password, portnr):
+def create_tables(dbname, username, hostname, password, portnr):
     """Create tables in database
 
     This script creates one table in the database for storing markers.
