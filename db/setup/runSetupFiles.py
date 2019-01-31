@@ -56,7 +56,7 @@ def run():
     """
     filename = 'data.json'
     filedata = load_json_file(filename)
-    __runSetupFiles(filedata)
+    __run_setup_files(filedata)
 
 
 #test script
