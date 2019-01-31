@@ -62,7 +62,7 @@ def mapview():
             "position: absolute;"
             "z-index:200;"
         ),
-        zoom=12,
+        zoom=16 ,
         center_on_user_location=True
     )
     return render_template('./templates/index.html', sndmap=sndmap)
