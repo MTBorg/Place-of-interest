@@ -31,7 +31,7 @@ def __runSetupFiles(filedata):
         print("Exception while running setup scripts:", e)
 
 
-def loadJasonFile(filename):
+def load_json_file(filename):
     """Loads file and returns all the data
 
     Parameters
@@ -55,7 +55,7 @@ def run():
     """Runs the script and it's functions
     """
     filename = 'data.json'
-    filedata = loadJasonFile(filename)
+    filedata = load_json_file(filename)
     __runSetupFiles(filedata)
 
 

@@ -13,7 +13,7 @@ class db():
         '''Setup a database object based on json-file
         '''
         filename = 'data.json'
-        filedata = setup.loadJasonFile(filename)
+        filedata = setup.load_json_file(filename)
 
         db_data = filedata["connection"]
         user_data = filedata["user"]
