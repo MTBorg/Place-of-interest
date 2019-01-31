@@ -4,7 +4,7 @@ import createTables
 import json
 import os
 
-def __runSetupFiles(filedata):    
+def __run_setup_files(filedata):    
     """Runs the three setup scripts and feeds them data from the variable filedata
 
     Parameters
@@ -14,17 +14,17 @@ def __runSetupFiles(filedata):
     connection_dict = filedata["connection"]    # basic setup connection
     rw_user = filedata["user"]                  # user for read write access
     try:
-        createDBUser.createDBUser(connection_dict["host"], connection_dict["port"], 
+        createDBUser.create_dbuser(connection_dict["host"], connection_dict["port"], 
                 rw_user["password"], connection_dict["password"], rw_user["username"])
         
-        createDatabase.createDatabase(connection_dict["host"], 
+        createDatabase.create_database(connection_dict["host"], 
                 connection_dict["port"], connection_dict["password"], 
                 connection_dict["dbname"], connection_dict["user"])
         
-        createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
+        createTables.create_tables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
         
-        createDBUser.grantDBUserPrivileges(connection_dict["dbname"],connection_dict["host"], connection_dict["port"], 
+        createDBUser.grant_dbuser_privileges(connection_dict["dbname"],connection_dict["host"], connection_dict["port"], 
                 connection_dict["password"], rw_user["username"])
 
     except Exception as e:
@@ -56,7 +56,7 @@ def run():
     """
     filename = 'data.json'
     filedata = load_json_file(filename)
-    __runSetupFiles(filedata)
+    __run_setup_files(filedata)
 
 
 #test script

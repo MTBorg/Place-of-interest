@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extensions import AsIs
 
-def createDatabase(hostName, hostPort, psqlPass, dbName, dbOwner):
+def create_database(hostName, hostPort, psqlPass, dbName, dbOwner):
     """Creates a PostgreSQL database
 
     This script uses (and requires) the default postgres super user and its password.
@@ -27,12 +27,12 @@ def createDatabase(hostName, hostPort, psqlPass, dbName, dbOwner):
         params = (AsIs(dbName), dbOwner)
         cursor.execute(query, params)
         #cursor.execute("CREATE EXTENSION postgis;")
-        addPostgisExtenstion(dbName, dbOwner, hostName, psqlPass, hostPort);
+        add_postgis_extension(dbName, dbOwner, hostName, psqlPass, hostPort)
     except Exception as e:
         print("Exception creating database:", e)
 
 
-def addPostgisExtenstion(dbname, username, hostname, password, portnr):
+def add_postgis_extension(dbname, username, hostname, password, portnr):
     """Creates a Postgis exstension for database
 
     Parameters
