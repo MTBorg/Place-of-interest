@@ -108,7 +108,7 @@ class db:
 
         coordinates = "POINT(%s %s)" % (lng, lat)
 
-        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM MARKERS WHERE ST_DWithin(%s, marker, %s) AND %s <= created_at AND %s >= created_at AND"
+        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM MARKERS WHERE ST_DWithin(%s, marker, %s) AND %s <= created_at AND %s >= created_at"
         data = (coordinates, radius, startTime, endTime)
 
         cursor.execute(query, data)
