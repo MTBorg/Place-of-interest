@@ -1,14 +1,14 @@
 {
-	"users" : [{
+	"user" : {
 		"username" : "admin",
 		"password" : "123"
-	}],
+	},
 
 	"connection" :	{
 		"dbname" : "placeofinterest",
 		"user" : "postgres",
 		"host" : "localhost",
-		"password" : "",
+		"password" : "123",
 		"port" : "5432"
 
 	}

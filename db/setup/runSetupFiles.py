@@ -11,22 +11,27 @@ def __runSetupFiles(filedata):
     ----------
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
-    connection_dict = filedata["connection"]
+    connection_dict = filedata["connection"]    # basic setup connection
+    rw_user = filedata["user"]                  # user for read write access
     try:
-        for user in filedata["users"]:
-            createDBUser.createDBUser(connection_dict["host"], connection_dict["port"], 
-                    user["password"], 
-                    connection_dict["password"], user["username"])
+        createDBUser.createDBUser(connection_dict["host"], connection_dict["port"], 
+                rw_user["password"], connection_dict["password"], rw_user["username"])
         
         createDatabase.createDatabase(connection_dict["host"], 
                 connection_dict["port"], connection_dict["password"], 
                 connection_dict["dbname"], connection_dict["user"])
+        
         createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
+        
+        createDBUser.grantDBUserPrivileges(connection_dict["dbname"],connection_dict["host"], connection_dict["port"], 
+                connection_dict["password"], rw_user["username"])
+
     except Exception as e:
         print("Exception while running setup scripts:", e)
 
-def __loadJsonFile(filename):
+
+def load_json_file(filename):
     """Loads file and returns all the data
 
     Parameters
@@ -50,8 +55,9 @@ def run():
     """Runs the script and it's functions
     """
     filename = 'data.json'
-    filedata = __loadJsonFile(filename)
+    filedata = load_json_file(filename)
     __runSetupFiles(filedata)
 
 
-run()
+#test script
+#run()
