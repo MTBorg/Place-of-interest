@@ -1,7 +1,7 @@
 import sys, bcrypt
 
 sys.path.insert(0,"../db")
-#import db
+import db
 #import db.setup.runSetupFiles as setup
 #import api.api as api
 
@@ -19,7 +19,7 @@ class Controller:
 
     def __init__(self):
         #create database connection instance to use for db calls.
-        self.db = None
+        self.db = db
 
     def getMarkersAroundLocation(self, lat, lng):
         '''Retrieves all markers within a given circle from database
