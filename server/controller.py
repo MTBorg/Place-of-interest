@@ -49,7 +49,7 @@ class Controller:
         -------
         True if point was succesfully stored in the database, otherwise False
         '''
-        pass
+        print("this should save a Marker")
 
     def initalizeDatabase(self):
         '''Initalizes the databse with all the scripts in setup

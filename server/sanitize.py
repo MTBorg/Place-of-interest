@@ -1,4 +1,6 @@
 import bcrypt, datetime
+from flask import Flask, render_template, request, jsonify, make_response
+import controller
 
 class Sanitizer(object):
 
@@ -6,7 +8,23 @@ class Sanitizer(object):
     __TIME_BETWEEN_POSTS = 10 #seconds
 
     def  __init__(self):
+        self.__SECRET_STR = b"123"
+        self. __TIME_BETWEEN_POSTS
+        self.controller = controller.Controller()
         pass
+
+
+    def process_request(self):
+
+        if("hash" in request.cookies and self.checkHashCookie(request.cookies.get("hash"))):
+            if(self.checkTimeCookie(request.cookies.get("time"))):
+                return 0
+            else:
+                return 1
+        else:
+            return self.getHashCookie()
+
+
 
     def getHashCookie(self):
         '''Retrieves a hash for the cookie to be stored client-side.
@@ -15,6 +33,7 @@ class Sanitizer(object):
         -------
         A hash for client-side cookie.
         '''
+        self.controller.saveMarker()
         cookieHash = bcrypt.hashpw(self.__SECRET_STR, bcrypt.gensalt())
         return cookieHash
 
