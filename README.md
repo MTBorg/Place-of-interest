@@ -13,3 +13,5 @@
 * Postgresql 10.6
 * PostGis 2.5.1
 * Google Maps API Key
+
+# Database setup
