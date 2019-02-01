@@ -17,7 +17,14 @@ def create_dbuser(hostName, hostPort, psqlPass, dbPass, dbOwner):
         connection = psycopg2.connect(dbname='postgres', user='postgres', host=hostName, password=dbPass, port=hostPort)
         connection.autocommit=True
         cursor = connection.cursor()
-        SQL = "CREATE USER %s WITH ENCRYPTED PASSWORD %s"
+        SQL = '''CREATE ROLE %s WITH 
+                NOSUPERUSER
+                NOCREATEDB
+                NOCREATEROLE
+                NOINHERIT
+                LOGIN
+                CONNECTION LIMIT -1
+                ENCRYPTED PASSWORD %s'''
         data = (AsIs(dbOwner), psqlPass)
         cursor.execute(SQL, data)
     except Exception as e:
