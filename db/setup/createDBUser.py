@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extensions import AsIs
 
-def create_dbuser(hostName, hostPort, psqlPass, dbPass, dbOwner):
+def create_dbuser(hostName, hostPort, psqlPass, dbuser_name, dbuser_pass):
     """Creates a user for access to database
 
     Parameters
@@ -9,12 +9,11 @@ def create_dbuser(hostName, hostPort, psqlPass, dbPass, dbOwner):
     hostName: Name/address of database host
     hostPort: Port of the host that the database listens to 
     psqlPass: Password of the default PostgreSQL user (postgres)
-    dbName: Name of the database to be created
-    dbPass: Password for database
-    dbOwner: Name of the PostgreSQL user to be assigned ownership of the database
+    dbuser_name: The name of the user to create
+    dbuser_pass: The password for the new user
     """
     try:
-        connection = psycopg2.connect(dbname='postgres', user='postgres', host=hostName, password=dbPass, port=hostPort)
+        connection = psycopg2.connect(dbname='postgres', user='postgres', host=hostName, password=psqlPass, port=hostPort)
         connection.autocommit=True
         cursor = connection.cursor()
         SQL = '''CREATE ROLE %s WITH 
@@ -25,7 +24,7 @@ def create_dbuser(hostName, hostPort, psqlPass, dbPass, dbOwner):
                 LOGIN
                 CONNECTION LIMIT -1
                 ENCRYPTED PASSWORD %s'''
-        data = (AsIs(dbOwner), psqlPass)
+        data = (AsIs(dbuser_name), dbuser_pass)
         cursor.execute(SQL, data)
     except Exception as e:
         print("Exception creating user:", e)
