@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extensions import AsIs
 
-def create_dbuser(hostName, hostPort, psqlPass, dbuser_name, dbuser_pass):
+def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
     """Creates a user for access to database
 
     Parameters
@@ -13,7 +13,7 @@ def create_dbuser(hostName, hostPort, psqlPass, dbuser_name, dbuser_pass):
     dbuser_pass: The password for the new user
     """
     try:
-        connection = psycopg2.connect(dbname='postgres', user='postgres', host=hostName, password=psqlPass, port=hostPort)
+        connection = psycopg2.connect(dbname='postgres', user='postgres', host=host_name, password=psql_pass, port=host_port)
         connection.autocommit=True
         cursor = connection.cursor()
         SQL = '''CREATE ROLE %s WITH 
