@@ -16,7 +16,7 @@ def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
         connection = psycopg2.connect(dbname='postgres', user='postgres', host=host_name, password=psql_pass, port=host_port)
         connection.autocommit=True
         cursor = connection.cursor()
-        SQL = '''CREATE ROLE %s WITH 
+        query = '''CREATE ROLE %s WITH 
                 NOSUPERUSER
                 NOCREATEDB
                 NOCREATEROLE
@@ -24,7 +24,7 @@ def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
                 LOGIN
                 CONNECTION LIMIT -1
                 ENCRYPTED PASSWORD %s'''
-        data = (AsIs(dbuser_name), dbuser_pass)
-        cursor.execute(SQL, data)
+        params = (AsIs(dbuser_name), dbuser_pass)
+        cursor.execute(query, params)
     except Exception as e:
         print("Exception creating user:", e)
