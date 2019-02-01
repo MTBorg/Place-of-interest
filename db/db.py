@@ -83,7 +83,7 @@ class db:
         return result
 
 
-    def get_markers_from_user_id_and_ip(self, user_id, ip_address):
+    def get_markers_from_userid_and_ip(self, user_id, ip_address):
         '''Retrieves all markers associated with a given user id
         Parameters
         ----------
@@ -98,7 +98,7 @@ class db:
 
         query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE user_id=%s AND ip_address=%s;"
 
-        cursor.execute(query, user_id, ip_address)
+        cursor.execute(query, (user_id, ip_address))
         result = cursor.fetchall()
         cursor.close()
         connection.close()
