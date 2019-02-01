@@ -1,6 +1,7 @@
 import createDatabase
 import createDBUser
 import createTables
+import grantDBUser
 import json
 import os
 
@@ -23,6 +24,9 @@ def __run_setup_files(filedata):
         
         createTables.create_tables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
+
+        grantDBUser.grant_dbuser(connection_dict["dbname"], rw_user["username"],
+                connection_dict["host"], connection_dict["port"], connection_dict["password"])
         
     except Exception as e:
         print("Exception while running setup scripts:", e)
