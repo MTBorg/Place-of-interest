@@ -18,8 +18,13 @@ def create_tables(dbname, username, hostname, password, portnr):
         connection.autocommit=True
         cursor = connection.cursor()
         cursor.execute("CREATE SEQUENCE marker_seq")
-        SQL = "CREATE TABLE Markers(id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('marker_seq'), marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL)"
+        SQL = "CREATE TABLE Markers(id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('marker_seq'), marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, ip_address VARCHAR(255) NOT NULL)"
         cursor.execute(SQL)
+        cursor.execute("CREATE INDEX ON markers (user_id)")
+        cursor.execute("CREATE INDEX ON markers (ip_address)")
+
+        cursor.close()
+        connection.close()
     except Exception as e:
         print("Exception creating tables:", e)
 
