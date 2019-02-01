@@ -28,24 +28,3 @@ def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
         cursor.execute(SQL, data)
     except Exception as e:
         print("Exception creating user:", e)
-
-def grant_dbuser_privileges(database, hostName, hostPort, dbPass, dbOwner):
-    """Granting privileges to a database user 
-
-    Parameters
-    ----------
-    hostName: Name/address of database host
-    hostPort: Port of the host that the database listens to 
-    psqlPass: Password of the default PostgreSQL user (postgres)
-    dbName: Name of the database to be created
-    dbPass: Password for database user
-    dbOwner: Name of the PostgreSQL user to be assigned ownership of the database
-    """
-    try:
-        connection = psycopg2.connect(dbname=database, user='postgres', host=hostName, password=dbPass, port=hostPort)
-        connection.autocommit=True
-        cursor = connection.cursor()
-        SQL = "ALTER ROLE admin SUPERUSER NOCREATEDB NOCREATEROLE"
-        cursor.execute(SQL)
-    except Exception as e:
-        print("Exception Granting privileges:", e)
