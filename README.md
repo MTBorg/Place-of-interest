@@ -17,14 +17,13 @@
 # Configuration
 
 ### PostgreSQL
-#### Linux
 Before making any configurations you should make backups of the default configuration files
 ```
 cd /etc/postgresql/10/main
 sudo cp postgresql.conf postgresql_backup.conf
 sudo cp pg_hba.conf pg_hba_backup.conf
 ```
-###### Scram-sha-256
+#### Scram-sha-256
 By default PostgreSQL encrypts passwords using MD5, however MD5 is quite outdated and not very secure. Luckily, PostgreSQL 10 comes with scram-sha-256 which is more secure.
 To scram-sha-256 encrypt the password for the default PostgreSQL:
 ```
