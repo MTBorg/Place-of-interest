@@ -55,7 +55,7 @@ def mapview():
         lng=22.139475,
         markers=marks,
         style=(
-            "height:100%;"
+            "height:94%;"
             "width:100%;"
             "top:0;"
             "left:0;"

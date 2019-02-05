@@ -1,9 +1,32 @@
+html{
+	height: 100%;
+}
+.date-margin{
+	height: 100%; 
+	text-align: left;
+	width: 100% !important;
+	padding-right:0px !important;
+	padding-left:0px !important;
+	position:relative;
+	margin-top:2%;
+}
+
+.date{
+	width:100% !important;
+	
+}
+
+#date-form{
+	margin-top:8px !important;
+}
 
 #Cont{
 	float: left;
 	height: 100%;
 }
-
+#row1{
+	height: 5%;
+}
 #row2{
 	height: 85%;
 }
@@ -24,7 +47,7 @@
 	height: 100%;
 }
 #navLI1{
-	float: left; 
+	float: left !important; 
 	width: 29%; 
 	height: 100%;
 }
@@ -43,4 +66,39 @@
 	float: right; 
 	width: 29%; 
 	height: 100%;
+}
+body{
+	background-color: rgba(34, 34, 34, 0.945) !important; 
+	height: 100% !important;
+	;
+}
+.col-height{
+	height: 100%;
+}
+.navbar{
+	height: 10%;
+}
+.navbar-nav{
+	Width: 100%; 
+	height: 100%;
+}
+.nav-item{
+	width: 33.33% !important;
+	height: 100% !important;
+}
+
+.but-graphics{
+	height: 100% !important; 
+	font-size:  2em !important;  
+	background-color: grey !important; 
+	border: 1px solid black !important;
+}
+
+h1{
+	color: white !important; 
+	font-size: 2.9em!important; 
+}
+
+#sendLatLng{
+	height:100% !important;
 }

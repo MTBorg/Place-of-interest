@@ -1,6 +1,6 @@
 
 <!DOCTYPE html> 
-    <html style="height: 100%;">
+    <html >
         
         
     <head>	
@@ -8,59 +8,55 @@
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
             {{sndmap.js}}
     </head>
-    <body style="background-color: rgba(34, 34, 34, 0.945); height: 100%;"onload="getLocation()"> <!--Sets the background color -->
+    <body id="body1" onload="getLocation()"> <!--Sets the background color -->
         <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
-            <div class="row" style="height: 5%;"> <!-- The row in which the column is placed -->	
-				<div class="col-sm-6 date-margin" style="	height: 100%; text-align: left;  "><!-- Column making the map adjustable to differnt devices-->
-                    <h1 style="color: white; font-size: 2.9em; "> POI DEMO </h1>
+            <div class="row" id="row3" > <!-- The row in which the column is placed -->	
+				<div class="col-sm-6 col-lg-7 date-margin"  ><!-- Column making the map adjustable to differnt devices-->
+                    <h1> POI DEMO </h1>
                 </div>
-                <form method="post" id="date-form" style="margin-top:8px;"></form>
-                <div class="col-sm-2 date-margin" style=" height: 80%;">
+
+                <!-- WRITE FILE TO SEND DATA TO IN ACTION = "DESINTATION HERE" CONNECT THIS TO BACKEND-->
+                <form method="post" id="date-form" action=""></form>
+                <div class="col-sm-2 col-lg-2 date-margin">
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker10'>
-                            <span class="input-group-addon">
-                            
-                                <input type="date" min="2019-01-01" value="2019-05-05">
-                                <span class="glyphicon glyphicon-calendar">
+                                <input type="date" class="date" name="start_date" min="2019-01-01" value="2019-05-05"> 
                             </form>
-                                
-                                </span>
-                            </span>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2 date-margin">
-                        <input type="date" min="2019-01-01" value="2019-05-05">
+                <div class="col-sm-2 col-lg-2date-margin">
+                        <input type="date" class="date" name="end_date" min="2019-01-01" value="2019-05-05">
                 </div>
-                <div class="col-sm-2 date-margin">
-                        <input type="submit">
+                <div class="col-sm-2 col-lg-1 date-margin">
+                        <input type="submit" name="submit" value="Search">
                 </div>
             </div>
-            <div class="row "style="height: 85%;"> <!-- The row in which the column is placed -->	
-                <div class="col-sm-12" style="height: 100%;"><!-- Column making the map adjustable to differnt devices-->
+            <div class="row" id="row2" > <!-- The row in which the column is placed -->	
+                <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
                     {{sndmap.html}}
 				</div>
             </div>
-            <div class="row "style="height: 10%;"> <!-- The row in which the column is placed -->	
-				<div class="col-sm-12" style="height: 100%;"><!-- Column making the map adjustable to differnt devices-->
-                    <nav class="navbar navbar-expand fixed-bottom navbar-dark bg-dark" style="height: 10%; "> <!-- Menu in the bottom of the page -->
-                        <ul class="navbar-nav" style="width: 100%; height: 100%;">
-                             <li class="nav-item" style="float: left; width: 33.33%; height: 100%;">
-                                <form id="sendLatLng" method="POST" action="/" style="height: 100%;">
+            <div class="row " id="row3"> <!-- The row in which the column is placed -->	
+				<div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
+                    <nav class="navbar navbar-expand fixed-bottom navbar-dark bg-dark"> <!-- Menu in the bottom of the page -->
+                        <ul class="navbar-nav">
+                             <li class="nav-item">
+                                <form id="sendLatLng" method="POST" action="/">
                                     <input id="latInput" name="lat" type="hidden">
                                     <input id="lngInput" name="lng" type="hidden">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block"  style="height: 100%; font-size: 2.5em;  background-color: grey; border: 1px solid black;"  >
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block but-graphics">
                                         Set marker
                                     </button>
                                 </form>
                              </li> 
-                            <li class="nav-item mx-auto" style=" width: 33.33%; height: 100% ">  <!-- Just none-functions buttons for display-->
-                                <button style="height: 100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block" onclick="reCenterMap()">
+                            <li class="nav-item mx-auto">  <!-- Just none-functions buttons for display-->
+                                <button class="btn btn-primary btn-lg btn-block but-graphics" onclick="reCenterMap()">
                                     Current location
                                 </button> 
                             </li>
-                            <li class="nav-item" style="float: right; width: 33.33%; height: 100%; "> 
-                                <button type="Button" onclick="location.href='/settings'"class="btn btn-primary btn-lg btn-block" style="height: 100%; font-size:  2.5em; background-color: grey; border: 1px solid black;"> Settings </button>
+                            <li class="nav-item nav-right-item"> 
+                                <button type="Button" onclick="location.href='/settings'"class="btn btn-primary btn-lg btn-block but-graphics"> Settings </button>
                             </li>               
                         </ul>
                     </nav>
