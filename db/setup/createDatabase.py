@@ -31,7 +31,7 @@ def create_database(host_name, host_port, psql_pass, db_name, db_owner):
         print("Exception creating database:", e)
 
 
-def add_postgis_extension(db_name, host_name, password, portnr):
+def add_postgis_extension(db_name, host_name, password, host_port):
     """Creates a Postgis exstension for database
 
     Parameters
@@ -39,7 +39,7 @@ def add_postgis_extension(db_name, host_name, password, portnr):
     db_name: Name of the database that exstenstion is created for
     host_name: Name/address of database host
     password: Password of the database user
-    postnr: Port of the host that the database listens to 
+    host_port: Port of the host that the database listens to 
     """
     try:
         connection = psycopg2.connect(
@@ -47,7 +47,7 @@ def add_postgis_extension(db_name, host_name, password, portnr):
             user='postgres', 
             host=host_name, 
             password=password, 
-            port=portnr)
+            port=host_port)
         connection.autocommit=True
         cursor = connection.cursor()
         cursor.execute("CREATE EXTENSION postgis;")
