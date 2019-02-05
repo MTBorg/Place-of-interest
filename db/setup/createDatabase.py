@@ -16,7 +16,7 @@ def create_database(host_name, host_port, psql_pass, db_name, db_owner):
     """
     try:
         connection = psycopg2.connect(
-            db_name='postgres', 
+            dbname='postgres', 
             user='postgres', 
             host=host_name, 
             port=host_port, 
@@ -44,7 +44,7 @@ def add_postgis_extension(db_name, username, host_name, password, portnr):
     """
     try:
         connection = psycopg2.connect(
-            db_name=db_name, 
+            dbname=db_name, 
             user=username, 
             host=host_name, 
             password=password, 
