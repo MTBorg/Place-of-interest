@@ -30,5 +30,14 @@ def grant_dbuser(db_name, dbuser_name, host_name, host_port, psql_pass):
             TO %s;'''
         params = (AsIs(dbuser_name),)
         cursor.execute(query, params)
+
+        #Grant the user the USAGE privilege on the marker id sequence (SERIAL)
+        query = '''
+            GRANT
+            USAGE
+            ON markers_id_seq
+            TO %s;'''
+        params = (AsIs(dbuser_name),)
+        cursor.execute(query, params)
     except Exception as e:
         print("Error giving user grants", e)
