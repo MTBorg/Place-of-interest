@@ -1,32 +1,42 @@
 import createDatabase
 import createDBUser
 import createTables
+
+import grantDBUser
 import json
 import os
 
-def __runSetupFiles(filedata):    
+def __run_setup_files(filedata):    
+
     """Runs the three setup scripts and feeds them data from the variable filedata
 
     Parameters
     ----------
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
-    connection_dict = filedata["connection"]
+
+    connection_dict = filedata["connection"]    # basic setup connection
+    rw_user = filedata["user"]                  # user for read write access
     try:
-        for user in filedata["users"]:
-            createDBUser.createDBUser(connection_dict["host"], connection_dict["port"], 
-                    user["password"], 
-                    connection_dict["password"], user["username"])
+        createDBUser.create_dbuser(connection_dict["host"], connection_dict["port"], 
+                connection_dict["password"], rw_user["username"], rw_user["password"])
         
-        createDatabase.createDatabase(connection_dict["host"], 
+        createDatabase.create_database(connection_dict["host"], 
                 connection_dict["port"], connection_dict["password"], 
-                connection_dict["dbname"], connection_dict["user"])
-        createTables.createTables(connection_dict["dbname"], connection_dict["user"], 
+                connection_dict["dbname"], rw_user["username"])
+        
+        createTables.create_tables(connection_dict["dbname"], connection_dict["user"], 
                 connection_dict["host"], connection_dict["password"], connection_dict["port"])
+
+        grantDBUser.grant_dbuser(connection_dict["dbname"], rw_user["username"],
+                connection_dict["host"], connection_dict["port"], connection_dict["password"])
+        
     except Exception as e:
         print("Exception while running setup scripts:", e)
 
-def __loadJsonFile(filename):
+
+def load_json_file(filename):
+
     """Loads file and returns all the data
 
     Parameters
@@ -50,8 +60,11 @@ def run():
     """Runs the script and it's functions
     """
     filename = 'data.json'
-    filedata = __loadJsonFile(filename)
-    __runSetupFiles(filedata)
+
+    filedata = load_json_file(filename)
+    __run_setup_files(filedata)
 
 
-run()
+#test script
+#run()
+

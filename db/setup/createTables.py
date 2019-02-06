@@ -1,6 +1,6 @@
 import psycopg2
 
-def createTables(dbname, username, hostname, password, portnr):
+def create_tables(dbname, username, hostname, password, portnr):
     """Create tables in database
 
     This script creates one table in the database for storing markers.
@@ -17,8 +17,11 @@ def createTables(dbname, username, hostname, password, portnr):
         connection = psycopg2.connect(dbname=dbname, user=username, host=hostname, password=password, port=portnr)
         connection.autocommit=True
         cursor = connection.cursor()
-        SQL = "CREATE TABLE Markers(id INTEGER NOT NULL, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, PRIMARY KEY (id))"
-        cursor.execute(SQL)
+
+        query = "CREATE TABLE Markers(id SERIAL PRIMARY KEY, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL)"
+        cursor.execute(query)
+        
+        #Give ownership of the tables to the 
     except Exception as e:
         print("Exception creating tables:", e)
 
