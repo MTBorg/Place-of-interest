@@ -36,7 +36,7 @@ SELECT rolname, rolpassword FROM pg_authid WHERE rolname=postgres; #Verify that 
 According to the offical [PostgreSQL docs](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PASSWORD)
 >To ease transition from the md5 method to the newer SCRAM method, if md5 is specified as a method in pg_hba.conf but the user's password on the server is encrypted for SCRAM (see below), then SCRAM-based authentication will automatically be chosen instead.
 
-Thus, you should still be able to connect to the database. However you probably want to force the connecting client to use a scram-sha-256 encrypted password when connection by adding the line
+Thus, you should still be able to connect to the database. However you probably want to force the connecting client to use a scram-sha-256 encrypted password when connecting (especially if non-local connections are allowed) by adding the line
 ```
 host    all             postgres             <address/address-range>            scram-sha-256
 ```
