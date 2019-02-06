@@ -5,19 +5,13 @@ html{
 	height: 100%; 
 	text-align: left;
 	width: 100% !important;
-	padding-right:0px !important;
+	padding-top: 1% !important;
 	padding-left:0px !important;
-	position:relative;
-	margin-top:2%;
 }
 
 .date{
 	width:100% !important;
 	
-}
-
-#date-form{
-	margin-top:8px !important;
 }
 
 #Cont{
@@ -92,8 +86,24 @@ body{
 	font-size:  2em !important;  
 	background-color: grey !important; 
 	border: 1px solid black !important;
+	transition: width 2s; 
 }
-
+.but-graphics:hover {
+	cursor: pointer !important;
+	border: 1px solid white !important;
+}
+.but-graphics-search{
+	color: white;
+	background-color: grey !important; 
+	border: 1px solid black !important;
+	border-radius: 2px;
+	border-style: outline !Important; 
+	
+}
+.but-graphics-search:hover {
+	cursor: pointer !important;
+	border: 1px solid white !important;
+}
 h1{
 	color: white !important; 
 	font-size: 2.9em!important; 
