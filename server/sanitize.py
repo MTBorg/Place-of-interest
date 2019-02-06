@@ -15,27 +15,45 @@ class Sanitizer(object):
 
 
     def process_request(self):
+        """
+        This function will take the request from the fronter-end Run.py and depending on how the
+        cookie looks like give a return. Now it looks rather naked but more is to be implemented
+
+
+        :return:
+        Either 0 or 1, this is to check if the time of the cookie is valid or invalid
+        Otherwise we return a we get a cookie with a hash that is returnes to be sent in the responce.
+
+        """
 
         if("hash" in request.cookies and self.checkHashCookie(request.cookies.get("hash"))):
             if(self.checkTimeCookie(request.cookies.get("time"))):
+
+                """Right latest to databse here """
                 return 0
             else:
+
                 return 1
         else:
-            return self.getHashCookie()
+            return self.getHashCookie(request.remote_addr, request.form["lng"], request.form["lat"])
 
 
 
-    def getHashCookie(self):
+    def getHashCookie(self,ip, lng, lat):
         '''Retrieves a hash for the cookie to be stored client-side.
-
+           Because this is a new user, we add the location and IP to the database
         Returns
         -------
         A hash for client-side cookie.
         '''
-        self.controller.saveMarker()
         cookieHash = bcrypt.hashpw(self.__SECRET_STR, bcrypt.gensalt())
+
+        self.controller.saveMarker(lng, lat, ip, cookieHash)
+
         return cookieHash
+
+
+
 
     def checkHashCookie(self, cookieHash):
         '''Checks the clients hash against the secret string
@@ -67,7 +85,14 @@ class Sanitizer(object):
         '''
         cookieTime = datetime.datetime.strptime(cookieTime, "%Y-%m-%d %H:%M:%S")
         if(datetime.datetime.now()-cookieTime >= datetime.timedelta(seconds=self.__TIME_BETWEEN_POSTS)):
+            print("har väntat tillräckligt")
             return True
         else:
+            print("har EJ tillräckligt")
             return False
+
+
+    def get_markers_by_radius(self,lat, lng, radius):
+        self.controller.getMarkersAroundLocation(lat, lng, radius)
+
         

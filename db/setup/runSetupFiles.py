@@ -1,6 +1,6 @@
-import createDatabase
-import createDBUser
-import createTables
+from . import createDatabase
+from . import createDBUser
+from . import createTables
 import json
 import os
 

@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
 
-#sanitizie
+#sanitizi
 sanitizer = sanitize.Sanitizer()
 
 #What icon to show on map (flagged location & current location of user).
@@ -32,7 +32,12 @@ GoogleMaps(app)
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
     #lng & lat for positions to show.
-    flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
+    #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
+
+    flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000)
+
+
+
     #append the marks to marks list so we can render them into the map.
     for i in range(len(flaggedLocations)):
         marks.append({
@@ -59,17 +64,29 @@ def mapview():
 
             return response
         else:
+            print("gets a new cookie")
+            print(request.form)
             addMark(request.form["lat"], request.form["lng"])
             response.set_cookie("hash", cookiedata, expires=datetime.datetime.now() + datetime.timedelta(days=30))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
-            print("new cookie")
+            return response
+
+    else:
+
+        response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+
         return response
 
 
 
-    response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
 
-    return response
+
+def get_poistions_by_radius(lng, lat, radius):
+    list = sanitizer.get_markers_by_radius(lng, lat, radius)
+    print("this is the list of places", list)
+    return list
+
+
 
 def addMark(lat, lng):
     '''Retrieves all markers within a given circle from database

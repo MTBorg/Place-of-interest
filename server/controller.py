@@ -1,27 +1,24 @@
-import sys, bcrypt
+import sys, bcrypt,os
 
-sys.path.insert(0,"../db")
-import db
-#import db.setup.runSetupFiles as setup
-#import api.api as api
 
-namn = b"randomstring"
-test = bcrypt.hashpw(namn, bcrypt.gensalt())
-if(bcrypt.checkpw(namn, test)):
-    print("stämmer")
-print(test)
+sys.path.append("/Users/JohanDelissen/Documents/D0022E/D0020E/db")
+
+
+import db as database
+
+
 
 
 class Controller:
 
-    DEFAULT_RADIUS = 1000 #meter?
-    db = None
+
 
     def __init__(self):
         #create database connection instance to use for db calls.
-        self.db = db
+        self.db = database.db()
+        self.DEFAULT_RADIUS = 1000
 
-    def getMarkersAroundLocation(self, lat, lng):
+    def getMarkersAroundLocation(self, lat, lng, radius):
         '''Retrieves all markers within a given circle from database
 
         Parameters
@@ -33,9 +30,10 @@ class Controller:
         -------
         A list containing all markers within the given circle 
         '''
-        pass
+        self.db.get_markers_from_dist(lat, lng, radius)
 
-    def saveMarker(lat, lng, ip, cookieSession):
+
+    def saveMarker(self, lng, lat, ip, cookieHash):
         '''Stores a given point in the database
 
         Parameters
@@ -49,9 +47,17 @@ class Controller:
         -------
         True if point was succesfully stored in the database, otherwise False
         '''
-        print("this should save a Marker")
 
+        try:
+            self.db.save_marker(lng, lat, ip, cookieHash)
+            print("42 is the meaning of life")
+        except Exception as e:
+            print("Database Fault due to", e)
+
+"""
     def initalizeDatabase(self):
         '''Initalizes the databse with all the scripts in setup
         '''
         setup.run()
+
+"""

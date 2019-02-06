@@ -24,7 +24,6 @@ class db:
         self.username = user_data["username"]
         self.password = user_data["password"]
 
-
     def __connect(self):
         ''' Try to connect to database
 
@@ -38,6 +37,8 @@ class db:
             return connection
         except Exception as e:
             print("Failed to connect to database:", e)
+
+
 
     def get_markers_from_userid(self, user_id):
         '''Retrieves all markers associated with a given user id
@@ -131,6 +132,7 @@ class db:
         result = cursor.fetchall()
         cursor.close()
         connection.close()
+        print("We can to this part but cant find anything in the list", result)
         return result
         
 
@@ -161,10 +163,11 @@ class db:
         result = cursor.fetchall()
         cursor.close()
         connection.close()
+
         return result
 
 
-    def save_marker(self, lng, lat, user_id, ip_address):
+    def save_marker(self, lng, lat, ip_address, user_id):
         '''Stores a given point in the database
 
         Parameters
@@ -179,6 +182,7 @@ class db:
         -------
         True if point was succesfully stored in the database, otherwise False
         '''
+
         connection = self.__connect()
         cursor = connection.cursor()
 
@@ -191,7 +195,9 @@ class db:
             result = True
         else:
             result = False;
-        
+
+        print(user_id)
+        print("we should have saved it now")
         cursor.close()
         connection.close()
         return result
