@@ -19,7 +19,7 @@
 # Database 
 All the files that are related to the database are in the db folder. The setup folder in there is for setting up a postgresql database that has all the basic functionality for the PoI application. There is also a json setup file in the setup folder, that can be used to change some key variables of the database. The db.py file is a api for establishing a connection to the database and defining the queries.
 
-# Database requirements
+## Database requirements
 Database schemas requirements:
 * A table named markers.
 
@@ -31,30 +31,29 @@ Table markers requirements:
 * A column named ip_address of type character varying (255), that can't be null.
 
 Database setup requirements(Only needed if running the setup script in the setup folder):
-* A default postgresql database name. (The database that is requierd to be made when instaling postgresql)
-* A default postgresql username and password. (The user that is requierd to be made when instaling postgresql)
+* A default postgresql username and password. (A superuser that has the right to make a new database with a schema)
 
-# Setting up the database
-In the db folder there is a folder named setup, in there there is a file called "data.json". The first thing is to open the json file and change the keys value. 
+## Setting up the database
+In the db folder there is a folder named setup, in there there is a file called "data.json". The first thing is to open the json file and change the keys value. A short description of the keys are listed down bellow.
 
 This list describes what the connection keys are:
-* dbname: The database name.
-* user: The username for the default postgresql database.
+* dbname: The name of the new database that is going to be created.
+* user: The username for a existing superuser, that has the rights to make a database with a schema.
 * host: The host name.
-* password: The password for the default postgresql database.
+* password: The password for a existing superuser, that has the rights to make a database with a schema.
 * port: The port number for the database.
 
 This list describes what the user keys are:
 * username: The username for a new user, that can only read and write to the database.
-* password: The password for a new user, that can only read and write to the database.
+* password: The password for the new user, that can only read and write to the database.
 
 After the json file is filled in with the right data, the next step is to run the "runSetupFiles.py" file. That file can be found in the setup folder that is in the db folder. When running this file make sure that the directory you are in is "../D0020E/db/setup", otherwise there can be an error. After running the python file the database plus the user should be setup and ready to go.
 
-# Changing database
+## Changing database
 The new database needs to follow the database requirements that are listed under "Database requirements", this is to assure that no problems appear. If the new database has different tables and/or columns the application will probably not work and manuel changes all over the code is required. To run queries on the new database, the db.py file in the db folder needs to be updated so that the database code works on the new database. Under the header "Database queries" there is more information on how the queries work.
 
-# Database queries and connection
+## Database queries and connection
 All the queries for the database are located in the db.py file in the db folder. The query functions take in specific parameters that shouldn't be changed because they are used in other places of the application. If they need to be changed then that has to be manually done all over the code. To just change the queries the variable "query" is the only thing that needs changing and it should work. In the query functions there are also some code for establishing and closing a connection to the database, this should not need changing.
 
-The db class constructor reads the connection and user data from the data.json and saves it in local variables. Then the db object is used in the backend part of the application to communicate to the database. In the object there is a function called "__connect()"  that should only be used locally in the db object and is for making a connection to the database. The connection is then closed in the query functions after the query is executed.
+The db class constructor reads the connection and user data from the data.json and saves it in local variables. Then the db object is used in the backend part of the application to communicate to the database. In the db class there is a function called "__connect()"  that should only be used locally in the db object and is for making a connection to the database. The connection is then closed in the query functions after the query is executed.
 
