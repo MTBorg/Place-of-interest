@@ -64,7 +64,5 @@ def run():
     filedata = load_json_file(filename)
     __run_setup_files(filedata)
 
-
-#test script
-#run()
-
+if __name__ == "__main__":
+    run()

@@ -53,12 +53,57 @@ class db:
         connection = self.__connect()
         cursor = connection.cursor()
 
-        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE user_id=%s;"
+        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE user_id = %s;"
 
-        cursor.execute(query, user_id)
+        cursor.execute(query, (user_id,))
         result = cursor.fetchall()
         cursor.close()
+        connection.close()
         return result
+
+
+    def get_markers_from_ip(self, ip_address):
+        '''Retrieves all markers associated with a given user id
+        Parameters
+        ----------
+        ip_address - The ip address to get markers for
+        Returns
+        -------
+        A list of tuples of form (longtiude, latitude) associated with the ip
+        '''
+        connection = self.__connect()
+        cursor = connection.cursor()
+
+        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE ip_address = %s;"
+        print(ip_address)
+        cursor.execute(query, (ip_address,))
+        result = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return result
+
+
+    def get_markers_from_userid_and_ip(self, user_id, ip_address):
+        '''Retrieves all markers associated with a given user id
+        Parameters
+        ----------
+        user_id - The id of the user
+        ip_address - The ip address to get markers for
+        Returns
+        -------
+        A list of tuples of form (longtiude, latitude) associated with the ip and the user_id
+        '''
+        connection = self.__connect()
+        cursor = connection.cursor()
+
+        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE user_id=%s AND ip_address=%s;"
+
+        cursor.execute(query, (user_id, ip_address))
+        result = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return result
+
 
     def get_markers_from_dist(self, lng, lat, radius):
         '''Retrieves all markers within a given circle
@@ -85,6 +130,7 @@ class db:
         cursor.execute(query, data)
         result = cursor.fetchall()
         cursor.close()
+        connection.close()
         return result
         
 
@@ -114,9 +160,11 @@ class db:
         cursor.execute(query, data)
         result = cursor.fetchall()
         cursor.close()
+        connection.close()
         return result
 
-    def save_marker(self, lng, lat, user_id):
+
+    def save_marker(self, lng, lat, user_id, ip_address):
         '''Stores a given point in the database
 
         Parameters
@@ -125,6 +173,7 @@ class db:
         lng - Longitude of marker position
         lat - Latitude of marker position
         user_id - The id of the user
+        ip_address - The ip address of the user
 
         Returns
         -------
@@ -134,8 +183,15 @@ class db:
         cursor = connection.cursor()
 
         coordinates = "POINT(%s %s)" % (lng, lat)
-        query = "INSERT INTO markers (marker, user_id) VALUES (ST_GeomFromText(%s, 4326), %s)"
-        data = (coordinates, user_id)
+        query = "INSERT INTO markers (marker, user_id, ip_address) VALUES (ST_GeomFromText(%s, 4326), %s, %s) RETURNING id"
+        data = (coordinates, user_id, ip_address)
 
         cursor.execute(query, data)
+        if cursor.fetchone()[0] != None:
+            result = True
+        else:
+            result = False;
+        
         cursor.close()
+        connection.close()
+        return result
