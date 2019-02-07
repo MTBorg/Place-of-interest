@@ -14,13 +14,22 @@ def create_tables(dbname, username, hostname, password, portnr):
     portnr: Port of the host that the database listens to
     """
     try:
+        #Connect to database
         connection = psycopg2.connect(dbname=dbname, user=username, host=hostname, password=password, port=portnr)
         connection.autocommit=True
         cursor = connection.cursor()
-        query = "CREATE TABLE Markers(id SERIAL PRIMARY KEY, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL)"
-        cursor.execute(query)
         
-        #Give ownership of the tables to the 
+        #Create the table
+        query = "CREATE TABLE Markers(id SERIAL PRIMARY KEY, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, ip_address VARCHAR(255) NOT NULL)"
+        cursor.execute(query)
+    
+        #Create indices
+        cursor.execute("CREATE INDEX ON markers (user_id)")
+        cursor.execute("CREATE INDEX ON markers (ip_address)")
+        
+        #Close connections
+        cursor.close()
+        connection.close()        
     except Exception as e:
         print("Exception creating tables:", e)
 
