@@ -1,0 +1,67 @@
+
+<!DOCTYPE html> 
+<html style="height: 100%;">
+<head>	
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body style="background-color: rgba(34, 34, 34, 0.945); height: 100%; "onload="getLocation()"> <!--Sets the background color -->
+    <div class="container-fluid" id ="Cont" style="height: 100%;"> <!-- contains the gridsystem-->
+        <div class="row" style="height: 5%;"> <!-- The row in which the column is placed -->	
+            <div class="col-sm-6" style="	height: 100%; text-align: left;  "><!-- Column making the map adjustable to differnt devices-->
+                <h1 style="color: white; font-size: 2.9em; "> POI DEMO </h1>
+            </div>
+            <div class="col-sm-6" style="	height: 100%;">
+               
+            </div>
+        </div>
+        <div class="row "style="height:85%;"> <!-- The row in which the column is placed -->	
+            <div class="col-sm-12" style="height: 100%;"><!-- Column making the map adjustable to differnt devices-->
+                <ul class="nav flex-column" style="height: 100%; padding-top: 0.25%">
+                    <li class="nav-item mx-auto" style=" width: 80%; height: 19.9%; ">  <!-- Just none-functions buttons for display-->
+                        <button style="height: 100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block">
+                            Setting 1
+                        </button> 
+                    </li>
+                    <li class="nav-item mx-auto" style=" width: 80%; height: 19.9%; ">  <!-- Just none-functions buttons for display-->
+                        <button style="height: 100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block">
+                            Setting 2
+                        </button> 
+                    </li>  
+                    <li class="nav-item mx-auto" style=" width: 80%; height: 19.9%; ">  <!-- Just none-functions buttons for display-->
+                        <button style="height: 100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block">
+                            Setting 3
+                        </button> 
+                    </li>  
+                    <li class="nav-item mx-auto" style=" width: 80%; height: 19.9%; ">  <!-- Just none-functions buttons for display-->
+                        <button style="height:100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block">
+                            Setting 4
+                        </button> 
+                    </li>  
+                    <li class="nav-item mx-auto" style=" width: 80%;  height: 19.9%; ">  <!-- Just none-functions buttons for display-->
+                        <button style="height: 100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block">
+                            Setting 5
+                        </button> 
+                    </li>          
+                </ul>
+            </div>
+        </div>
+        <div class="row "style="height: 10%;"> <!-- The row in which the column is placed -->	
+            <div class="col-sm-12" style="height: 100%;"><!-- Column making the map adjustable to differnt devices-->
+                <nav class="navbar navbar-expand fixed-bottom navbar-dark bg-dark" style="height: 10%; "> <!-- Menu in the bottom of the page -->
+                    <ul class="navbar-nav" style="width: 100%; height: 100%;">
+                        <li class="nav-item mx-auto" style=" width: 100%; height: 100% ">  <!-- Just none-functions buttons for display-->
+                            <button onclick="location.href='/'"style="height: 100%; font-size:  2em;  background-color: grey; border: 1px solid black;" class="btn btn-primary btn-lg btn-block">
+                                Map view
+                            </button> 
+                        </li>        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
+<!-- Script for collecting location-->

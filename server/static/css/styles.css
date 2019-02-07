@@ -1,0 +1,114 @@
+html{
+	height: 100%;
+}
+.date-margin{
+	height: 100%; 
+	text-align: left;
+	width: 100% !important;
+	padding-top: 1% !important;
+	padding-left:0px !important;
+}
+
+.date{
+	width:100% !important;
+	
+}
+
+#Cont{
+	float: left;
+	height: 100%;
+}
+#row1{
+	height: 5%;
+}
+#row2{
+	height: 85%;
+}
+#row2col1{
+	height: 100%;
+}
+#row3{
+	height: 10%;
+}
+#row3col1{
+	height: 100%;
+}
+#nav{
+	height: 10%;
+}
+#navUL{
+	width: 100%; 
+	height: 100%;
+}
+#navLI1{
+	float: left !important; 
+	width: 29%; 
+	height: 100%;
+}
+#navForm{
+	height: 100%;
+}
+#navBtn{
+	height: 100%; 
+	font-size: 2.5em;
+}
+#navLI2{
+	width: 29%; 
+	height: 100%;
+}
+#navLI3{
+	float: right; 
+	width: 29%; 
+	height: 100%;
+}
+body{
+	background-color: rgba(34, 34, 34, 0.945) !important; 
+	height: 100% !important;
+	;
+}
+.col-height{
+	height: 100%;
+}
+.navbar{
+	height: 10%;
+}
+.navbar-nav{
+	Width: 100%; 
+	height: 100%;
+}
+.nav-item{
+	width: 33.33% !important;
+	height: 100% !important;
+}
+
+.but-graphics{
+	height: 100% !important; 
+	font-size:  2em !important;  
+	background-color: grey !important; 
+	border: 1px solid black !important;
+	transition: width 2s; 
+}
+.but-graphics:hover {
+	cursor: pointer !important;
+	border: 1px solid white !important;
+}
+.but-graphics-search{
+	color: white;
+	background-color: grey !important; 
+	border: 1px solid black !important;
+	border-radius: 2px;
+	border-style: outline !Important; 
+	
+}
+.but-graphics-search:hover {
+	cursor: pointer !important;
+	border: 1px solid white !important;
+}
+h1{
+	color: white !important; 
+	font-size: 2.9em!important; 
+}
+
+#sendLatLng{
+	height:100% !important;
+}

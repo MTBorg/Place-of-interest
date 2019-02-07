@@ -26,16 +26,20 @@ def create_database(host_name, host_port, psql_pass, db_name, db_owner):
         query = "CREATE DATABASE %s OWNER %s;"
         params = (AsIs(db_name), db_owner)
         cursor.execute(query, params)
+
         add_postgis_extension(db_name, host_name, psql_pass, host_port)
     except Exception as e:
         print("Exception creating database:", e)
 
 
+
 def add_postgis_extension(db_name, host_name, password, host_port):
+
     """Creates a Postgis exstension for database
 
     Parameters
     ----------
+
     db_name: Name of the database that exstenstion is created for
     host_name: Name/address of database host
     password: Password of the database user
@@ -48,6 +52,7 @@ def add_postgis_extension(db_name, host_name, password, host_port):
             host=host_name, 
             password=password, 
             port=host_port)
+
         connection.autocommit=True
         cursor = connection.cursor()
         cursor.execute("CREATE EXTENSION postgis;")

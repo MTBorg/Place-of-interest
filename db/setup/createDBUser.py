@@ -1,7 +1,9 @@
 import psycopg2
 from psycopg2.extensions import AsIs
 
+
 def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
+
     """Creates a user for access to database
 
     Parameters
@@ -28,3 +30,4 @@ def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
         cursor.execute(query, params)
     except Exception as e:
         print("Exception creating user:", e)
+
