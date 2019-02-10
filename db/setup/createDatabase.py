@@ -1,6 +1,8 @@
 import psycopg2
 from psycopg2.extensions import AsIs
 
+import logging
+
 def create_database(host_name, host_port, psql_pass, db_name, db_owner):
     """Creates a PostgreSQL database
 
@@ -15,6 +17,7 @@ def create_database(host_name, host_port, psql_pass, db_name, db_owner):
     db_owner: Name of the PostgreSQL user to be assigned ownership of the database
     """
     try:
+        logging.info("Connecting to database postgres as user postgres on host %s port %s", host_name, host_port) 
         connection = psycopg2.connect(
             dbname='postgres', 
             user='postgres', 
@@ -23,13 +26,19 @@ def create_database(host_name, host_port, psql_pass, db_name, db_owner):
             password=psql_pass) 
         connection.autocommit=True #Don't start a transaction (database cannot be created in a transaction)
         cursor = connection.cursor()
+        logging.info("Creating database %s with owner %s", db_name, db_owner)
         query = "CREATE DATABASE %s OWNER %s;"
         params = (AsIs(db_name), db_owner)
         cursor.execute(query, params)
 
         add_postgis_extension(db_name, host_name, psql_pass, host_port)
+    except psycopg2.Error as e:
+        if e.pgcode == '42P04': #duplicate_database code
+            logging.warning("Database %s already exists. Make sure it has the correct tables and postgis enabled or delete it and run the setup script again", db_name)
+        else:
+            raise Exception("Exception creating database " + db_name + ": " + str(e))
     except Exception as e:
-        print("Exception creating database:", e)
+        raise Exception("Exception creating database " + db_name + ": " + str(e))
 
 
 
@@ -46,6 +55,7 @@ def add_postgis_extension(db_name, host_name, password, host_port):
     host_port: Port of the host that the database listens to 
     """
     try:
+        logging.info("Connecting to database %s as user postgres on host %s port %s", db_name, host_name, host_port) 
         connection = psycopg2.connect(
             dbname=db_name, 
             user='postgres', 
@@ -55,6 +65,8 @@ def add_postgis_extension(db_name, host_name, password, host_port):
 
         connection.autocommit=True
         cursor = connection.cursor()
+
+        logging.info("Enabling extension postgis")
         cursor.execute("CREATE EXTENSION postgis;")
     except Exception as e:
         print("Exception creating database:", e)
