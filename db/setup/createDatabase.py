@@ -26,10 +26,12 @@ def create_database(host_name, host_port, psql_pass, db_name, db_owner):
             password=psql_pass) 
         connection.autocommit=True #Don't start a transaction (database cannot be created in a transaction)
         cursor = connection.cursor()
+
         logging.info("Creating database %s with owner %s", db_name, db_owner)
         query = "CREATE DATABASE %s OWNER %s;"
         params = (AsIs(db_name), db_owner)
         cursor.execute(query, params)
+        logging.info("Successfully created database %s with owner %s", db_name, db_owner)
 
         add_postgis_extension(db_name, host_name, psql_pass, host_port)
     except psycopg2.Error as e:
@@ -66,8 +68,9 @@ def add_postgis_extension(db_name, host_name, password, host_port):
         connection.autocommit=True
         cursor = connection.cursor()
 
-        logging.info("Enabling extension postgis")
+        logging.info("Enabling extension postgis for database %s", db_name)
         cursor.execute("CREATE EXTENSION postgis;")
+        logging.info("Successfully enabled postgis for database %s", db_name)
     except Exception as e:
         print("Exception creating database:", e)
 

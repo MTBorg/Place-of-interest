@@ -9,8 +9,6 @@ import os
 import sys
 import getopt
 
-logger_name = "poiLogger"
-
 def __run_setup_files(filedata):    
 
     """Runs the three setup scripts and feeds them data from the variable filedata
@@ -19,7 +17,7 @@ def __run_setup_files(filedata):
     ----------
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
-
+    logging.info("Running setup scripts")
     connection_dict = filedata["connection"]    # basic setup connection
     rw_user = filedata["user"]                  # user for read write access
     try:
@@ -35,9 +33,9 @@ def __run_setup_files(filedata):
 
         grantDBUser.grant_dbuser(connection_dict["dbname"], rw_user["username"],
                 connection_dict["host"], connection_dict["port"], connection_dict["password"])
-        
+        logging.info("Successfully ran setup scripts")
     except Exception as e:
-        print("Exception while running setup scripts:", e)
+        raise e
 
 
 def load_json_file(filename):
@@ -69,7 +67,6 @@ def run():
         filename = 'data.json'
 
         filedata = load_json_file(filename)
-        logging.info("Running setup files")
         __run_setup_files(filedata)
     except:
         raise
@@ -97,7 +94,7 @@ if __name__ == "__main__":
                     logger.setLevel(level=logging.INFO)
                 elif arg == "DEBUG":
                     logging.info("Setting log level to debug")
-                    logger.sebasiccontLevel(level=logging.DEBUG)
+                    logger.setLevel(level=logging.DEBUG)
                 else:
                     raise Exception("Invalid logLevel argument " + arg)
         

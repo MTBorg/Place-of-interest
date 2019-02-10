@@ -20,6 +20,7 @@ def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
         connection = psycopg2.connect(dbname='postgres', user='postgres', host=host_name, password=psql_pass, port=host_port)
         connection.autocommit=True
         cursor = connection.cursor()
+
         logging.info("Creating role %s", dbuser_name)
         query = '''CREATE ROLE %s WITH 
                 NOSUPERUSER
@@ -31,6 +32,8 @@ def create_dbuser(host_name, host_port, psql_pass, dbuser_name, dbuser_pass):
                 ENCRYPTED PASSWORD %s'''
         params = (AsIs(dbuser_name), dbuser_pass)
         cursor.execute(query, params)
+
+        logging.info("Successfully created user %s", dbuser_name)
     except psycopg2.ProgrammingError as e:
         if e.pgcode == '42710': #duplicate_object error code
             logging.warning("Role %s already exists. Make sure it has the necessary privileges or delete it and run the setup script again", dbuser_name)
