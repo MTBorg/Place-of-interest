@@ -73,7 +73,7 @@ def run():
 
 if __name__ == "__main__":
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel="])
+        opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel=", "logFile="])
         logging.basicConfig(format="%(asctime)s, %(levelname)s: %(message)s", level=logging.INFO)
 
         #Parse command line arguments
@@ -97,9 +97,15 @@ if __name__ == "__main__":
                     logger.setLevel(level=logging.DEBUG)
                 else:
                     raise Exception("Invalid logLevel argument " + arg)
-        
+            elif opt=="--logFile":
+                flog_handler = logging.FileHandler(arg)
+                flog_handler.setLevel(logging.INFO)
+                flog_format = logging.Formatter("%(asctime)s, %(levelname)s: %(message)s")
+                flog_handler.setFormatter(flog_format)
+                logging.getLogger().addHandler(flog_handler)
         run()
-    except getopt.GetoptError:
+    except getopt.GetoptError as e:
+        print(e)
         print("Usage:", os.path.basename(__file__), "--logLevel <logLevel>")
     except Exception as e:
         logging.error(e)
