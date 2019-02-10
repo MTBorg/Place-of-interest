@@ -1,10 +1,13 @@
 import createDatabase
 import createDBUser
 import createTables
-
 import grantDBUser
+
+import logging
 import json
 import os
+import sys
+import getopt
 
 def __run_setup_files(filedata):    
 
@@ -65,4 +68,33 @@ def run():
     __run_setup_files(filedata)
 
 if __name__ == "__main__":
-    run()
+    try:
+        logging.basicConfig(level=logging.INFO)
+        opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel="])
+
+        #Parse command line arguments
+        for opt, arg in opts:
+            if opt=="--logLevel":
+                if arg == "CRITICAL":
+                    logging.info("Setting log level to critical")
+                    logging.basicConfig(level=logging.CRITICAL)
+                elif arg == "ERROR":
+                    logging.info("Setting log level to error")
+                    logging.basicConfig(level=logging.ERROR)
+                elif arg == "WARNING":
+                    logging.info("Setting log level to warning")
+                    logging.basicConfig(level=logging.WARNING)
+                elif arg == "INFO":
+                    logging.info("Setting log level to info")
+                    logging.basicConfig(level=logging.INFO)
+                elif arg == "DEBUG":
+                    logging.info("Setting log level to debug")
+                    logging.basicConfig(level=logging.DEBUG)
+                else:
+                    raise Exception("Invalid logLevel argument " + arg)
+        
+        run()
+    except getopt.GetoptError:
+        print("Usage:", os.path.basename(__file__), "--logLevel <logLevel>")
+    except Exception as e:
+        print("Exception:", e)
