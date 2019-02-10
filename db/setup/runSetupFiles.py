@@ -74,7 +74,7 @@ def run():
 if __name__ == "__main__":
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel="])
-        logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
+        logging.basicConfig(format="%(asctime)s, %(levelname)s: %(message)s", level=logging.INFO)
 
         #Parse command line arguments
         for opt, arg in opts:
