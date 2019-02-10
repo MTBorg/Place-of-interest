@@ -76,7 +76,6 @@ def run():
 
 if __name__ == "__main__":
     try:
-        #logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
         opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel="])
         logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
