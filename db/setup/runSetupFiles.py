@@ -57,18 +57,22 @@ def load_json_file(filename):
         logging.info("Reading file %s", filepath)
         with open(filepath) as f:
             filedata = json.load(f)
+        return filedata 
     except Exception as e:
-        logging.error("Exception while reading file %s: %s", filepath, e)
-        return
-    return filedata 
+        #logging.error("Exception while reading file %s: %s", filepath, e)
+        raise Exception("Exception while reading file "+ filepath + ": " + str(e))
 
 def run():
     """Runs the script and it's functions
     """
-    filename = 'data.json'
+    try:
+        filename = 'data.json'
 
-    filedata = load_json_file(filename)
-    __run_setup_files(filedata)
+        filedata = load_json_file(filename)
+        logging.info("Running setup files")
+        __run_setup_files(filedata)
+    except:
+        raise
 
 if __name__ == "__main__":
     try:
@@ -94,7 +98,7 @@ if __name__ == "__main__":
                     logger.setLevel(level=logging.INFO)
                 elif arg == "DEBUG":
                     logging.info("Setting log level to debug")
-                    logger.setLevel(level=logging.DEBUG)
+                    logger.sebasiccontLevel(level=logging.DEBUG)
                 else:
                     raise Exception("Invalid logLevel argument " + arg)
         
@@ -103,3 +107,4 @@ if __name__ == "__main__":
         print("Usage:", os.path.basename(__file__), "--logLevel <logLevel>")
     except Exception as e:
         logging.error(e)
+        raise e
