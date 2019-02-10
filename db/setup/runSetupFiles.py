@@ -1,3 +1,15 @@
+"""
+Runs the all the setup scripts
+
+Arguments
+---------
+--logLevel: The logging level to use. All logs with a lower level will be ignored.
+            Possible options are (from high to low): NONE, CRITICAL, ERROR, WARNING, INFO, DEBUG.
+            Default value is INFO. Setting it to NONE will disable logging.
+            Refer to https://docs.python.org/3/library/logging.html#logging-levels for more information.
+--logFile : The filename of the log file to be produced. Make sure to make it a .log file or git will not ignore it.
+            If no filename is specified no log file will be produced.
+"""
 import createDatabase
 import createDBUser
 import createTables
@@ -8,6 +20,7 @@ import json
 import os
 import sys
 import getopt
+
 
 def __run_setup_files(filedata):    
 
@@ -95,6 +108,9 @@ if __name__ == "__main__":
                 elif arg == "DEBUG":
                     logging.info("Setting log level to debug")
                     logger.setLevel(level=logging.DEBUG)
+                elif arg == "NONE":
+                    logging.info("Disabling logging")
+                    logging.disable(logging.CRITICAL)
                 else:
                     raise Exception("Invalid logLevel argument " + arg)
             elif opt=="--logFile":
@@ -106,7 +122,7 @@ if __name__ == "__main__":
         run()
     except getopt.GetoptError as e:
         print(e)
-        print("Usage:", os.path.basename(__file__), "--logLevel <logLevel>")
+        print("Usage:", os.path.basename(__file__), "--logLevel <logLevel> --logFile <logFile>")
     except Exception as e:
         logging.error(e)
         raise e
