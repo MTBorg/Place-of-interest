@@ -9,6 +9,8 @@ import os
 import sys
 import getopt
 
+logger_name = "poiLogger"
+
 def __run_setup_files(filedata):    
 
     """Runs the three setup scripts and feeds them data from the variable filedata
@@ -52,10 +54,11 @@ def load_json_file(filename):
     """
     try:
         filepath = os.path.dirname(__file__) + "/" + filename
+        logging.info("Reading file %s", filepath)
         with open(filepath) as f:
             filedata = json.load(f)
     except Exception as e:
-        print("Exception while loading JSON file:", e)
+        logging.error("Exception while reading file %s: %s", filepath, e)
         return
     return filedata 
 
@@ -69,27 +72,29 @@ def run():
 
 if __name__ == "__main__":
     try:
-        logging.basicConfig(level=logging.INFO)
+        #logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
         opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel="])
+        logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
         #Parse command line arguments
         for opt, arg in opts:
             if opt=="--logLevel":
+                logger = logging.getLogger()
                 if arg == "CRITICAL":
                     logging.info("Setting log level to critical")
-                    logging.basicConfig(level=logging.CRITICAL)
+                    logger.setLevel(level=logging.CRITICAL)
                 elif arg == "ERROR":
                     logging.info("Setting log level to error")
-                    logging.basicConfig(level=logging.ERROR)
+                    logger.setLevel(level=logging.ERROR)
                 elif arg == "WARNING":
                     logging.info("Setting log level to warning")
-                    logging.basicConfig(level=logging.WARNING)
+                    logger.setLevel(level=logging.WARNING)
                 elif arg == "INFO":
                     logging.info("Setting log level to info")
-                    logging.basicConfig(level=logging.INFO)
+                    logger.setLevel(level=logging.INFO)
                 elif arg == "DEBUG":
                     logging.info("Setting log level to debug")
-                    logging.basicConfig(level=logging.DEBUG)
+                    logger.setLevel(level=logging.DEBUG)
                 else:
                     raise Exception("Invalid logLevel argument " + arg)
         
@@ -97,4 +102,4 @@ if __name__ == "__main__":
     except getopt.GetoptError:
         print("Usage:", os.path.basename(__file__), "--logLevel <logLevel>")
     except Exception as e:
-        print("Exception:", e)
+        logging.error(e)
