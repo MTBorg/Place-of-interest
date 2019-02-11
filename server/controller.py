@@ -1,11 +1,16 @@
-import sys, bcrypt,os
+import sys, bcrypt,os, inspect
 
 
-sys.path.append("/Users/JohanDelissen/Documents/D0022E/D0020E/db")
+#sys.path.append("/Users/JohanDelissen/Documents/D0022E/D0020E/db")
+
+
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir) + "/db/"
+sys.path.insert(0,parentdir)
 
 
 import db as database
-
 
 
 
@@ -30,7 +35,7 @@ class Controller:
         -------
         A list containing all markers within the given circle 
         '''
-        self.db.get_markers_from_dist(lat, lng, radius)
+        return self.db.get_markers_from_dist(lat, lng, radius)
 
 
     def saveMarker(self, lng, lat, ip, cookieHash):
@@ -50,7 +55,7 @@ class Controller:
 
         try:
             self.db.save_marker(lng, lat, ip, cookieHash)
-            print("42 is the meaning of life")
+
         except Exception as e:
             print("Database Fault due to", e)
 

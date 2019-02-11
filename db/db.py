@@ -120,6 +120,7 @@ class db:
         -------
         A list containing all markers within the given circle 
         '''
+
         connection = self.__connect()
         cursor = connection.cursor()
 
@@ -132,7 +133,7 @@ class db:
         result = cursor.fetchall()
         cursor.close()
         connection.close()
-        print("We can to this part but cant find anything in the list", result)
+
         return result
         
 
@@ -151,6 +152,7 @@ class db:
         -------
         A list containing all markers within the given circle and time interval
         '''
+
         connection = self.__connect()
         cursor = connection.cursor()
 

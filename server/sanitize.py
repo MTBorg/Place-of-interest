@@ -5,7 +5,7 @@ import controller
 class Sanitizer(object):
 
     __SECRET_STR = b"123"
-    __TIME_BETWEEN_POSTS = 10 #seconds
+    __TIME_BETWEEN_POSTS = 60 #seconds
 
     def  __init__(self):
         self.__SECRET_STR = b"123"
@@ -29,7 +29,7 @@ class Sanitizer(object):
         if("hash" in request.cookies and self.checkHashCookie(request.cookies.get("hash"))):
             if(self.checkTimeCookie(request.cookies.get("time"))):
 
-                """Right latest to databse here """
+                self.controller.saveMarker(request.form["lng"], request.form["lat"], request.remote_addr, request.cookies.get("hash"))
                 return 0
             else:
 
@@ -85,14 +85,13 @@ class Sanitizer(object):
         '''
         cookieTime = datetime.datetime.strptime(cookieTime, "%Y-%m-%d %H:%M:%S")
         if(datetime.datetime.now()-cookieTime >= datetime.timedelta(seconds=self.__TIME_BETWEEN_POSTS)):
-            print("har väntat tillräckligt")
             return True
         else:
-            print("har EJ tillräckligt")
             return False
 
 
+
     def get_markers_by_radius(self,lat, lng, radius):
-        self.controller.getMarkersAroundLocation(lat, lng, radius)
+        return self.controller.getMarkersAroundLocation(lat, lng, radius)
 
         

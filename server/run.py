@@ -34,18 +34,22 @@ def mapview():
     #lng & lat for positions to show.
     #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
 
-    flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000)
 
+    #TODO These need to be taken from the location that the person is at
+    flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 100000000)
 
 
     #append the marks to marks list so we can render them into the map.
     for i in range(len(flaggedLocations)):
         marks.append({
             "icon": flaggedLocationsIcon,
-            "lat": flaggedLocations[i][0],
-            "lng": flaggedLocations[i][1],
-            "infobox": flaggedLocations[i][2],
+            "lat": flaggedLocations[i][1],
+            "lng": flaggedLocations[i][0]
+            #"infobox": flaggedLocations[i][2],
         })
+
+
+
 
     #If there's a POST to the site. SMÄLL IN I SANITIZE ISTÄLLET OBS OBS OBS ***************
     if request.method == "POST":
