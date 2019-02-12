@@ -1,16 +1,14 @@
 {
-
 	"user" : {
-		"username" : "poiadmin",
+		"username" : "admin",
 		"password" : "123"
 	},
-
 
 	"connection" :	{
 		"dbname" : "placeofinterest",
 		"user" : "postgres",
 		"host" : "localhost",
-
+		"password" : "123",
 		"port" : "5432"
 
 	}
