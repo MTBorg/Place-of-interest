@@ -49,7 +49,11 @@ def __load_json_file(filename):
     A dictionary with all the data from the json file
     """
     try:
-        filepath = os.path.dirname(__file__) + "/" + filename
+        dirname = os.path.dirname(__file__)
+        if (dirname == ""): #If the script is run from the same folder we don't want to prepend "/" (as it would result in searching the root)
+            filepath = filename
+        else:
+            filepath = dirname + "/" + filename
         with open(filepath) as f:
             filedata = json.load(f)
     except Exception as e:
