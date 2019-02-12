@@ -83,7 +83,7 @@ def run():
     try:
         filename = 'data.json'
 
-        filedata = load_json_file(filename)
+        filedata = __load_json_file(filename)
         __run_setup_files(filedata)
     except:
         raise
