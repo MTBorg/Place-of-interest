@@ -5,7 +5,7 @@ import controller
 class Sanitizer(object):
 
     __SECRET_STR = b"123"
-    __TIME_BETWEEN_POSTS = 60 #seconds
+    __TIME_BETWEEN_POSTS = 10 #seconds
 
     def  __init__(self):
         self.__SECRET_STR = b"123"

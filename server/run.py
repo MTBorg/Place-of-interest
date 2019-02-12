@@ -35,8 +35,10 @@ def mapview():
     #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
 
 
+
+
     #TODO These need to be taken from the location that the person is at
-    flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 100000000)
+    flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000000000)
 
 
     #append the marks to marks list so we can render them into the map.
@@ -54,23 +56,25 @@ def mapview():
     #If there's a POST to the site. SMÄLL IN I SANITIZE ISTÄLLET OBS OBS OBS ***************
     if request.method == "POST":
 
-        response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+
 
         cookiedata = sanitizer.process_request()
 
         if (cookiedata == 0) :
-            print("When there is a cookie and time")
+            #print("When there is a cookie and time")
             addMark(request.form["lat"], request.form["lng"])
+            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return response
         elif (cookiedata == 1):
-            print("When there is not time")
-
+            #print("When there is not time")
+            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             return response
         else:
-            print("gets a new cookie")
-            print(request.form)
+            #print("gets a new cookie")
+            #print(request.form)
             addMark(request.form["lat"], request.form["lng"])
+            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("hash", cookiedata, expires=datetime.datetime.now() + datetime.timedelta(days=30))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return response
