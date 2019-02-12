@@ -77,7 +77,7 @@ def run():
     """
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", ["logLevel=", "logFile="])
-        logging.basicConfig(format="%(asctime)s, %(levelname)s: %(message)s", level=logging.INFO)
+        logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
         #Parse command line arguments
         for opt, arg in opts:
@@ -106,7 +106,7 @@ def run():
             elif opt=="--logFile":
                 flog_handler = logging.FileHandler(arg)
                 flog_handler.setLevel(logging.INFO)
-                flog_format = logging.Formatter("%(asctime)s, %(levelname)s: %(message)s")
+                flog_format = logging.Formatter("%(asctime)s %(filename)s %(lineno)s %(funcName)s, %(levelname)s: %(message)s")
                 flog_handler.setFormatter(flog_format)
                 logging.getLogger().addHandler(flog_handler)
 
