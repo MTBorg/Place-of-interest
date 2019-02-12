@@ -1,0 +1,20 @@
+{
+	"test_user" : {
+		"name" : "poiAdmin_test",
+		"password" : "123"
+	},
+
+	"superuser" : {
+		"name" : "postgres",
+		"password" : "123"
+	},
+
+	"database" : {
+		"name" : "placeofinterest_test"
+	},
+
+	"psql_connection" : {
+		"host" : "localhost",
+		"port" : "5432"
+	}
+}
