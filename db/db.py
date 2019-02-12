@@ -2,8 +2,6 @@ import psycopg2
 
 import os
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-os.path.join(ROOT_DIR, 'db/setup')
-import setup.runSetupFiles as setup
 
 import json
 
@@ -12,17 +10,28 @@ class db:
     def __init__(self):
         '''Setup a database object based on json-file
         '''
-        filename = 'data.json'
-        filedata = setup.load_json_file(filename)
+        try:
+            filename = 'data.json'
+            dirname = os.path.dirname(__file__)
+            filepath = ""
+            if(dirname == ""): #If the script is run from the same folder a '/' should not be prepended
+                filepath = filename
+            else:
+                filepath = dirname + "/setup/" + filename
 
-        db_data = filedata["connection"]
-        user_data = filedata["user"]
-
-        self.dbname = db_data["dbname"]
-        self.hostname = db_data["host"]
-        self.portnr = db_data["port"]
-        self.username = user_data["username"]
-        self.password = user_data["password"]
+            #Load file
+            with open(filepath) as f:
+                filedata = json.load(f)
+                db_data = filedata["connection"]
+                user_data = filedata["user"]
+    
+                self.dbname = db_data["dbname"]
+                self.hostname = db_data["host"]
+                self.portnr = db_data["port"]
+                self.username = user_data["username"]
+                self.password = user_data["password"]
+        except Exception as e:
+            print("Exception loading json file " + filename + ": " + e)
 
     def __connect(self):
         ''' Try to connect to database

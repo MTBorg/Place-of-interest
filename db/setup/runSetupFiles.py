@@ -1,8 +1,11 @@
-from . import createDatabase
-from . import createDBUser
-from . import createTables
+import createDatabase
+import createDBUser
+import createTables
+import grantDBUser
+
 import json
 import os
+from pathlib import Path
 
 def __run_setup_files(filedata):    
 
@@ -33,7 +36,7 @@ def __run_setup_files(filedata):
         print("Exception while running setup scripts:", e)
 
 
-def load_json_file(filename):
+def __load_json_file(filename):
 
     """Loads file and returns all the data
 
@@ -59,7 +62,7 @@ def run():
     """
     filename = 'data.json'
 
-    filedata = load_json_file(filename)
+    filedata = __load_json_file(filename)
     __run_setup_files(filedata)
 
 if __name__ == "__main__":
