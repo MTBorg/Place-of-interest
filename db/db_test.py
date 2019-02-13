@@ -2,7 +2,9 @@ import unittest
 import db
 import logging
 import json
-from setup import createDatabase, createDBUser, createTables
+import psycopg2
+
+from setup import createDatabase, createDBUser, createTables, clearDB
 
 class dbTest(unittest.TestCase):
     def setUp(self):
@@ -15,7 +17,38 @@ class dbTest(unittest.TestCase):
                 database = conf["database"]
                 psql_connection = conf["psql_connection"]
 
-                logging.info("Setting up test database")
+                logging.info("Clearing user %s in preparation for test", test_user["name"])
+                try:
+                    clearDB.dropUser(
+                        host_name = psql_connection["host"],
+                        host_port = psql_connection["port"],
+                        su_name = superuser["name"],
+                        su_pass = superuser["password"],
+                        user_name = test_user["name"]
+                    )
+                except psycopg2.ProgrammingError as e:
+                    if (e.pgcode == 42704): # undefined_object error code
+                        logging.info("Could not find test user")
+                    else:
+                        logging.exception("Unknown exception")
+
+                
+                logging.info("Clearing database %s in preparation for test", database["name"])
+                try:    
+                    clearDB.dropDatabase(
+                        db_name = database["name"],
+                        host_name = psql_connection["host"],
+                        host_port = psql_connection["port"],
+                        su_name = 'postgres',
+                        su_pass = superuser["password"]
+                    )
+                except psycopg2.ProgrammingError as e:
+                    if (e.pgcode == 42704): # undefined_object error cde
+                        logging.info("Could no find test database %s", database["name"])
+                    else:
+                        logging.exception("Unknown exception")
+
+                logging.info("Setting up test database %s", database["name"])
 
                 #Create database user
                 createDBUser.create_dbuser(
