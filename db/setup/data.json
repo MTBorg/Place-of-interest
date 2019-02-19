@@ -1,14 +1,18 @@
 {
-	"user" : {
+	"db_user" : {
 		"username" : "admin",
 		"password" : "123"
 	},
 
-	"connection" :	{
-		"dbname" : "placeofinterest",
-		"user" : "postgres",
+	"db_connection" :	{
+		"db_name" : "placeofinterest",
 		"host" : "localhost",
-		"password" : "123",
 		"port" : "5432"
+	},
+
+	"db_setup" : {
+		"existing_db_name" : "postgres",
+		"existing_db_superuser_name" : "postgres",
+		"existing_db_superuser_password" : "test"
 	}
 }

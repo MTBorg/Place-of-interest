@@ -22,10 +22,10 @@ class db:
             #Load file
             with open(filepath) as f:
                 filedata = json.load(f)
-                db_data = filedata["connection"]
-                user_data = filedata["user"]
+                db_data = filedata["db_connection"]
+                user_data = filedata["db_user"]
     
-                self.dbname = db_data["dbname"]
+                self.dbname = db_data["db_name"]
                 self.hostname = db_data["host"]
                 self.portnr = db_data["port"]
                 self.username = user_data["username"]

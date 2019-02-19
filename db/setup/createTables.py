@@ -1,17 +1,17 @@
 import psycopg2
 
-def create_tables(dbname, username, hostname, password, portnr):
+def create_tables(username, password, hostname, portnr, dbname,):
     """Create tables in database
 
     This script creates one table in the database for storing markers.
 
     Parameters
     ----------
+    username: Name of the PostgreSQL user for the database.
+    password: Password of the default PostgreSQL user (postgres).
+    hostname: Name/address of database host.
+    portnr: Port of the host that the database listens to.
     dbname: Name of the database to connect to
-    username: Name of the PostgreSQL user for the database
-    hostname: Name/address of database host
-    password: Password of the default PostgreSQL user (postgres)
-    portnr: Port of the host that the database listens to
     """
     try:
         #Connect to database

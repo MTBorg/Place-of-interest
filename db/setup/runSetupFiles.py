@@ -16,21 +16,38 @@ def __run_setup_files(filedata):
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
 
-    connection_dict = filedata["connection"]    # basic setup connection
-    rw_user = filedata["user"]                  # user for read write access
+    rw_db_connection = filedata["db_connection"]        # Basic setup connection.
+    rw_user = filedata["db_user"]                       # User for read write access.
+    rw_db_setup = filedata["db_setup"]                  # Data on existing db and superuser.
     try:
-        createDBUser.create_dbuser(connection_dict["host"], connection_dict["port"], 
-                connection_dict["password"], rw_user["username"], rw_user["password"])
+        createDBUser.create_dbuser(rw_db_setup["existing_db_name"],
+                                        rw_db_setup["existing_db_superuser_name"],
+                                        rw_db_setup["existing_db_superuser_password"],
+                                        rw_db_connection["host"],
+                                        rw_db_connection["port"],
+                                        rw_user["username"],
+                                        rw_user["password"])
         
-        createDatabase.create_database(connection_dict["host"], 
-                connection_dict["port"], connection_dict["password"], 
-                connection_dict["dbname"], rw_user["username"])
+        createDatabase.create_database(rw_db_setup["existing_db_name"],
+                                        rw_db_setup["existing_db_superuser_name"],
+                                        rw_db_setup["existing_db_superuser_password"],
+                                        rw_db_connection["host"],
+                                        rw_db_connection["port"],
+                                        rw_db_connection["db_name"],
+                                        rw_user["username"])
         
-        createTables.create_tables(connection_dict["dbname"], connection_dict["user"], 
-                connection_dict["host"], connection_dict["password"], connection_dict["port"])
+        createTables.create_tables(rw_db_setup["existing_db_superuser_name"],
+                                        rw_db_setup["existing_db_superuser_password"], 
+                                        rw_db_connection["host"], 
+                                        rw_db_connection["port"],
+                                        rw_db_connection["db_name"])
 
-        grantDBUser.grant_dbuser(connection_dict["dbname"], rw_user["username"],
-                connection_dict["host"], connection_dict["port"], connection_dict["password"])
+        grantDBUser.grant_dbuser(rw_db_setup["existing_db_superuser_name"],
+                                        rw_db_setup["existing_db_superuser_password"],
+                                        rw_db_connection["host"],
+                                        rw_db_connection["port"],
+                                        rw_db_connection["db_name"],
+                                        rw_user["username"])
         
     except Exception as e:
         print("Exception while running setup scripts:", e)
