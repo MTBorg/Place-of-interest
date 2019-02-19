@@ -13,6 +13,6 @@
 	"db_setup" : {
 		"existing_db_name" : "postgres",
 		"existing_db_superuser_name" : "postgres",
-		"existing_db_superuser_password" : "test"
+		"existing_db_superuser_password" : "123"
 	}
 }
