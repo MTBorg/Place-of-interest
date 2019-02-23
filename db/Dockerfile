@@ -1,4 +1,4 @@
-FROM postgres:10.7
+FROM mdillon/postgis:10
 
 EXPOSE 5432
 
