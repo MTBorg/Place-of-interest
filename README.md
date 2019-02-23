@@ -14,6 +14,24 @@
 * PostGis 2.5.1
 * Google Maps API Key
 
+# Docker
+You can use docker to setup the project. From dockers point of view there exists to service in the project, the server and the database. To set up the database base run
+```
+sudo docker build -f db/Dockerfile -t poi_db . #Build the database image
+sudo docker run -d -p <machine_port>:<db_container_port> --name poi_db poi_db #Run the image in detached mode, binding <machine_port> to <db_container_port>
+```
+
+To set up the server run
+```
+sudo docker build -f /server/Dockerfile -t poi_server . #Build the server image
+sudo docker run -d -p <machine_port>:<server_container port> --name poi_server poi_server #Run the image in detached mode, binding <machine_port> to <db_container_port>
+```
+To verify the services are running
+```
+sudo docker ps
+```
+**NOTE:** The commands should be run from the root of the project directory.
+
 # Database 
 All the files that are related to the database are in the db folder. The setup folder in there is for setting up a postgresql database that has all the basic functionality for the PoI application. There is also a json setup file in the setup folder, that can be used to change some key variables of the database. The db.py file is a api for establishing a connection to the database and defining the queries.
 
