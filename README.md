@@ -15,22 +15,41 @@
 * Google Maps API Key
 
 # Docker
-You can use docker to setup the project. From dockers point of view there exists to service in the project, the server and the database. To set up the database base run
+You can use docker to setup the project. From dockers point of view there exists three services in the project, the server, database and the database setup. To build the database image run
 ```
-sudo docker build -f db/Dockerfile -t poi_db . #Build the database image
-sudo docker run -d -p <machine_port>:<db_container_port> --name poi_db poi_db #Run the image in detached mode, binding <machine_port> to <db_container_port>
+docker build -f db/Dockerfile -t poi_db . #Build the database image
 ```
+To start the container run
+```
+#Run the image in detached mode, binding <machine_port> to <db_container_port> and set the environmental variable POSTGRES_PASSWORD to <postgres_user_password>
+docker run -d -p <machine_port>:<db_container_port> -e POSTGRES_PASSWORD=<postgres_user_password> --name poi_db poi_db 
+```
+This will start a container running an out of the box installation of PostgreSQL 10 and PostGIS 2.5 without any of the needed tables. To run the database setup service to create necessary tables, roles, e.t.c, first configure data.json to use the correct container IP address and port for the database. To find the IP of the container run 
+```
+docker inspect poi_db | grep IPAddress
+```
+then enter the returned IPAddress and the port <machine_port> the container host machine binds to the database in the command above.
+```
+docker build -f db/setup/Dockerfile -t poi_db_setup . # Build the database setup image
+docker run --rm poi_db_setup # Start the container
+```
+To build the server image run
+```
+docker build -f /server/Dockerfile -t poi_server . #Build the server image
+```
+Start the server container
+```
+docker run -d -p <machine_port>:<server_container port> --name poi_server poi_server #Run the image in detached mode, binding <machine_port> to <db_container_port>
+```
+To verify the containers are running, run
+```
+docker ps
+```
+and make sure that the containers poi_db and poi_server are listed.
 
-To set up the server run
-```
-sudo docker build -f /server/Dockerfile -t poi_server . #Build the server image
-sudo docker run -d -p <machine_port>:<server_container port> --name poi_server poi_server #Run the image in detached mode, binding <machine_port> to <db_container_port>
-```
-To verify the services are running
-```
-sudo docker ps
-```
-**NOTE:** The commands should be run from the root of the project directory.
+**NOTE:** The commands should be run from the root of the project directory D0020E/.
+
+**NOTE:** The port <machine_port> used in the commands above are not and should not be the same port number, they have only been given the same name here.
 
 # Database 
 All the files that are related to the database are in the db folder. The setup folder in there is for setting up a postgresql database that has all the basic functionality for the PoI application. There is also a json setup file in the setup folder, that can be used to change some key variables of the database. The db.py file is a api for establishing a connection to the database and defining the queries.
