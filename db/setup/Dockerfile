@@ -1,7 +1,5 @@
 FROM python:3.6.5
 
-EXPOSE 987
-
 ENV APP_DIR /usr/src/poi_setup/
 
 # Copy the the db files and the pipfile to the working directory
