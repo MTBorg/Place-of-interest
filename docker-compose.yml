@@ -12,6 +12,10 @@ services:
             dockerfile: db/setup/Dockerfile
         depends_on:
             - db
+        # Make the process sleep for 10 seconds to give the database some time to start.
+        # (This is a really sketchy solution)
+        # TODO: Make this container actually know when the db container is ready to be setup.
+        command: ["/bin/bash", "-c", "sleep 10 && pipenv run python runSetupFiles.py"]
     server:
         build:
             context: .
