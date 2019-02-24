@@ -1,0 +1,22 @@
+version: '3'
+services:
+    db:
+        build: ./db
+        ports:
+        - 54321:5432
+        environment: 
+            - POSTGRES_PASSWORD=123
+    db_setup:
+        build: 
+            context: .
+            dockerfile: db/setup/Dockerfile
+        depends_on:
+            - db
+    server:
+        build:
+            context: .
+            dockerfile: server/Dockerfile
+        ports:
+        - 5000:5000
+        depends_on:
+            - db
