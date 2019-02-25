@@ -7,11 +7,11 @@ import json
 
 class db:
 
-    def __init__(self):
+    def __init__(self, file_config):
         '''Setup a database object based on json-file
         '''
         try:
-            filename = 'data.json'
+            filename = file_config
             dirname = os.path.dirname(__file__)
             filepath = ""
             if(dirname == ""): #If the script is run from the same folder a '/' should not be prepended
