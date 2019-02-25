@@ -22,14 +22,16 @@ class db:
             #Load file
             with open(filepath) as f:
                 filedata = json.load(f)
-                db_data = filedata["connection"]
-                user_data = filedata["user"]
+                connection = filedata["connection"]
+                poi_user = filedata["poi_user"]
+                poi_db = filedata["poi_db"]
+                su = filedata["superuser"]
     
-                self.dbname = db_data["dbname"]
-                self.hostname = db_data["host"]
-                self.portnr = db_data["port"]
-                self.username = user_data["username"]
-                self.password = user_data["password"]
+                self.db_name = poi_db["name"]
+                self.host = connection["host"]
+                self.port = connection["port"]
+                self.user_name = poi_user["name"]
+                self.user_pw = poi_user["password"] 
         except Exception as e:
             print("Exception loading json file " + filename + ": " + e)
 

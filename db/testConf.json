@@ -1,20 +1,21 @@
 {
-	"test_user" : {
-		"name" : "poiAdmin_test",
+	"poi_user" : {
+		"name" : "poi_admin_test",
 		"password" : "123"
+	},
+
+	"poi_db" : {
+		"name" : "placeofinterest_test",
+        "owner": "poiAdmin_test"
+	},
+
+	"connection" : {
+		"host" : "localhost",
+		"port" : "5432"
 	},
 
 	"superuser" : {
 		"name" : "postgres",
 		"password" : "123"
-	},
-
-	"database" : {
-		"name" : "placeofinterest_test"
-	},
-
-	"psql_connection" : {
-		"host" : "localhost",
-		"port" : "5432"
 	}
 }
