@@ -3,8 +3,9 @@ import db
 import logging
 import json
 import psycopg2
+from psycopg2.extensions import AsIs
 
-from setup import createDatabase, createDBUser, createTables, clearDB
+from setup import createDatabase, createDBUser, createTables, grantDBUser
 
 class dbTest(unittest.TestCase):
     def setUp(self):
@@ -17,40 +18,39 @@ class dbTest(unittest.TestCase):
                 database = conf["database"]
                 psql_connection = conf["psql_connection"]
 
-                logging.info("Clearing user %s in preparation for test", test_user["name"])
+                # Connect to the default database
+                db_connection = psycopg2.connect(
+                    dbname="postgres",
+                    user=superuser["name"],
+                    password = superuser["password"],
+                    host = psql_connection["host"],
+                    port = psql_connection["port"]
+                )
+                db_connection.autocommit = True
+                db_cursor = db_connection.cursor()
+
+                # Drop the database
+                logging.info("Dropping database %s in preparation for test", database["name"])
                 try:
-                    clearDB.dropUser(
-                        host_name = psql_connection["host"],
-                        host_port = psql_connection["port"],
-                        su_name = superuser["name"],
-                        su_pass = superuser["password"],
-                        user_name = test_user["name"]
-                    )
-                except psycopg2.ProgrammingError as e:
-                    if (e.pgcode == 42704): # undefined_object error code
-                        logging.info("Could not find test user")
+                    db_cursor.execute("DROP DATABASE %s;", (AsIs(database["name"]),))
+                except psycopg2.Error as e:
+                    if (e.pgcode == '3D000'): # invalid_catalog_name error code
+                        logging.info("Could not find database %s, continuing...", database["name"])
                     else:
-                        logging.exception("Unknown exception")
-
+                        raise
                 
-                logging.info("Clearing database %s in preparation for test", database["name"])
+                # Drop the user
+                logging.info("Dropping user %s in preparation for test", test_user["name"])
                 try:    
-                    clearDB.dropDatabase(
-                        db_name = database["name"],
-                        host_name = psql_connection["host"],
-                        host_port = psql_connection["port"],
-                        su_name = 'postgres',
-                        su_pass = superuser["password"]
-                    )
+                    db_cursor.execute("DROP ROLE %s;", (AsIs(test_user["name"]),))
                 except psycopg2.ProgrammingError as e:
-                    if (e.pgcode == 42704): # undefined_object error cde
-                        logging.info("Could no find test database %s", database["name"])
+                    if (e.pgcode == '42704'): # undefined_object error code
+                        logging.info("Could not find user %s, continuing...", test_user["name"])
                     else:
-                        logging.exception("Unknown exception")
-
-                logging.info("Setting up test database %s", database["name"])
+                        raise
 
                 #Create database user
+                logging.info("Setting up test user %s", test_user["name"])
                 createDBUser.create_dbuser(
                     host_name=psql_connection["host"],
                     host_port=psql_connection["port"],
@@ -60,6 +60,7 @@ class dbTest(unittest.TestCase):
                 )
 
                 #Create database
+                logging.info("Setting up test database %s", database["name"])
                 createDatabase.create_database(
                     host_name=psql_connection["host"],
                     host_port=psql_connection["port"],
@@ -69,12 +70,23 @@ class dbTest(unittest.TestCase):
                 )
 
                 #Create tables
+                logging.info("Setting up tables")
                 createTables.create_tables(
                     dbname = database["name"],
                     username = superuser["name"],
                     hostname = psql_connection["host"],
                     password = superuser["password"],
                     portnr = psql_connection["port"]
+                )
+
+                # Give database user grants
+                logging.info("Giving user %s grants", test_user["name"])
+                grantDBUser.grant_dbuser(
+                    db_name = database["name"],
+                    dbuser_name = test_user["name"],
+                    host_name = psql_connection["host"],
+                    host_port = psql_connection["port"],
+                    psql_pass = superuser["password"]
                 )
         except:
             logging.exception("Unknown exception")
