@@ -7,13 +7,19 @@ html{
 	width: 100% !important;
 	padding-top: 1% !important;
 	padding-left:0px !important;
+	margin: auto !important;
+	margin-left: 40px !important;
 }
 
-.date{
-	width:100% !important;
-	
+.date{ 
+	width:25% !important;
+	float: left !important;
+	margin-left: 45px;
 }
-
+.time{
+	width:15% !important;
+	float: left !important;
+}
 #Cont{
 	float: left;
 	height: 100%;

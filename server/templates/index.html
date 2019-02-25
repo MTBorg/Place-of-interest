@@ -11,26 +11,19 @@
     <body id="body1" onload="getLocation()"> <!--Sets the background color -->
         <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
             <div class="row" id="row1" > <!-- The row in which the column is placed -->	
-				<div class="col-sm-6 col-lg-7 "  ><!-- Column making the map adjustable to differnt devices-->
-                    <h1> POI DEMO </h1>
-                </div>
-
                 <!-- WRITE FILE TO SEND DATA TO IN ACTION = "DESINTATION HERE" CONNECT THIS TO BACKEND-->
-                <form method="post" id="date-form" action=""></form>
-                <div class="col-sm-2 col-lg-2 date-margin">
-                    <div class="form-group">
-                        <div class='input-group date' id='datetimepicker10'>
-                                <input type="date" class="date" name="start_date" min="2019-01-01" value="2019-05-05"> 
-                            </form>
-                        </div>
-                    </div>
+                <div class="col-sm-12 col-lg-12 date-margin">
+				<form method="post" id="date-form" action=""> 
+                        <input type="date" class="date form-control" name="start_date" min="2019-01-01" value="Date"> 
+						<input type="time" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time"> 
+						
+                        <input type="date" class="date form-control" name="end_date" min="2019-01-01" value="Date">
+						<input type="time" class="time form-control" name="end_time" min="00:00" max="23:59" value="Time">
+						
+                        <input class="but-graphics-search btn" type="submit" name="submit" value="Search">
+				</form>
                 </div>
-                <div class="col-sm-2 col-lg-2 date-margin">
-                        <input type="date" class="date" name="end_date" min="2019-01-01" value="2019-05-05">
-                </div>
-                <div class="col-sm-2 col-lg-1 date-margin">
-                        <input class="but-graphics-search" type="submit" name="submit" value="Search">
-                </div>
+				
             </div>
             <div class="row" id="row2" > <!-- The row in which the column is placed -->	
                 <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
