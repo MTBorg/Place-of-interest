@@ -43,7 +43,12 @@ class db:
         Connection to database if no exception
         '''
         try:
-            connection = psycopg2.connect(dbname=self.dbname, host=self.hostname, port=self.portnr, user=self.username, password=self.password)
+            connection = psycopg2.connect(
+                dbname = self.db_name,
+                host = self.host,
+                port = self.port,
+                user = self.user_name,
+                password = self.user_pw)
             connection.autocommit=True
             return connection
         except Exception as e:

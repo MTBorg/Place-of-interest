@@ -31,22 +31,39 @@ def __run_setup_files(filedata):
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
     logging.info("Running setup scripts")
-    connection_dict = filedata["connection"]    # basic setup connection
-    rw_user = filedata["user"]                  # user for read write access
+    connection = filedata["connection"]
+    user = filedata["poi_user"] #The user to create
+    db = filedata["poi_db"] # The database to create
+    su = filedata["superuser"] # The superuser
 
     #Run the setup scripts
-    createDBUser.create_dbuser(connection_dict["host"], connection_dict["port"], 
-            connection_dict["password"], rw_user["username"], rw_user["password"])
+    createDBUser.create_dbuser(
+        connection["host"],
+        connection["port"], 
+        su["password"],
+        user["name"],
+        user["password"])
         
-    createDatabase.create_database(connection_dict["host"], 
-            connection_dict["port"], connection_dict["password"], 
-            connection_dict["dbname"], rw_user["username"])
+    createDatabase.create_database(
+        connection["host"], 
+        connection["port"],
+        su["password"], 
+        db["name"],
+        user["name"])
         
-    createTables.create_tables(connection_dict["dbname"], connection_dict["user"], 
-            connection_dict["host"], connection_dict["password"], connection_dict["port"])
+    createTables.create_tables(
+        db["name"],
+        user["name"], 
+        connection["host"],
+        su["password"],
+        connection["port"])
 
-    grantDBUser.grant_dbuser(connection_dict["dbname"], rw_user["username"],
-            connection_dict["host"], connection_dict["port"], connection_dict["password"])
+    grantDBUser.grant_dbuser(
+        db["name"],
+        user["name"],
+        connection["host"],
+        connection["port"],
+        su["password"])
     logging.info("Successfully ran setup scripts")
 
 
