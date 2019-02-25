@@ -1,5 +1,5 @@
 import unittest
-import db
+import db as database
 import logging
 import json
 import psycopg2
@@ -79,7 +79,7 @@ class dbTest(unittest.TestCase):
                     portnr = connection["port"]
                 )
 
-                # Give database user grants
+                # Give the database user grants
                 logging.info("Giving user %s grants", test_user["name"])
                 grantDBUser.grant_dbuser(
                     db_name = test_db["name"],
@@ -88,6 +88,24 @@ class dbTest(unittest.TestCase):
                     host_port = connection["port"],
                     psql_pass = superuser["password"]
                 )
+
+                #Insert test points
+                logging.info("Connecting to database %s to insert points", test_db["name"])
+                db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+                points = [
+                    {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": 0},
+                    {"marker": (100,100), "ip_address": "192.168.10.34", "user_id": 1},
+                    {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": 2}
+                ]
+                logging.info("Inserting %s points", len(points))
+                for point in points:
+                    db.save_marker(
+                        lng = point["marker"][0],
+                        lat = point["marker"][1],
+                        ip_address = point["ip_address"],
+                        user_id = point["user_id"]
+                    )
+                logging.info("Test database %s was successfully setup", test_db["name"])
         except:
             logging.exception("Unknown exception")
 
