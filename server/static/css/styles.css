@@ -1,14 +1,21 @@
 html{
 	height: 100%;
+	margin-left: 0% !important;
+	margin-right: 0% !important;
+}
+body{
+	width: 100% !important;
+	height: 100%;
+	background-color: rgba(34, 34, 34, 0.945) !important; 	
+}
+.container-fluid{
+	width: 100% !important;
 }
 .date-margin{
+	margin: 0 auto !important;
 	height: 100%; 
 	text-align: left;
 	width: 100% !important;
-	padding-top: 1% !important;
-	padding-left:0px !important;
-	margin: auto !important;
-	margin-left: 40px !important;
 }
 
 .date{ 
@@ -21,20 +28,27 @@ html{
 	float: left !important;
 }
 #Cont{
-	float: left;
 	height: 100%;
 }
-#row1{
+#row0{
 	height: 5%;
 }
+
+#row1{
+	height: 79%;
+	margin: auto !important;
+	width: 100% !important;
+	padding: 4px;
+}
 #row2{
-	height: 85%;
+	height: 5%;
+	
 }
 #row2col1{
 	height: 100%;
 }
 #row3{
-	height: 10%;
+	height: 15% !important;
 }
 #row3col1{
 	height: 100%;
@@ -67,13 +81,10 @@ html{
 	width: 29%; 
 	height: 100%;
 }
-body{
-	background-color: rgba(34, 34, 34, 0.945) !important; 
-	height: 100% !important;
-	;
-}
+
 .col-height{
 	height: 100%;
+	
 }
 .navbar{
 	height: 10%;

@@ -10,7 +10,17 @@
     </head>
     <body id="body1" onload="getLocation()"> <!--Sets the background color -->
         <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
-            <div class="row" id="row1" > <!-- The row in which the column is placed -->	
+		    <div class="row" id="row0" > <!-- The row in which the column is placed -->	
+                <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
+                    <img src="static\Logo.PNG" alt="Logo">
+				</div>
+            </div>
+			<div class="row" id="row1" > <!-- The row in which the column is placed -->	
+                <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
+                    {{sndmap.html}}
+				</div>
+            </div>
+            <div class="row" id="row2" > <!-- The row in which the column is placed -->	
                 <!-- WRITE FILE TO SEND DATA TO IN ACTION = "DESINTATION HERE" CONNECT THIS TO BACKEND-->
                 <div class="col-sm-12 col-lg-12 date-margin">
 				<form method="post" id="date-form" action=""> 
@@ -25,11 +35,7 @@
                 </div>
 				
             </div>
-            <div class="row" id="row2" > <!-- The row in which the column is placed -->	
-                <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
-                    {{sndmap.html}}
-				</div>
-            </div>
+            
             <div class="row " id="row3"> <!-- The row in which the column is placed -->	
 				<div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
                     <nav class="navbar navbar-expand fixed-bottom navbar-dark bg-dark"> <!-- Menu in the bottom of the page -->
