@@ -22,15 +22,17 @@
             </div>
             <div class="row" id="row2" > <!-- The row in which the column is placed -->	
                 <!-- WRITE FILE TO SEND DATA TO IN ACTION = "DESINTATION HERE" CONNECT THIS TO BACKEND-->
-                <div class="col-sm-12 col-lg-12 date-margin">
-				<form method="post" id="date-form" action=""> 
+                <div class="col-sm-12 col-lg-12 date-margin mx-auto ">
+				<form method="post" id="date-form" action="" class="mx-auto"> 
+					<div class="form-group mx-auto dateform"> 
                         <input type="date" class="date form-control" name="start_date" min="2019-01-01" value="Date"> 
 						<input type="time" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time"> 
-						
+						<p id="timeSeperator"> -- </P>
                         <input type="date" class="date form-control" name="end_date" min="2019-01-01" value="Date">
 						<input type="time" class="time form-control" name="end_time" min="00:00" max="23:59" value="Time">
 						
                         <input class="but-graphics-search btn" type="submit" name="submit" value="Search">
+					</div>
 				</form>
                 </div>
 				
