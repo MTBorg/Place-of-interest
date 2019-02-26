@@ -11,6 +11,7 @@ body{
 .container-fluid{
 	width: 100% !important;
 }
+
 .date-margin{
 	margin: 0 auto !important;
 	height: 100%; 
@@ -21,19 +22,39 @@ body{
 	font-size: 25px; 
 	color: white;
 	float: left;
-	
+}
+#mapScaler{
+	height: 45px !important;
+	padding: 2px;
+	width: 50%;
+	clear: left;
+	float: left;
+}
+#slideLabel{
+	font-size: 25px; 
+	color: white;
+	clear: left;
+	float: left;
+}
+#slider1{
+	width: 50%;
+	margin-left: 20px;
+	margin-top: 18px;
 }
 
 .date{ 
-	width:200px !important;
+	width: 20% !important;
 	float: left !important;
 }
 .dateform{
-	width: 802px;
+	clear: left;
+	clear: right;
+	width: 50%;
 	padding: 2px;
+	float: right;
 }
 .time{
-	width:150px !important;
+	width: 20% !important;
 	float: left !important;
 }
 #Cont{
