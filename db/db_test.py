@@ -111,7 +111,7 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
-    
+
     def test_get_markers_from_ip(self):
         logging.info("Testing getting markers from ip")
     
@@ -126,7 +126,37 @@ class dbTest(unittest.TestCase):
 
     def test_save_marker(self):
         logging.info("Testing saving marker")
+        db = database.db("../testConf.json")
 
+        #testing valid input format
+        self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker("0.0", 0.0, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(0.0, "0.0", "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(0.0, 0.0, 0, "user_id"))
+        self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", 0))
+        self.assertTrue(db.save_marker(0.0, 0.0, 11, "user_id"))
+        self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", 11))
+
+        #testing random values for lng and lat
+        self.assertTrue(db.save_marker(1, 2.2222222222, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(1.1111111111, 2, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(100, 1, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(1, 100, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(500, 1, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(1, 500, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(9999999999, 1, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(1, 9999999999, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(9999999999, 9999999999, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(-9999999999, -9999999999, "ip_address", "user_id"))
+        self.assertTrue(db.save_marker(10, 10, "", ""))
+
+        with self.assertRaises(Exception):
+            db.save_marker("test", 1, "", "")
+            db.save_marker(1, "test", "", "")
+            db.save_marker("test", "test", "", "")
+
+        # lng and lat will get max value if input is too big
+        # lng and lat will get min value if input is too small
 
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
