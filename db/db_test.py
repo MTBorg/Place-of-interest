@@ -123,6 +123,8 @@ class dbTest(unittest.TestCase):
         self.assertNotIn((100, 80), db.get_markers_from_userid("0"))
         self.assertEqual(len(db.get_markers_from_userid("454312")), 0)
 
+        # TODO: Should probably use assertIn/NotIn instead, since using assertEqual/false
+        # will make tests fail when adding more points with the same user id
         self.assertEqual(db.get_markers_from_userid("0"), [(0,0)])
         self.assertEqual(db.get_markers_from_userid("1"), [(100,80)])
         self.assertEqual(db.get_markers_from_userid("2"), [(-10,0)])
@@ -141,6 +143,8 @@ class dbTest(unittest.TestCase):
         self.assertIn((100,80), db.get_markers_from_ip("192.168.10.34"))
         self.assertNotIn((0,0), db.get_markers_from_ip("192.168.10.34"))
 
+        # TODO: Should probably use assertIn/NotIn instead, since using assertEqual/false
+        # will make tests fail when adding more points with the same ip
         self.assertEqual(db.get_markers_from_ip("123.123.123.123"), [(-10,0),(0,0)])
         self.assertEqual(db.get_markers_from_ip("192.168.10.34"), [(100,80)])
         self.assertEqual(db.get_markers_from_ip("77"), [])
@@ -151,6 +155,9 @@ class dbTest(unittest.TestCase):
     def test_get_markers_from_userid_and_ip(self):
         logging.info("Testing getting markers from user id and ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        # TODO: Should probably use assertIn/NotIn instead, since using assertEqual/false
+        # will make tests fail when adding more points with the same ip/userid
         self.assertEqual(db.get_markers_from_userid_and_ip("0", "123.123.123.123"), [(0,0)])
         self.assertEqual(db.get_markers_from_userid_and_ip("1", "192.168.10.34"), [(100,80)])
         self.assertEqual(db.get_markers_from_userid_and_ip("2", "123.123.123.123"), [(-10,0)])
