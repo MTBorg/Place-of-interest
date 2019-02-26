@@ -9,7 +9,7 @@ from setup import createDatabase, createDBUser, createTables, grantDBUser
 
 class dbTest(unittest.TestCase):
     def setUp(self):
-        # WARNING: DO NOT remove points (unless you reallt know what you are doing) as this will most likely probably break already implemented tests.
+        # WARNING: DO NOT remove or edit points (unless you really know what you are doing) as this will most likely break already implemented tests.
         # Instead just add new ones.
         points = [
             {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
@@ -121,7 +121,6 @@ class dbTest(unittest.TestCase):
         self.assertNotIn((100, 80), db.get_markers_from_userid("0"))
         self.assertEqual(len(db.get_markers_from_userid("454312")), 0)
 
-        # TODO: Pretty sure these tests are incorrect
         self.assertEqual(db.get_markers_from_userid("0"), [(0,0)])
         self.assertEqual(db.get_markers_from_userid("1"), [(100,80)])
         self.assertEqual(db.get_markers_from_userid("2"), [(-10,0)])
@@ -134,6 +133,12 @@ class dbTest(unittest.TestCase):
     def test_get_markers_from_ip(self):
         logging.info("Testing getting markers from ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        self.assertIn((0,0), db.get_markers_from_ip("123.123.123.123"))
+        self.assertIn((-10,0), db.get_markers_from_ip("123.123.123.123"))
+        self.assertIn((100,80), db.get_markers_from_ip("192.168.10.34"))
+        self.assertNotIn((0,0), db.get_markers_from_ip("192.168.10.34"))
+
         self.assertEqual(db.get_markers_from_ip("123.123.123.123"), [(-10,0),(0,0)])
         self.assertEqual(db.get_markers_from_ip("192.168.10.34"), [(100,80)])
         self.assertEqual(db.get_markers_from_ip("77"), [])
