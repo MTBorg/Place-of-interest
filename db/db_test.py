@@ -9,10 +9,12 @@ from setup import createDatabase, createDBUser, createTables, grantDBUser
 
 class dbTest(unittest.TestCase):
     def setUp(self):
+        # WARNING: DO NOT remove points (unless you reallt know what you are doing) as this will most likely probably break already implemented tests.
+        # Instead just add new ones.
         points = [
-            {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": 0},
-            {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": 1},
-            {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": 2}
+            {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
+            {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
+            {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"}
         ]
         try:
             logging.info("Reading configuration file test_conf.json")
@@ -112,6 +114,14 @@ class dbTest(unittest.TestCase):
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        self.assertIn((0.0,0.0), db.get_markers_from_userid("0"))
+        self.assertIn((100, 80), db.get_markers_from_userid("1"))
+        self.assertIn((-10,0), db.get_markers_from_userid("2"))
+        self.assertNotIn((100, 80), db.get_markers_from_userid("0"))
+        self.assertEqual(len(db.get_markers_from_userid("454312")), 0)
+
+        # TODO: Pretty sure these tests are incorrect
         self.assertEqual(db.get_markers_from_userid("0"), [(0,0)])
         self.assertEqual(db.get_markers_from_userid("1"), [(100,80)])
         self.assertEqual(db.get_markers_from_userid("2"), [(-10,0)])
@@ -179,8 +189,6 @@ class dbTest(unittest.TestCase):
             db.save_marker(1, "test", "", "")
             db.save_marker("test", "test", "", "")
 
-        # lng and lat will get max value if input is too big
-        # lng and lat will get min value if input is too small
 
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
