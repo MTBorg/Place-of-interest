@@ -14,7 +14,7 @@
 	},
 	"superuser" : {
 		"name": "postgres",
-		"password": "123"	
+		"password": "test"	
 	},
 	"default_db" : {
 		"name" : "postgres"

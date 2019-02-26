@@ -16,7 +16,7 @@ def __run_setup_files(filedata):
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
 
-    rw_connection = filedata["db_connection"]        # Basic setup connection.
+    rw_connection = filedata["connection"]        # Basic setup connection.
     rw_poi_user = filedata["poi_user"]                       # User for read write access.
     rw_poi_db = filedata["poi_db"]
     rw_superuser = filedata["superuser"]
@@ -27,7 +27,7 @@ def __run_setup_files(filedata):
                                         rw_superuser["password"],
                                         rw_connection["host"],
                                         rw_connection["port"],
-                                        rw_poi_user["username"],
+                                        rw_poi_user["name"],
                                         rw_poi_user["password"])
         
         createDatabase.create_database(rw_default_db["name"],
