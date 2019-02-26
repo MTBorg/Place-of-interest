@@ -8,7 +8,8 @@ from psycopg2.extensions import AsIs
 from setup import createDatabase, createDBUser, createTables, grantDBUser
 
 class dbTest(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         # WARNING: DO NOT remove or edit points (unless you really know what you are doing) as this will most likely break already implemented tests.
         # Instead just add new ones.
         points = [
