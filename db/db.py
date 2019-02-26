@@ -92,7 +92,6 @@ class db:
         cursor = connection.cursor()
 
         query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE ip_address = %s;"
-        print(ip_address)
         cursor.execute(query, (ip_address,))
         result = cursor.fetchall()
         cursor.close()
@@ -214,8 +213,6 @@ class db:
         else:
             result = False;
 
-        print(user_id)
-        print("we should have saved it now")
         cursor.close()
         connection.close()
         return result

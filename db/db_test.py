@@ -111,7 +111,6 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
-<<<<<<< HEAD
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
         self.assertEqual(db.get_markers_from_userid("0"), [(0,0)])
         self.assertEqual(db.get_markers_from_userid("1"), [(100,80)])
@@ -121,11 +120,7 @@ class dbTest(unittest.TestCase):
         self.assertFalse(db.get_markers_from_userid("2") == [(10,0)])
         self.assertFalse(db.get_markers_from_userid("0") == [(0.001,0.001)])
         self.assertFalse(db.get_markers_from_userid("66") == [(0.001,0.001)])    
-        
-    
-=======
 
->>>>>>> a38f9140f39d5c785b2a8ddf9f125e347a061876
     def test_get_markers_from_ip(self):
         logging.info("Testing getting markers from ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
