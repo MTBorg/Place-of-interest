@@ -9,6 +9,11 @@ from setup import createDatabase, createDBUser, createTables, grantDBUser
 
 class dbTest(unittest.TestCase):
     def setUp(self):
+        points = [
+            {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": 0},
+            {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": 1},
+            {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": 2}
+        ]
         try:
             logging.info("Reading configuration file test_conf.json")
             with open('testConf.json') as f:
@@ -92,11 +97,6 @@ class dbTest(unittest.TestCase):
                 #Insert test points
                 logging.info("Connecting to database %s to insert points", test_db["name"])
                 db = database.db("../testConf.json") # NOTE: The path is relative to the db file
-                points = [
-                    {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": 0},
-                    {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": 1},
-                    {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": 2}
-                ]
                 logging.info("Inserting %s points", len(points))
                 for point in points:
                     db.save_marker(
