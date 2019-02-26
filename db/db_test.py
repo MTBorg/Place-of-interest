@@ -14,7 +14,9 @@ class dbTest(unittest.TestCase):
         points = [
             {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
             {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
-            {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"}
+            {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"},
+            {"marker": (65.58544844,22.1511663), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
+            {"marker": (65.6181932,22.1339231), "ip_address": "234.234.234.234", "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
         ]
         try:
             logging.info("Reading configuration file test_conf.json")
@@ -159,6 +161,15 @@ class dbTest(unittest.TestCase):
     
     def test_get_markers_from_dist(self):
         logging.info("Testing getting markers from distance")
+        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        # Tests between kulturens hus, Luleå and the roundabout outside
+        self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist(65.5856349,22.1509888, 200))
+        self.assertNotIn((65.58544844,22.1511663), db.get_markers_from_dist(65.5856349,22.1509888, 10))
+
+        # Tests between Aula Aurora, Luleå and Luleå train station, distance: ~4.7km
+        self.assertIn((65.6181932,22.1339231), db.get_markers_from_dist(65.5839882,22.1627801, 4800)) # NOTE: Maybe give some more margin for error
+        self.assertNotIn((65.6181932,22.1339231), db.get_markers_from_dist(65.5856349,22.1627801, 4600))
 
     def test_get_markers_from_dist_time(self):
         logging.info("Testing getting markers from distance and time")
