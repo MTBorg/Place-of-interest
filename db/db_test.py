@@ -94,7 +94,7 @@ class dbTest(unittest.TestCase):
                 db = database.db("../testConf.json") # NOTE: The path is relative to the db file
                 points = [
                     {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": 0},
-                    {"marker": (100,100), "ip_address": "192.168.10.34", "user_id": 1},
+                    {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": 1},
                     {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": 2}
                 ]
                 logging.info("Inserting %s points", len(points))
@@ -111,12 +111,37 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
+        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        self.assertEqual(db.get_markers_from_userid("0"), [(0,0)])
+        self.assertEqual(db.get_markers_from_userid("1"), [(100,80)])
+        self.assertEqual(db.get_markers_from_userid("2"), [(-10,0)])
+        self.assertEqual(db.get_markers_from_userid("66"), [])
+        self.assertFalse(db.get_markers_from_userid("1") == [(80,100)])
+        self.assertFalse(db.get_markers_from_userid("2") == [(10,0)])
+        self.assertFalse(db.get_markers_from_userid("0") == [(0.001,0.001)])
+        self.assertFalse(db.get_markers_from_userid("66") == [(0.001,0.001)])    
+        
     
     def test_get_markers_from_ip(self):
         logging.info("Testing getting markers from ip")
+        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        self.assertEqual(db.get_markers_from_ip("123.123.123.123"), [(-10,0),(0,0)])
+        self.assertEqual(db.get_markers_from_ip("192.168.10.34"), [(100,80)])
+        self.assertEqual(db.get_markers_from_ip("77"), [])
+        self.assertFalse(db.get_markers_from_ip("192.168.10.34") == [(80,100)])
+        self.assertFalse(db.get_markers_from_ip("192.168.10.34") == [(100.0001,80.001)])
+        self.assertFalse(db.get_markers_from_ip("77") == [(100.0001,80.001)])
     
     def test_get_markers_from_userid_and_ip(self):
         logging.info("Testing getting markers from user id and ip")
+        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        self.assertEqual(db.get_markers_from_userid_and_ip("0", "123.123.123.123"), [(0,0)])
+        self.assertEqual(db.get_markers_from_userid_and_ip("1", "192.168.10.34"), [(100,80)])
+        self.assertEqual(db.get_markers_from_userid_and_ip("2", "123.123.123.123"), [(-10,0)])
+        self.assertEqual(db.get_markers_from_userid_and_ip("66","77"), [])
+        self.assertFalse(db.get_markers_from_userid_and_ip("1", "192.168.10.34") == [(80,100)])
+        self.assertFalse(db.get_markers_from_userid_and_ip("2", "123.123.123.123") == [(10,0)])
+        self.assertFalse(db.get_markers_from_userid_and_ip("66", "77") == [(10,0)])
     
     def test_get_markers_from_dist(self):
         logging.info("Testing getting markers from distance")
