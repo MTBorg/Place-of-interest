@@ -3,6 +3,7 @@ import db as database
 import logging
 import json
 import psycopg2
+import datetime
 from psycopg2.extensions import AsIs
 
 from setup import createDatabase, createDBUser, createTables, grantDBUser
@@ -14,6 +15,7 @@ class dbTest(unittest.TestCase):
         # Instead just add new ones.
         points = [
             {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
+            {"marker": (1,1), "ip_address": "123.123.123.123", "user_id": "0"},
             {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
             {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"},
             {"marker": (65.58544844,22.1511663), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
@@ -119,53 +121,50 @@ class dbTest(unittest.TestCase):
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
 
         self.assertIn((0.0,0.0), db.get_markers_from_userid("0"))
+        self.assertIn((0,0), db.get_markers_from_userid("0"))
         self.assertIn((100, 80), db.get_markers_from_userid("1"))
         self.assertIn((-10,0), db.get_markers_from_userid("2"))
-        self.assertNotIn((100, 80), db.get_markers_from_userid("0"))
-        self.assertEqual(len(db.get_markers_from_userid("454312")), 0)
 
-        # TODO: Should probably use assertIn/NotIn instead, since using assertEqual/false
-        # will make tests fail when adding more points with the same user id
-        self.assertEqual(db.get_markers_from_userid("0"), [(0,0)])
-        self.assertEqual(db.get_markers_from_userid("1"), [(100,80)])
-        self.assertEqual(db.get_markers_from_userid("2"), [(-10,0)])
-        self.assertEqual(db.get_markers_from_userid("66"), [])
-        self.assertFalse(db.get_markers_from_userid("1") == [(80,100)])
-        self.assertFalse(db.get_markers_from_userid("2") == [(10,0)])
-        self.assertFalse(db.get_markers_from_userid("0") == [(0.001,0.001)])
-        self.assertFalse(db.get_markers_from_userid("66") == [(0.001,0.001)])    
+        # May fail if additional points are added
+        self.assertNotIn((100, 80), db.get_markers_from_userid("0"))
+        self.assertNotIn((80,100), db.get_markers_from_userid("1"))
+        self.assertNotIn((10,0), db.get_markers_from_userid("2"))
+        self.assertNotIn((0.001,0.001), db.get_markers_from_userid("0"))
+        self.assertNotIn((0.001,0.001), db.get_markers_from_userid("66"))
+        self.assertEqual(len(db.get_markers_from_userid("66")), 0)
+        self.assertEqual(len(db.get_markers_from_userid("454312")), 0)
 
     def test_get_markers_from_ip(self):
         logging.info("Testing getting markers from ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
 
+        #TODO: check multipte values in list?
         self.assertIn((0,0), db.get_markers_from_ip("123.123.123.123"))
         self.assertIn((-10,0), db.get_markers_from_ip("123.123.123.123"))
         self.assertIn((100,80), db.get_markers_from_ip("192.168.10.34"))
+        
+        # May fail if additional points are added
         self.assertNotIn((0,0), db.get_markers_from_ip("192.168.10.34"))
-
-        # TODO: Should probably use assertIn/NotIn instead, since using assertEqual/false
-        # will make tests fail when adding more points with the same ip
-        self.assertEqual(db.get_markers_from_ip("123.123.123.123"), [(-10,0),(0,0)])
-        self.assertEqual(db.get_markers_from_ip("192.168.10.34"), [(100,80)])
-        self.assertEqual(db.get_markers_from_ip("77"), [])
-        self.assertFalse(db.get_markers_from_ip("192.168.10.34") == [(80,100)])
-        self.assertFalse(db.get_markers_from_ip("192.168.10.34") == [(100.0001,80.001)])
-        self.assertFalse(db.get_markers_from_ip("77") == [(100.0001,80.001)])
+        self.assertNotIn((80,100), db.get_markers_from_ip("192.168.10.34"))
+        self.assertNotIn((100.0001,80.001), db.get_markers_from_ip("192.168.10.34"))
+        self.assertNotIn((100.0001,80.001), db.get_markers_from_ip("77"))
+        self.assertEqual(len(db.get_markers_from_ip("77")), 0)
     
     def test_get_markers_from_userid_and_ip(self):
         logging.info("Testing getting markers from user id and ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
 
-        # TODO: Should probably use assertIn/NotIn instead, since using assertEqual/false
-        # will make tests fail when adding more points with the same ip/userid
-        self.assertEqual(db.get_markers_from_userid_and_ip("0", "123.123.123.123"), [(0,0)])
-        self.assertEqual(db.get_markers_from_userid_and_ip("1", "192.168.10.34"), [(100,80)])
-        self.assertEqual(db.get_markers_from_userid_and_ip("2", "123.123.123.123"), [(-10,0)])
-        self.assertEqual(db.get_markers_from_userid_and_ip("66","77"), [])
-        self.assertFalse(db.get_markers_from_userid_and_ip("1", "192.168.10.34") == [(80,100)])
-        self.assertFalse(db.get_markers_from_userid_and_ip("2", "123.123.123.123") == [(10,0)])
-        self.assertFalse(db.get_markers_from_userid_and_ip("66", "77") == [(10,0)])
+        #TODO: check multipte values in list?
+        self.assertIn((0,0), db.get_markers_from_userid_and_ip("0", "123.123.123.123"))
+        self.assertIn((1,1), db.get_markers_from_userid_and_ip("0", "123.123.123.123"))
+        self.assertIn((100,80), db.get_markers_from_userid_and_ip("1", "192.168.10.34"))
+        self.assertIn((-10,0), db.get_markers_from_userid_and_ip("2", "123.123.123.123"))
+
+        # May fail if additional points are added
+        self.assertNotIn((80,100), db.get_markers_from_userid_and_ip("1", "192.168.10.34"))
+        self.assertNotIn((10,0), db.get_markers_from_userid_and_ip("2", "123.123.123.123"))
+        self.assertNotIn((10,0), db.get_markers_from_userid_and_ip("66", "77"))
+        self.assertEqual(len(db.get_markers_from_userid_and_ip("66","77")), 0)
     
     def test_get_markers_from_dist(self):
         logging.info("Testing getting markers from distance")
@@ -181,12 +180,33 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_dist_time(self):
         logging.info("Testing getting markers from distance and time")
+        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        start = datetime.datetime.now() - datetime.timedelta(days = 1) # yesterday
+        end = datetime.datetime.now() 
+
+        # Tests between kulturens hus, Luleå and the roundabout outside, inserted within last 24 hours
+        self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 200, start, end))
+        self.assertNotIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 10, start, end))
+
+        # Tests between Aula Aurora, Luleå and Luleå train station, distance: ~4.7km, inserted within the last 24 hours
+        self.assertIn((65.6181932,22.1339231), db.get_markers_from_dist_time(65.5839882, 22.1627801, 4800, start, end))
+        self.assertNotIn((65.6181932,22.1339231), db.get_markers_from_dist_time(65.5856349, 22.1627801, 4600, start, end))
+
+        start = end - datetime.timedelta(hours = 1) # starting one hour ago
+        # Tests between kulturens hus, Luleå and the roundabout outside, inserted in the last hour
+        self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 200, start, end))
+
+
+        end = start + datetime.timedelta(minutes=15) # end 45 minutes ago
+        # Tests between kulturens hus, Luleå and the roundabout outside, inserted yesterday
+        self.assertNotIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 200, start, end))
 
     def test_save_marker(self):
         logging.info("Testing saving marker")
-        db = database.db("../testConf.json")
+        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
 
-        #testing valid input format
+        # Testing valid input format
         self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", "user_id"))
         self.assertTrue(db.save_marker("0.0", 0.0, "ip_address", "user_id"))
         self.assertTrue(db.save_marker(0.0, "0.0", "ip_address", "user_id"))
@@ -195,7 +215,7 @@ class dbTest(unittest.TestCase):
         self.assertTrue(db.save_marker(0.0, 0.0, 11, "user_id"))
         self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", 11))
 
-        #testing random values for lng and lat
+        # Testing random values for lng and lat
         self.assertTrue(db.save_marker(1, 2.2222222222, "ip_address", "user_id"))
         self.assertTrue(db.save_marker(1.1111111111, 2, "ip_address", "user_id"))
         self.assertTrue(db.save_marker(100, 1, "ip_address", "user_id"))
