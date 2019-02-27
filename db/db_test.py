@@ -7,6 +7,7 @@ import datetime
 from psycopg2.extensions import AsIs
 
 from setup import createDatabase, createDBUser, createTables, grantDBUser
+
 # WARNING: DO NOT remove or edit points (unless you really know what you are doing) as this will most likely break already implemented tests.
 # Instead just add new ones.
 points = [
@@ -169,6 +170,9 @@ class dbTest(unittest.TestCase):
     def test_get_markers_from_dist(self):
         logging.info("Testing getting markers from distance")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), which should return all points
+        self.assertEqual(len(points), len(db.get_markers_from_dist(0,0,40075000)))
 
         # Tests between kulturens hus, Luleå and the roundabout outside
         self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist(65.5856349,22.1509888, 200))
