@@ -7,20 +7,20 @@ import datetime
 from psycopg2.extensions import AsIs
 
 from setup import createDatabase, createDBUser, createTables, grantDBUser
+# WARNING: DO NOT remove or edit points (unless you really know what you are doing) as this will most likely break already implemented tests.
+# Instead just add new ones.
+points = [
+    {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
+    {"marker": (1,1), "ip_address": "123.123.123.123", "user_id": "0"},
+    {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
+    {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"},
+    {"marker": (65.58544844,22.1511663), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
+    {"marker": (65.6181932,22.1339231), "ip_address": "234.234.234.234", "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
+]
 
 class dbTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # WARNING: DO NOT remove or edit points (unless you really know what you are doing) as this will most likely break already implemented tests.
-        # Instead just add new ones.
-        points = [
-            {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
-            {"marker": (1,1), "ip_address": "123.123.123.123", "user_id": "0"},
-            {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
-            {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"},
-            {"marker": (65.58544844,22.1511663), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
-            {"marker": (65.6181932,22.1339231), "ip_address": "234.234.234.234", "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
-        ]
         try:
             logging.info("Reading configuration file test_conf.json")
             with open('testConf.json') as f:
