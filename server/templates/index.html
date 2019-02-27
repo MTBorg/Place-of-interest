@@ -7,7 +7,7 @@
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
             {{sndmap.js}}
     </head>
-    <body id="body1" onload="getLocation()"> <!--Sets the background color -->
+    <body id="body1" onload="loadPage()"> <!--Sets the background color -->
         <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
 		    <div class="row" id="row0" > <!-- The row in which the column is placed -->	
                 <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
@@ -25,7 +25,7 @@
 				<form method="post" id="date-form" action="" class="mx-auto"> 
 					<div id="mapScaler">
 						<p id="slideLabel"> Change:  </p>
-						<input type="range" class="custom-range" id="slider1"  min="1000" max="10000" step="100" onchange="changeRange()">
+						<input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
 					</div>
 					<div class="form-group  dateform"> 
                         <input type="text" class="date form-control" name="start_date" min="2019-01-01"  placeholder="Date" onfocus="(this.type='date')"> 
@@ -45,7 +45,7 @@
             
             <div class="row " id="row3"> <!-- The row in which the column is placed -->	
 				<div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
-                    <nav class="navbar navbar-expand  navbar-dark bg-dark"> <!-- Menu in the bottom of the page -->
+                    <nav class="navbar navbar-expand"> <!-- Menu in the bottom of the page -->
                         <ul class="navbar-nav">
                              <li class="nav-item">
                                 <form id="sendLatLng" method="POST" action="/">
@@ -84,8 +84,12 @@
     var form = document.getElementById("sendLatLng")
 	var newRange =  document.getElementById("slider1").value;
 	var oldRange = 5000;
-    interval = setInterval(getLocation, 30000) // Updates the position every half minute
+    interval = setInterval(getLocation, 30000); // Updates the position every half minute
 	
+	function loadPage(){
+		getLocation();
+		reCenterMap()
+	}
     function reCenterMap() {
 		map.setCenter(new google.maps.LatLng(lat.value, lng.value));
         map.setZoom(16);
@@ -98,7 +102,6 @@
       
       if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(showPosition);
-		  map.setOptions({draggable: false});
       } else {
         worked.value = "Geolocation is not supported by this browser.";
       }
@@ -128,13 +131,12 @@
 
      }
 	 
-	 function changeRange(newRange, oldRange, position){
-			window.alert("sometext");
+	 function changeRange(newRange){
+			window.alert(newRange);
 	 }
 	 
 	function toggleMode() {
 		var x = document.getElementById("toggleBut");
-		window.alert(x.value);
 		if (x.value == 1) {
 			x.innerHTML = "Free Roam Mode";
 			x.value = 0;
