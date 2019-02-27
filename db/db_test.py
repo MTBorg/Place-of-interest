@@ -121,6 +121,9 @@ class dbTest(unittest.TestCase):
         logging.info("Testing getting markers from user id")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
 
+        # Check that the function returns a list
+        self.assertIsInstance([], type(db.get_markers_from_userid("0")))
+
         self.assertIn((0.0,0.0), db.get_markers_from_userid("0"))
         self.assertIn((0,0), db.get_markers_from_userid("0"))
         self.assertIn((100, 80), db.get_markers_from_userid("1"))
@@ -138,6 +141,9 @@ class dbTest(unittest.TestCase):
     def test_get_markers_from_ip(self):
         logging.info("Testing getting markers from ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+       
+        # Check that the function returns a list
+        self.assertIsInstance([], type(db.get_markers_from_userid("123.123.123.123")))
 
         #TODO: check multipte values in list?
         self.assertIn((0,0), db.get_markers_from_ip("123.123.123.123"))
@@ -154,6 +160,9 @@ class dbTest(unittest.TestCase):
     def test_get_markers_from_userid_and_ip(self):
         logging.info("Testing getting markers from user id and ip")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+
+        # Check that the function returns a list
+        self.assertIsInstance([], type(db.get_markers_from_userid_and_ip("0", "123.123.123.123")))
 
         #TODO: check multipte values in list?
         self.assertIn((0,0), db.get_markers_from_userid_and_ip("0", "123.123.123.123"))
@@ -174,6 +183,9 @@ class dbTest(unittest.TestCase):
         # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), which should return all points
         self.assertEqual(len(points), len(db.get_markers_from_dist(0,0,40075000)))
 
+        # Check that the function returns a list
+        self.assertIsInstance([], type(db.get_markers_from_dist(0,0, 40075000)))
+
         # Tests between kulturens hus, Luleå and the roundabout outside ~= 87m
         self.assertIn((22.1509272,65.5857114), db.get_markers_from_dist(22.150144,65.5857025, 100))
         self.assertNotIn((22.1509272,65.5857114), db.get_markers_from_dist(22.150144,65.5857025, 30))
@@ -189,9 +201,11 @@ class dbTest(unittest.TestCase):
         now = datetime.datetime.now() 
         yesterday = now - datetime.timedelta(days = 1)
 
-
         # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), and between the earliest time possible to now, which should return all points
         self.assertEqual(len(points), len(db.get_markers_from_dist_time(0,0,40076000, datetime.date.min, now)))
+
+        # Check that the function returns a list
+        self.assertIsInstance([], type(db.get_markers_from_dist_time(0,0,40076000, datetime.date.min, now)))
 
         # Tests between kulturens hus, Luleå and the roundabout outside ~= 87m, inserted within last 24 hours
         self.assertIn((22.1509272,65.5857114), db.get_markers_from_dist_time(22.150144,65.5857025, 100, yesterday, now))
