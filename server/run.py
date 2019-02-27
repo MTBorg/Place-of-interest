@@ -115,6 +115,12 @@ def addMark(lat, lng):
         "infobox": "Current location",
     })
 
+def setup():
+	min_range = 1000 
+	max_range = 10000
+	step = 100
+	response = make_response(render_template('./templates/index.html', min_r = min_range , max_r = max_range ,steps = step))
+
 def renderMap():
     '''Renders the map to send to client.
 
@@ -137,7 +143,12 @@ def renderMap():
             "z-index:200;"
         ),
         zoom=14,
-        center_on_user_location=True
+        center_on_user_location=True,
+		fullscreen_control= False,
+        zoom_control = False,
+		scroll_wheel= True,
+		streetview_control= False,
+		maptype_control= False,
     )
     return sndmap
 

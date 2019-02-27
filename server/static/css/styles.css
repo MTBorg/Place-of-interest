@@ -12,46 +12,47 @@ body{
 	width: 100% !important;
 }
 
-.date-margin{
-	margin: 0 auto !important;
-	height: 100%; 
-	text-align: left;
-	width: 100% !important;
+.date-margin {
+    margin: 0 auto !important;
+    height: 100% !important;
+    text-align: left !important;
+    width: 100% !important;
 }
-#timeSeperator{
-	font-size: 25px; 
-	color: white;
-	float: left;
+#timeSeperator {
+    font-size: 25px !important;
+    color: white !important;
+    float: left !important;
 }
-#mapScaler{
-	height: 45px !important;
-	padding: 2px;
-	width: 50%;
-	clear: left;
-	float: left;
+#mapScaler {
+    height: 80%;
+    padding: 2px !important;
+    width: 50% !important;
+    clear: left !important;
+    float: left !important;
 }
-#slideLabel{
-	font-size: 25px; 
-	color: white;
-	clear: left;
-	float: left;
+#slideLabel {
+    font-size: 25px !important;
+    color: white !important;
+    clear: left !important;
+    float: left !important;
 }
-#slider1{
-	width: 50%;
-	margin-left: 20px;
-	margin-top: 18px;
+#slider1 {
+    width: 50% !important;
+    margin-left: 20px !important;
+    margin-top: 18px !important;
 }
 
 .date{ 
 	width: 20% !important;
 	float: left !important;
 }
-.dateform{
-	clear: left;
-	clear: right;
-	width: 50%;
-	padding: 2px;
-	float: right;
+.dateform {
+    height: 80%;
+    clear: left !important;
+    clear: right !important;
+    width: 50% !important;
+    padding: 2px !important;
+    float: right !important;
 }
 .time{
 	width: 20% !important;
@@ -61,11 +62,11 @@ body{
 	height: 100%;
 }
 #row0{
-	height: 5%;
+	height: 4%;
 }
 
 #row1{
-	height: 80%;
+	height: 81%;
 	margin: auto !important;
 	width: 100% !important;
 	padding: 4px;
@@ -78,7 +79,7 @@ body{
 	height: 100%;
 }
 #row3{
-	height: 5% !important;
+	height: 10% !important;
 }
 #row3col1{
 	height: 100%;
@@ -87,6 +88,9 @@ body{
 #navUL{
 	width: 100%; 
 	height: 100%;
+}
+.navbar{
+    height: 100% !important;
 }
 #navLI1{
 	float: left !important; 
@@ -115,29 +119,31 @@ body{
 	
 }
 .navbar{
-	height: 10%;
+	height: 100%;
+    border-radius: 4px;
 }
 .navbar-nav{
 	Width: 100%; 
 	height: 90%;
 }
-.nav-item{
-	width: 33.33% !important;
-	height: 100% !important;
+.nav-item {
+    width: 33.2% !important;
+    height: 100% !important;
 }
 
-.but-graphics{
-	height: 100% !important; 
-	font-size:  2em !important;  
-	background-color: grey !important; 
-	border: 1px solid black !important;
-	transition: width 2s; 
+.but-graphics {
+    height: 100% !important;
+    font-size: 2rem !important;
+    background-color: grey !important;
+    border: 1px solid black !important;
+    transition: width 2s;
 }
 .but-graphics:hover {
-	cursor: pointer !important;
-	border: 1px solid white !important;
+    cursor: pointer !important;
+    border: 1px solid white !important;
 }
 .but-graphics-search{
+    margin-left: 2px;
 	color: white;
 	background-color: grey !important; 
 	border: 1px solid black !important;
