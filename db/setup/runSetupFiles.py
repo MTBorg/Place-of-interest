@@ -16,40 +16,40 @@ def __run_setup_files(filedata):
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
 
-    rw_connection = filedata["connection"]        # Basic setup connection.
-    rw_poi_user = filedata["poi_user"]                       # User for read write access.
-    rw_poi_db = filedata["poi_db"]
-    rw_superuser = filedata["superuser"]
-    rw_default_db = filedata["default_db"]
+    connection = filedata["connection"]     # Basic setup connection.
+    poi_user = filedata["poi_user"]         # User for read write access.
+    poi_db = filedata["poi_db"]
+    superuser = filedata["superuser"]
+    default_db = filedata["default_db"]
     try:
-        createDBUser.create_dbuser(rw_default_db["name"],
-                                        rw_superuser["name"],
-                                        rw_superuser["password"],
-                                        rw_connection["host"],
-                                        rw_connection["port"],
-                                        rw_poi_user["name"],
-                                        rw_poi_user["password"])
+        createDBUser.create_dbuser(default_db["name"],
+                                        superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_user["name"],
+                                        poi_user["password"])
         
-        createDatabase.create_database(rw_default_db["name"],
-                                        rw_superuser["name"],
-                                        rw_superuser["password"],
-                                        rw_connection["host"],
-                                        rw_connection["port"],
-                                        rw_poi_db["name"],
-                                        rw_poi_user["name"])
+        createDatabase.create_database(default_db["name"],
+                                        superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_db["name"],
+                                        poi_user["name"])
         
-        createTables.create_tables(rw_superuser["name"],
-                                        rw_superuser["password"],
-                                        rw_connection["host"],
-                                        rw_connection["port"],
-                                         rw_poi_db["name"])
+        createTables.create_tables(superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_db["name"])
 
-        grantDBUser.grant_dbuser(rw_superuser["name"],
-                                        rw_superuser["password"],
-                                        rw_connection["host"],
-                                        rw_connection["port"],
-                                        rw_poi_db["name"],
-                                        rw_poi_user["name"])
+        grantDBUser.grant_dbuser(superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_db["name"],
+                                        poi_user["name"])
         
     except Exception as e:
         print("Exception while running setup scripts:", e)
