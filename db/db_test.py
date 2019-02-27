@@ -15,8 +15,8 @@ points = [
     {"marker": (1,1), "ip_address": "123.123.123.123", "user_id": "0"},
     {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
     {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"},
-    {"marker": (65.58544844,22.1511663), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
-    {"marker": (65.6181932,22.1339231), "ip_address": "234.234.234.234", "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
+    {"marker": (22.1509272,65.5857114), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
+    {"marker": (22.1339231,65.6181932), "ip_address": "234.234.234.234", "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
 ]
 
 class dbTest(unittest.TestCase):
@@ -174,37 +174,39 @@ class dbTest(unittest.TestCase):
         # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), which should return all points
         self.assertEqual(len(points), len(db.get_markers_from_dist(0,0,40075000)))
 
-        # Tests between kulturens hus, Luleå and the roundabout outside
-        self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist(65.5856349,22.1509888, 200))
-        self.assertNotIn((65.58544844,22.1511663), db.get_markers_from_dist(65.5856349,22.1509888, 10))
+        # Tests between kulturens hus, Luleå and the roundabout outside ~= 87m
+        self.assertIn((22.1509272,65.5857114), db.get_markers_from_dist(22.150144,65.5857025, 100))
+        self.assertNotIn((22.1509272,65.5857114), db.get_markers_from_dist(22.150144,65.5857025, 30))
 
-        # Tests between Aula Aurora, Luleå and Luleå train station, distance: ~4.7km
-        self.assertIn((65.6181932,22.1339231), db.get_markers_from_dist(65.5839882,22.1627801, 4800)) # NOTE: Maybe give some more margin for error
-        self.assertNotIn((65.6181932,22.1339231), db.get_markers_from_dist(65.5856349,22.1627801, 4600))
+        # Tests between Aula Aurora, Luleå and Luleå train station, distance: ~4.06km
+        self.assertIn((22.1339231,65.6181932), db.get_markers_from_dist(22.1627801,65.5839882, 4100))
+        self.assertNotIn((22.1339231,65.6181932), db.get_markers_from_dist(22.1627801,65.5839882, 4000))
 
     def test_get_markers_from_dist_time(self):
         logging.info("Testing getting markers from distance and time")
         db = database.db("../testConf.json") # NOTE: The path is relative to the db file
 
-        start = datetime.datetime.now() - datetime.timedelta(days = 1) # yesterday
-        end = datetime.datetime.now() 
-
-        # Tests between kulturens hus, Luleå and the roundabout outside, inserted within last 24 hours
-        self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 200, start, end))
-        self.assertNotIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 10, start, end))
-
-        # Tests between Aula Aurora, Luleå and Luleå train station, distance: ~4.7km, inserted within the last 24 hours
-        self.assertIn((65.6181932,22.1339231), db.get_markers_from_dist_time(65.5839882, 22.1627801, 4800, start, end))
-        self.assertNotIn((65.6181932,22.1339231), db.get_markers_from_dist_time(65.5856349, 22.1627801, 4600, start, end))
-
-        start = end - datetime.timedelta(hours = 1) # starting one hour ago
-        # Tests between kulturens hus, Luleå and the roundabout outside, inserted in the last hour
-        self.assertIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 200, start, end))
+        now = datetime.datetime.now() 
+        yesterday = now - datetime.timedelta(days = 1)
 
 
-        end = start + datetime.timedelta(minutes=15) # end 45 minutes ago
+        # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), and between the earliest time possible to now, which should return all points
+        self.assertEqual(len(points), len(db.get_markers_from_dist_time(0,0,40076000, datetime.date.min, now)))
+
+        # Tests between kulturens hus, Luleå and the roundabout outside ~= 87m, inserted within last 24 hours
+        self.assertIn((22.1509272,65.5857114), db.get_markers_from_dist_time(22.150144,65.5857025, 100, yesterday, now))
+        self.assertNotIn((22.1509272,65.5857114), db.get_markers_from_dist_time(22.150144,65.5857025, 30, yesterday, now))
+
+        # Tests between Aula Aurora, Luleå and Luleå train station, distance: ~4.06km, inserted within the last 24 hours
+        self.assertIn((22.1339231,65.6181932), db.get_markers_from_dist_time(22.1627801,65.5839882, 4100, yesterday, now))
+        self.assertNotIn((22.1339231,65.6181932), db.get_markers_from_dist_time(22.1627801,65.5839882, 4000, yesterday, now))
+
+        # Tests between kulturens hus, Luleå and the roundabout outside ~= 87m, inserted in the last hour
+        lasthour = now - datetime.timedelta(hours = 1)
+        self.assertIn((22.1509272,65.5857114), db.get_markers_from_dist_time(22.150144,65.5857025, 100, lasthour, now))
+
         # Tests between kulturens hus, Luleå and the roundabout outside, inserted yesterday
-        self.assertNotIn((65.58544844,22.1511663), db.get_markers_from_dist_time(65.5856349,22.1509888, 200, start, end))
+        self.assertNotIn((22.1511663,65.58544844), db.get_markers_from_dist_time(22.1509888,65.5856349, 100, yesterday - datetime.timedelta(days=1), yesterday))
 
     def test_save_marker(self):
         logging.info("Testing saving marker")
@@ -236,7 +238,6 @@ class dbTest(unittest.TestCase):
             db.save_marker("test", 1, "", "")
             db.save_marker(1, "test", "", "")
             db.save_marker("test", "test", "", "")
-
 
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
