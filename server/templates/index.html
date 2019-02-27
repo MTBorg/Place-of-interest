@@ -24,8 +24,8 @@
                 <div class="col-sm-12 col-lg-12 date-margin mx-auto ">
 				<form method="post" id="date-form" action="" class="mx-auto"> 
 					<div id="mapScaler">
-						<p id="slideLabel"> Change range:  </p>
-						<input type="range" class="custom-range" id="slider1"  min="1000" max="10000" step="100">
+						<p id="slideLabel"> Change:  </p>
+						<input type="range" class="custom-range" id="slider1"  min="1000" max="10000" step="100" onchange="changeRange()">
 					</div>
 					<div class="form-group  dateform"> 
                         <input type="text" class="date form-control" name="start_date" min="2019-01-01"  placeholder="Date" onfocus="(this.type='date')"> 
@@ -57,8 +57,8 @@
                                 </form>
                              </li> 
                             <li class="nav-item mx-auto">  <!-- Just none-functions buttons for display-->
-                                <button class="btn btn-primary btn-lg btn-block but-graphics" onclick="reCenterMap()">
-                                    Current location
+                                <button class="btn btn-primary btn-lg btn-block but-graphics" id="toggleBut" onclick="toggleMode()" value="1">
+									Locked Mode
                                 </button> 
                             </li>
                             <li class="nav-item nav-right-item"> 
@@ -82,17 +82,23 @@
     var lat = document.getElementById("latInput")
     var lng = document.getElementById("lngInput")
     var form = document.getElementById("sendLatLng")
+	var newRange =  document.getElementById("slider1").value;
+	var oldRange = 5000;
     interval = setInterval(getLocation, 30000) // Updates the position every half minute
+	
     function reCenterMap() {
-        map.setCenter(new google.maps.LatLng(lat.value, lng.value));
+		map.setCenter(new google.maps.LatLng(lat.value, lng.value));
         map.setZoom(16);
- 
+		map.setOptions(
+			{draggable: false}
+		);
     }
 
     function getLocation() {
       
       if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(showPosition);
+		  map.setOptions({draggable: false});
       } else {
         worked.value = "Geolocation is not supported by this browser.";
       }
@@ -121,6 +127,24 @@
         }
 
      }
+	 
+	 function changeRange(newRange, oldRange, position){
+			window.alert("sometext");
+	 }
+	 
+	function toggleMode() {
+		var x = document.getElementById("toggleBut");
+		window.alert(x.value);
+		if (x.value == 1) {
+			x.innerHTML = "Free Roam Mode";
+			x.value = 0;
+			map.setOptions({draggable: true});
+		} else {
+			x.innerHTML = "Locked Mode";
+			x.value = 1;
+			reCenterMap();
+		}
+	} 
 
 
 </script>
