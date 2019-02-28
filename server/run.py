@@ -31,7 +31,6 @@ GoogleMaps(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
-    print(request.headers)
     #TODO These need to be taken from the location that the person is at
     flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000000000)
     #append the marks to marks list so we can render them into the map.
@@ -73,7 +72,6 @@ def addMark(lat, lng):
     ----------
     lat - latitude
     lng - longitude
-
     Returns
     -------
     A list containing all markers within the given circle 
