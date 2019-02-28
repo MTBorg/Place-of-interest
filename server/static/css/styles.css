@@ -25,29 +25,38 @@ body{
 }
 #mapScaler {
     height: 80%;
-    padding: 2px !important;
     width: 40% !important;
     clear: left !important;
     float: left !important;
 }
 #slideLabel {
+	
+	height: 100%;
     font-size: 1.5rem !important;
     color: white !important;
     clear: left !important;
     float: left !important;
 }
 #slider1 {
+	background-color:	gainsboro;
+	border-radius: 6px !important;
+	height: 50%;
     width: 60% !important;
     margin-left: 20px !important;
-    margin-top: 18px !important;
+    margin-top: 10px !important;
+	margin-bottom: 10px !important;
 }
 
 .date{ 
+	height: 100% !important;
 	width: 17% !important;
 	float: left !important;
 }
+.date-form{
+	 height: 100% !important;
+}
 .dateform {
-    height: 80%;
+    height: 100%;
     clear: left !important;
     clear: right !important;
     width: 60% !important;
@@ -55,6 +64,7 @@ body{
     float: right !important;
 }
 .time{
+	height: 100% !important;
 	width: 14% !important;
 	float: left !important;
 }
@@ -66,13 +76,13 @@ body{
 }
 
 #row1{
-	height: 80%;
+	height: 75%;
 	margin: auto !important;
 	width: 100% !important;
 	padding: 4px;
 }
 #row2{
-	height: 5% !important;
+	height: 10% !important;
 	
 }
 #row2col1{
@@ -144,6 +154,7 @@ body{
     border: 1px solid white !important;
 }
 .but-graphics-search{
+	height:  100%;
 	float: left;
 	color: white;
 	background-color: grey !important; 
@@ -153,6 +164,7 @@ body{
 	
 }
 #searchSelect{
+	height:  100%;
 	margin-left:4px;
 	float: left;
 	width: 22%; 
