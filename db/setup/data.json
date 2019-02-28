@@ -8,11 +8,6 @@
 		"owner": "poi_admin"
 	},
 
-	"poi_db": {
-		"name": "placeofinterest",
-		"owner": "poi_admin"
-	},
-
 	"connection" :	{
 		"host" : "localhost",
 		"port" : "5432"
@@ -20,7 +15,7 @@
 
 	"superuser" : {
 		"name": "postgres",
-		"password": "123"	
+		"password": "test"	
     },
 
 	"default_db" : {
