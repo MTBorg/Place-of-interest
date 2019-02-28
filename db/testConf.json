@@ -16,7 +16,7 @@
 
 	"superuser" : {
 		"name" : "postgres",
-		"password" : "test"
+		"password" : "123"
 	},
 
     "default_db" : {
