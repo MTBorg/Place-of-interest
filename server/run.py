@@ -115,6 +115,13 @@ def addMark(lat, lng):
         "infobox": "Current location",
     })
 
+def setup():
+	min_range = 1000
+	max_range = 10000
+	step = 100
+	return max_range, min_range
+
+
 def renderMap():
     '''Renders the map to send to client.
 
@@ -130,6 +137,7 @@ def renderMap():
         style=(
             "height:100%;"
             "width:100%;"
+			"border-radius: 4px;"
             "top:0;"
             "left:0;"
             "position: absolute;"
