@@ -20,7 +20,7 @@ class Controller:
 
     def __init__(self):
         #create database connection instance to use for db calls.
-        self.db = database.db()
+        self.db = database.db("data.json")
         self.DEFAULT_RADIUS = 1000
 
     def getMarkersAroundLocation(self, lat, lng, radius):

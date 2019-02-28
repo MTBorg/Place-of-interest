@@ -7,11 +7,11 @@ import json
 
 class db:
 
-    def __init__(self):
+    def __init__(self, file_config):
         '''Setup a database object based on json-file
         '''
         try:
-            filename = 'data.json'
+            filename = file_config
             dirname = os.path.dirname(__file__)
             filepath = ""
             if(dirname == ""): #If the script is run from the same folder a '/' should not be prepended
@@ -22,14 +22,17 @@ class db:
             #Load file
             with open(filepath) as f:
                 filedata = json.load(f)
-                db_data = filedata["connection"]
-                user_data = filedata["user"]
+
+                connection = filedata["connection"]
+                poi_user = filedata["poi_user"]
+                poi_db = filedata["poi_db"]
+                su = filedata["superuser"]
     
-                self.dbname = db_data["dbname"]
-                self.hostname = db_data["host"]
-                self.portnr = db_data["port"]
-                self.username = user_data["username"]
-                self.password = user_data["password"]
+                self.db_name = poi_db["name"]
+                self.host = connection["host"]
+                self.port = connection["port"]
+                self.user_name = poi_user["name"]
+                self.user_pw = poi_user["password"] 
         except Exception as e:
             print("Exception loading json file " + filename + ": " + e)
 
@@ -41,7 +44,12 @@ class db:
         Connection to database if no exception
         '''
         try:
-            connection = psycopg2.connect(dbname=self.dbname, host=self.hostname, port=self.portnr, user=self.username, password=self.password)
+            connection = psycopg2.connect(
+                dbname = self.db_name,
+                host = self.host,
+                port = self.port,
+                user = self.user_name,
+                password = self.user_pw)
             connection.autocommit=True
             return connection
         except Exception as e:
@@ -85,7 +93,6 @@ class db:
         cursor = connection.cursor()
 
         query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE ip_address = %s;"
-        print(ip_address)
         cursor.execute(query, (ip_address,))
         result = cursor.fetchall()
         cursor.close()
@@ -207,8 +214,6 @@ class db:
         else:
             result = False;
 
-        print(user_id)
-        print("we should have saved it now")
         cursor.close()
         connection.close()
         return result
