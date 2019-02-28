@@ -25,84 +25,67 @@ class dbTest(unittest.TestCase):
             logging.info("Reading configuration file test_conf.json")
             with open('testConf.json') as f:
                 conf = json.load(f)
-                test_user = conf["poi_user"]
-                test_db = conf["poi_db"]
-                superuser = conf["superuser"]
-                connection = conf["connection"]
+                cls.test_user = conf["poi_user"]
+                cls.test_db = conf["poi_db"]
+                cls.superuser = conf["superuser"]
+                cls.connection = conf["connection"]
 
                 # Connect to the default database
                 db_connection = psycopg2.connect(
                     dbname = "postgres",
-                    user = superuser["name"],
-                    password = superuser["password"],
-                    host = connection["host"],
-                    port = connection["port"]
+                    user = cls.superuser["name"],
+                    password = cls.superuser["password"],
+                    host = cls.connection["host"],
+                    port = cls.connection["port"]
                 )
                 db_connection.autocommit = True
-                db_cursor = db_connection.cursor()
+                cls.db_cursor = db_connection.cursor()
 
-                # Drop the database
-                logging.info("Dropping database %s in preparation for test", test_db["name"])
-                try:
-                    db_cursor.execute("DROP DATABASE %s;", (AsIs(test_db["name"]),))
-                except psycopg2.Error as e:
-                    if (e.pgcode == '3D000'): # invalid_catalog_name error code
-                        logging.info("Could not find database %s, continuing...", test_db["name"])
-                    else:
-                        raise
-                
-                # Drop the user
-                logging.info("Dropping user %s in preparation for test", test_user["name"])
-                try:    
-                    db_cursor.execute("DROP ROLE %s;", (AsIs(test_user["name"]),))
-                except psycopg2.ProgrammingError as e:
-                    if (e.pgcode == '42704'): # undefined_object error code
-                        logging.info("Could not find user %s, continuing...", test_user["name"])
-                    else:
-                        raise
+                cls.drop_table()
+                cls.drop_user()
 
                 #Create database user
-                logging.info("Setting up test user %s", test_user["name"])
+                logging.info("Setting up test user %s", cls.test_user["name"])
                 createDBUser.create_dbuser(
-                    host_name = connection["host"],
-                    host_port = connection["port"],
-                    psql_pass = superuser["password"],
-                    dbuser_name = test_user["name"],
-                    dbuser_pass = test_user["password"]
+                    host_name = cls.connection["host"],
+                    host_port = cls.connection["port"],
+                    psql_pass = cls.superuser["password"],
+                    dbuser_name = cls.test_user["name"],
+                    dbuser_pass = cls.test_user["password"]
                 )
 
                 #Create database
-                logging.info("Setting up test database %s", test_db["name"])
+                logging.info("Setting up test database %s", cls.test_db["name"])
                 createDatabase.create_database(
-                    host_name=connection["host"],
-                    host_port=connection["port"],
-                    psql_pass=superuser["password"],
-                    db_name = test_db["name"],
-                    db_owner = superuser["name"]
+                    host_name = cls.connection["host"],
+                    host_port = cls.connection["port"],
+                    psql_pass = cls.superuser["password"],
+                    db_name = cls.test_db["name"],
+                    db_owner = cls.superuser["name"]
                 )
 
                 #Create tables
                 logging.info("Setting up tables")
                 createTables.create_tables(
-                    dbname = test_db["name"],
-                    username = superuser["name"],
-                    hostname = connection["host"],
-                    password = superuser["password"],
-                    portnr = connection["port"]
+                    dbname = cls.test_db["name"],
+                    username = cls.superuser["name"],
+                    hostname = cls.connection["host"],
+                    password = cls.superuser["password"],
+                    portnr = cls.connection["port"]
                 )
 
                 # Give the database user grants
-                logging.info("Giving user %s grants", test_user["name"])
+                logging.info("Giving user %s grants", cls.test_user["name"])
                 grantDBUser.grant_dbuser(
-                    db_name = test_db["name"],
-                    dbuser_name = test_user["name"],
-                    host_name = connection["host"],
-                    host_port = connection["port"],
-                    psql_pass = superuser["password"]
+                    db_name = cls.test_db["name"],
+                    dbuser_name = cls.test_user["name"],
+                    host_name = cls.connection["host"],
+                    host_port = cls.connection["port"],
+                    psql_pass = cls.superuser["password"]
                 )
 
                 #Insert test points
-                logging.info("Connecting to database %s to insert points", test_db["name"])
+                logging.info("Connecting to database %s to insert points", cls.test_db["name"])
                 db = database.db("../testConf.json") # NOTE: The path is relative to the db file
                 logging.info("Inserting %s points", len(points))
                 for point in points:
@@ -112,9 +95,41 @@ class dbTest(unittest.TestCase):
                         ip_address = point["ip_address"],
                         user_id = point["user_id"]
                     )
-                logging.info("Test database %s was successfully setup", test_db["name"])
+                logging.info("Test database %s was successfully setup", cls.test_db["name"])
         except:
             logging.exception("Unknown exception")
+
+
+    @classmethod
+    def drop_table(cls):
+        # Drop the database
+        logging.info("Dropping database %s after all tests", cls.test_db["name"])
+        try:
+            cls.db_cursor.execute("DROP DATABASE %s;", (AsIs(cls.test_db["name"]),))
+        except psycopg2.Error as e:
+            if (e.pgcode == '3D000'): # invalid_catalog_name error code
+                logging.info("Could not find database %s, continuing...", cls.test_db["name"])
+            else:
+                raise
+
+
+    @classmethod
+    def drop_user(cls):
+        # Drop the user
+        logging.info("Dropping user %s in after all tests", cls.test_user["name"])
+        try:    
+            cls.db_cursor.execute("DROP ROLE %s;", (AsIs(cls.test_user["name"]),))
+        except psycopg2.ProgrammingError as e:
+            if (e.pgcode == '42704'): # undefined_object error code
+                logging.info("Could not find user %s, continuing...", cls.test_user["name"])
+            else:
+                raise
+
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.drop_table()
+        cls.drop_user()
 
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
