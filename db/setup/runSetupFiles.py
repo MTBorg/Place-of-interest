@@ -31,40 +31,46 @@ def __run_setup_files(filedata):
     filedata: Is a dictionary with all the json data containing the keys connect and users
     """
     logging.info("Running setup scripts")
-    connection = filedata["connection"]
-    user = filedata["poi_user"] #The user to create
-    db = filedata["poi_db"] # The database to create
-    su = filedata["superuser"] # The superuser
 
-    #Run the setup scripts
-    createDBUser.create_dbuser(
-        connection["host"],
-        connection["port"], 
-        su["password"],
-        user["name"],
-        user["password"])
+    connection = filedata["connection"]     # Basic setup connection.
+    poi_user = filedata["poi_user"]         # User for read write access.
+    poi_db = filedata["poi_db"]
+    superuser = filedata["superuser"]
+    default_db = filedata["default_db"]
+    try:
+        createDBUser.create_dbuser(default_db["name"],
+                                        superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_user["name"],
+                                        poi_user["password"])
         
-    createDatabase.create_database(
-        connection["host"], 
-        connection["port"],
-        su["password"], 
-        db["name"],
-        user["name"])
+        createDatabase.create_database(default_db["name"],
+                                        superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_db["name"],
+                                        poi_user["name"])
         
-    createTables.create_tables(
-        db["name"],
-        user["name"], 
-        connection["host"],
-        su["password"],
-        connection["port"])
+        createTables.create_tables(superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_db["name"])
 
-    grantDBUser.grant_dbuser(
-        db["name"],
-        user["name"],
-        connection["host"],
-        connection["port"],
-        su["password"])
-    logging.info("Successfully ran setup scripts")
+        grantDBUser.grant_dbuser(superuser["name"],
+                                        superuser["password"],
+                                        connection["host"],
+                                        connection["port"],
+                                        poi_db["name"],
+                                        poi_user["name"])
+        
+        logging.info("Successfully ran setup scripts")
+
+    except Exception as e:
+        print("Exception while running setup scripts:", e)
 
 
 def __load_json_file(filename):

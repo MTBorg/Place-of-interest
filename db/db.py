@@ -22,6 +22,7 @@ class db:
             #Load file
             with open(filepath) as f:
                 filedata = json.load(f)
+
                 connection = filedata["connection"]
                 poi_user = filedata["poi_user"]
                 poi_db = filedata["poi_db"]

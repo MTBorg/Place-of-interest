@@ -1,23 +1,24 @@
 import psycopg2
 import logging
 
-def create_tables(dbname, username, hostname, password, portnr):
+def create_tables(poi_user_name, poi_user_password, db_host, db_port, poi_db_name,):
     """Create tables in database
 
     This script creates one table in the database for storing markers.
 
     Parameters
     ----------
-    dbname: Name of the database to connect to
-    username: Name of the PostgreSQL user for the database
-    hostname: Name/address of database host
-    password: Password of the default PostgreSQL user (postgres)
-    portnr: Port of the host that the database listens to
+    poi_user_name: Name of the PostgreSQL user for the database.
+    poi_user_password: poi_user_Password of the default PostgreSQL user (postgres).
+    db_host: Name/address of database host.
+    db_port: Port of the host that the database listens to.
+    poi_db_name: Name of the database to connect to
     """
     try:
         #Connect to database
-        logging.info("Connecting to database %s as user %s on host %s port %s", dbname, username, hostname, portnr)
-        connection = psycopg2.connect(dbname=dbname, user=username, host=hostname, password=password, port=portnr)
+        logging.info("Connecting to database %s as user %s on host %s port %s", poi_db_name, poi_user_name, db_host, db_port)
+        connection = psycopg2.connect(dbname=poi_db_name, user=poi_user_name, host=db_host, password=poi_user_password, port=db_port)
+
         connection.autocommit=True
         cursor = connection.cursor()
         
