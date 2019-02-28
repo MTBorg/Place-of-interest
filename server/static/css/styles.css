@@ -26,47 +26,47 @@ body{
 #mapScaler {
     height: 80%;
     padding: 2px !important;
-    width: 50% !important;
+    width: 40% !important;
     clear: left !important;
     float: left !important;
 }
 #slideLabel {
-    font-size: 25px !important;
+    font-size: 1.5rem !important;
     color: white !important;
     clear: left !important;
     float: left !important;
 }
 #slider1 {
-    width: 50% !important;
+    width: 60% !important;
     margin-left: 20px !important;
     margin-top: 18px !important;
 }
 
 .date{ 
-	width: 20% !important;
+	width: 17% !important;
 	float: left !important;
 }
 .dateform {
     height: 80%;
     clear: left !important;
     clear: right !important;
-    width: 50% !important;
+    width: 60% !important;
     padding: 2px !important;
     float: right !important;
 }
 .time{
-	width: 20% !important;
+	width: 14% !important;
 	float: left !important;
 }
 #Cont{
 	height: 100%;
 }
 #row0{
-	height: 4%;
+	height: 5%;
 }
 
 #row1{
-	height: 81%;
+	height: 80%;
 	margin: auto !important;
 	width: 100% !important;
 	padding: 4px;
@@ -134,7 +134,7 @@ body{
 
 .but-graphics {
     height: 100% !important;
-    font-size: 2rem !important;
+    font-size: 1rem !important;
     background-color: grey !important;
     border: 1px solid black !important;
     transition: width 2s;
@@ -144,13 +144,18 @@ body{
     border: 1px solid white !important;
 }
 .but-graphics-search{
-    margin-left: 2px;
+	float: left;
 	color: white;
 	background-color: grey !important; 
 	border: 1px solid black !important;
 	border-radius: 2px;
 	border-style: outline !Important; 
 	
+}
+#searchSelect{
+	margin-left:4px;
+	float: left;
+	width: 22%; 
 }
 .but-graphics-search:hover {
 	cursor: pointer !important;

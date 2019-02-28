@@ -24,16 +24,21 @@
                 <div class="col-sm-12 col-lg-12 date-margin mx-auto ">
 				<form method="post" id="date-form" action="" class="mx-auto"> 
 					<div id="mapScaler">
-						<p id="slideLabel"> Change:  </p>
+						<p id="slideLabel"> Range:  </p>
 						<input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
 					</div>
 					<div class="form-group  dateform"> 
                         <input type="text" class="date form-control" name="start_date" min="2019-01-01"  placeholder="Date" onfocus="(this.type='date')"> 
 						<input type="text" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time" placeholder="Time" onfocus="(this.type='time')"> 
-						<p id="timeSeperator"> -- </P>
+						<p id="timeSeperator"> - </P>
                         <input type="text" class="date form-control" name="end_date" min="2019-01-01"  placeholder="Date" onfocus="(this.type='date')">
 						<input type="text" class="time form-control" name="end_time" min="00:00" max="23:59"  placeholder="Time" onfocus="(this.type='time')">
-						
+						<select class="form-control" id="searchSelect">
+							<option disabled selected="selected">Search on</option>
+							<option value="Time"> Time only </option>
+							<option value="Area"> Area only</option>
+							<option value="Time_Area"> Time and Area </option>
+						</select>
                         <input id="latInput" name="lat" type="hidden">
                         <input id="lngInput" name="lng" type="hidden">
                         <input class="but-graphics-search btn" type="submit" name="submit" value="Search">
@@ -115,7 +120,7 @@
             Marker = new google.maps.Marker({
                 position: new google.maps.LatLng(lat.value, lng.value),
                 map: map,
-                icon: "http://maps.google.com/mapfiles/arrow.png",
+                icon: "http://maps.google.com/mapfiles/dir_0.png",
                 title: "Updated location",
             });
         }
