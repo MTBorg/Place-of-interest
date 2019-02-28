@@ -30,10 +30,11 @@ class dbTest(unittest.TestCase):
                 cls.test_db = conf["poi_db"]
                 cls.superuser = conf["superuser"]
                 cls.connection = conf["connection"]
+                cls.default_db = conf["default_db"]
 
                 # Connect to the default database
                 db_connection = psycopg2.connect(
-                    dbname = "postgres",
+                    dbname = cls.default_db["name"],
                     user = cls.superuser["name"],
                     password = cls.superuser["password"],
                     host = cls.connection["host"],
@@ -48,41 +49,46 @@ class dbTest(unittest.TestCase):
                 #Create database user
                 logging.info("Setting up test user %s", cls.test_user["name"])
                 createDBUser.create_dbuser(
-                    host_name = cls.connection["host"],
-                    host_port = cls.connection["port"],
-                    psql_pass = cls.superuser["password"],
-                    dbuser_name = cls.test_user["name"],
-                    dbuser_pass = cls.test_user["password"]
+                    db_host = cls.connection["host"],
+                    db_port = cls.connection["port"],
+                    superuser_password = cls.superuser["password"],
+                    superuser_name = cls.superuser["name"],
+                    poi_user_name = cls.test_user["name"],
+                    poi_user_password = cls.test_user["password"],
+                    default_db_name = cls.default_db["name"]
                 )
 
                 #Create database
                 logging.info("Setting up test database %s", cls.test_db["name"])
                 createDatabase.create_database(
-                    host_name = cls.connection["host"],
-                    host_port = cls.connection["port"],
-                    psql_pass = cls.superuser["password"],
-                    db_name = cls.test_db["name"],
-                    db_owner = cls.superuser["name"]
+                    db_host = cls.connection["host"],
+                    db_port = cls.connection["port"],
+                    superuser_password = cls.superuser["password"],
+                    superuser_name = cls.superuser["name"],
+                    poi_db_name = cls.test_db["name"],
+                    db_owner = cls.superuser["name"],
+                    default_db_name = cls.default_db["name"]
                 )
 
                 #Create tables
                 logging.info("Setting up tables")
                 createTables.create_tables(
-                    dbname = cls.test_db["name"],
-                    username = cls.superuser["name"],
-                    hostname = cls.connection["host"],
-                    password = cls.superuser["password"],
-                    portnr = cls.connection["port"]
+                    poi_db_name = cls.test_db["name"],
+                    poi_user_name = cls.superuser["name"],
+                    db_host = cls.connection["host"],
+                    db_port = cls.connection["port"],
+                    poi_user_password = cls.superuser["password"]
                 )
 
                 # Give the database user grants
                 logging.info("Giving user %s grants", cls.test_user["name"])
                 grantDBUser.grant_dbuser(
-                    db_name = cls.test_db["name"],
-                    dbuser_name = cls.test_user["name"],
-                    host_name = cls.connection["host"],
-                    host_port = cls.connection["port"],
-                    psql_pass = cls.superuser["password"]
+                    poi_db_name = cls.test_db["name"],
+                    poi_user_name = cls.test_user["name"],
+                    db_host = cls.connection["host"],
+                    db_port = cls.connection["port"],
+                    superuser_name = cls.superuser["name"],
+                    superuser_password = cls.superuser["password"]
                 )
 
                 #Insert test points
