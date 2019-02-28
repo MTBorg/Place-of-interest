@@ -11,8 +11,6 @@ class Sanitizer(object):
         self.__SECRET_STR = b"123"
         self. __TIME_BETWEEN_POSTS
         self.controller = controller.Controller()
-        pass
-
 
     def process_request(self):
         """
@@ -25,19 +23,14 @@ class Sanitizer(object):
         Otherwise we return a we get a cookie with a hash that is returnes to be sent in the responce.
 
         """
-
         if("hash" in request.cookies and self.checkHashCookie(request.cookies.get("hash"))):
             if(self.checkTimeCookie(request.cookies.get("time"))):
-
                 self.controller.saveMarker(request.form["lng"], request.form["lat"], request.remote_addr, request.cookies.get("hash"))
                 return 0
             else:
-
                 return 1
         else:
             return self.getHashCookie(request.remote_addr, request.form["lng"], request.form["lat"])
-
-
 
     def getHashCookie(self,ip, lng, lat):
         '''Retrieves a hash for the cookie to be stored client-side.
@@ -47,13 +40,8 @@ class Sanitizer(object):
         A hash for client-side cookie.
         '''
         cookieHash = bcrypt.hashpw(self.__SECRET_STR, bcrypt.gensalt())
-
         self.controller.saveMarker(lng, lat, ip, cookieHash)
-
         return cookieHash
-
-
-
 
     def checkHashCookie(self, cookieHash):
         '''Checks the clients hash against the secret string
@@ -88,8 +76,6 @@ class Sanitizer(object):
             return True
         else:
             return False
-
-
 
     def get_markers_by_radius(self,lat, lng, radius):
         return self.controller.getMarkersAroundLocation(lat, lng, radius)

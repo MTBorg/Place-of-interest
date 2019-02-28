@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
 
-#sanitizi
+#sanitizer
 sanitizer = sanitize.Sanitizer()
 
 #What icon to show on map (flagged location & current location of user).
@@ -31,70 +31,39 @@ GoogleMaps(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
-    #lng & lat for positions to show.
-    #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
-
-
-
-
     #TODO These need to be taken from the location that the person is at
     flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000000000)
-
-
     #append the marks to marks list so we can render them into the map.
     for i in range(len(flaggedLocations)):
         marks.append({
             "icon": flaggedLocationsIcon,
             "lat": flaggedLocations[i][1],
             "lng": flaggedLocations[i][0]
-            #"infobox": flaggedLocations[i][2],
         })
 
-
-
-
-    #If there's a POST to the site. SMÄLL IN I SANITIZE ISTÄLLET OBS OBS OBS ***************
     if request.method == "POST":
-
-
-
         cookiedata = sanitizer.process_request()
-
         if (cookiedata == 0) :
-            #print("When there is a cookie and time")
             addMark(request.form["lat"], request.form["lng"])
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return response
         elif (cookiedata == 1):
-            #print("When there is not time")
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             return response
         else:
-            #print("gets a new cookie")
-            #print(request.form)
             addMark(request.form["lat"], request.form["lng"])
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("hash", cookiedata, expires=datetime.datetime.now() + datetime.timedelta(days=30))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return response
-
     else:
-
         response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-
         return response
-
-
-
-
 
 def get_poistions_by_radius(lng, lat, radius):
     list = sanitizer.get_markers_by_radius(lng, lat, radius)
-    print("this is the list of places", list)
     return list
-
-
 
 def addMark(lat, lng):
     '''Retrieves all markers within a given circle from database
@@ -103,7 +72,6 @@ def addMark(lat, lng):
     ----------
     lat - latitude
     lng - longitude
-
     Returns
     -------
     A list containing all markers within the given circle 
@@ -120,7 +88,6 @@ def setup():
 	max_range = 10000
 	step = 100
 	return max_range, min_range
-
 
 def renderMap():
     '''Renders the map to send to client.
