@@ -36,8 +36,9 @@ class Controller:
         :return: The query of the database
         """
 
-        print (request.form)
-        print (cookiedata)
+        if request.args["request-specification"] == "initialFetch":
+
+            return (self.db.get_markers_from_dist(request.args["lng"], request.args["lat"], self.DEFAULT_RADIUS))
 
         if request.form["request-specification"] == "Personlocation":
 
@@ -45,9 +46,7 @@ class Controller:
 
         if request.form["request-specification"] == "Time_personlocation":
 
-
-            print("do we reach this?")
-            return self.getMarkersTimeSpan(65.621650, 22.117025,
+            return self.getMarkersTimeSpan(request.form["lng"], request.form["lat"],
                                            request.form["start_date"],request.form["end_date"],
                                            request.form["start_time"],request.form["end_time"],self.DEFAULT_RADIUS)
 
@@ -71,7 +70,6 @@ class Controller:
 
 
     def getMarkersTimeSpan(self,lng, lat, startDate, endDate, startTime, endTime, radius):
-        print("and how about this?")
 
         """
         This get the markers filtered by time
@@ -97,8 +95,9 @@ class Controller:
         print(startTime,endTime)
 
         try:
-
             return self.db.get_markers_from_dist_time(lng, lat, radius, startTime,endTime)
+
+
 
         except Exception as e:
             print("Database Fault due to", e)

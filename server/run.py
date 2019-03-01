@@ -39,7 +39,9 @@ def mapview():
 
 
     print("KJASHDLKJHDLKJAHSDLKJHASD")
+    print(request)
     print(request.form)
+    print(request.args)
 
     """
     #TODO These need to be taken from the location that the person is at
@@ -91,24 +93,29 @@ def mapview():
             #TODO Here we need to setup something that so we get the location on the first visit, how?
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
 
-            return response
-
-        else:
-
-            flaggedLocations = Controller.createQuery(request,cookiedata)
-            print(flaggedLocations)
-
-            for i in range(len(flaggedLocations)):
-                marks.append({
-                    "icon": flaggedLocationsIcon,
-                    "lat": flaggedLocations[i][0],
-                    "lng": flaggedLocations[i][1]
-                    #"infobox": flaggedLocations[i][2],
-                })
 
 
-            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+            if len(request.args) > 0:
 
+
+
+                flaggedLocations = Controller.createQuery(request,cookiedata)
+
+                print(flaggedLocations)
+
+                for i in range(len(flaggedLocations)):
+                    marks.append({
+                        "icon": flaggedLocationsIcon,
+                        "lat": flaggedLocations[i][1],
+                        "lng": flaggedLocations[i][0]
+                        #"infobox": flaggedLocations[i][2],
+                    })
+
+
+                response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+
+
+            print("Do we reachthi?")
             return response
 
 
