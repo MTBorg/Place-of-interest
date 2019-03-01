@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request, jsonify, make_response
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
-import os, sys, sanitize, datetime
+import os, sys, sanitize, datetime,controller
 
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
 
-#sanitizi
+#sanitizer
 sanitizer = sanitize.Sanitizer()
+
+#
+Controller = controller.Controller()
 
 #What icon to show on map (flagged location & current location of user).
 flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
@@ -32,11 +35,13 @@ GoogleMaps(app)
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
     #lng & lat for positions to show.
-    #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
+        #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
 
 
+    print("KJASHDLKJHDLKJAHSDLKJHASD")
+    print(request.form)
 
-
+    """
     #TODO These need to be taken from the location that the person is at
     flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000000000)
 
@@ -49,41 +54,66 @@ def mapview():
             "lng": flaggedLocations[i][0]
             #"infobox": flaggedLocations[i][2],
         })
+    """
+    cookiedata = sanitizer.process_request(request)
 
-
-
-
-    #If there's a POST to the site. SMÄLL IN I SANITIZE ISTÄLLET OBS OBS OBS ***************
     if request.method == "POST":
 
+        if (cookiedata == True):
+
+            Controller.createQuery(request,request.cookies.get("hash"))
 
 
-        cookiedata = sanitizer.process_request()
-
-        if (cookiedata == 0) :
-            #print("When there is a cookie and time")
             addMark(request.form["lat"], request.form["lng"])
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return response
-        elif (cookiedata == 1):
-            #print("When there is not time")
+        elif (cookiedata == False):
+
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             return response
         else:
-            #print("gets a new cookie")
-            #print(request.form)
+
+            Controller.createQuery(request,cookiedata)
+
             addMark(request.form["lat"], request.form["lng"])
             response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
             response.set_cookie("hash", cookiedata, expires=datetime.datetime.now() + datetime.timedelta(days=30))
             response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return response
 
-    else:
 
-        response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+    if request.method == "GET":
 
-        return response
+        if len(request.form)== 0:
+
+
+            #TODO Here we need to setup something that so we get the location on the first visit, how?
+            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+
+            return response
+
+        else:
+
+            flaggedLocations = Controller.createQuery(request,cookiedata)
+            print(flaggedLocations)
+
+            for i in range(len(flaggedLocations)):
+                marks.append({
+                    "icon": flaggedLocationsIcon,
+                    "lat": flaggedLocations[i][0],
+                    "lng": flaggedLocations[i][1]
+                    #"infobox": flaggedLocations[i][2],
+                })
+
+
+            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+
+            return response
+
+
+
+
 
 
 
@@ -91,7 +121,6 @@ def mapview():
 
 def get_poistions_by_radius(lng, lat, radius):
     list = sanitizer.get_markers_by_radius(lng, lat, radius)
-    print("this is the list of places", list)
     return list
 
 
@@ -142,4 +171,4 @@ def renderMap():
     return sndmap
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run( debug=True)

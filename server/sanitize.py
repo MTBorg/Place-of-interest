@@ -6,15 +6,18 @@ class Sanitizer(object):
 
     __SECRET_STR = b"123"
     __TIME_BETWEEN_POSTS = 10 #seconds
+    __STANDARD_RADIUS = 1000000000
+
 
     def  __init__(self):
         self.__SECRET_STR = b"123"
-        self. __TIME_BETWEEN_POSTS
+        self. __TIME_BETWEEN_POSTS = 10
+        self.__STANDARD_RADIUS = 10000000000
         self.controller = controller.Controller()
         pass
 
 
-    def process_request(self):
+    def process_request(self,request):
         """
         This function will take the request from the fronter-end Run.py and depending on how the
         cookie looks like give a return. Now it looks rather naked but more is to be implemented
@@ -29,8 +32,7 @@ class Sanitizer(object):
         if("hash" in request.cookies and self.checkHashCookie(request.cookies.get("hash"))):
             if(self.checkTimeCookie(request.cookies.get("time"))):
 
-                self.controller.saveMarker(request.form["lng"], request.form["lat"], request.remote_addr, request.cookies.get("hash"))
-                return 0
+                return True
             else:
 
                 return 1
@@ -48,12 +50,10 @@ class Sanitizer(object):
         '''
         cookieHash = bcrypt.hashpw(self.__SECRET_STR, bcrypt.gensalt())
 
-        self.controller.saveMarker(lng, lat, ip, cookieHash)
+
+        self.controller.saveMarker(lng,lat,ip, cookieHash)
 
         return cookieHash
-
-
-
 
     def checkHashCookie(self, cookieHash):
         '''Checks the clients hash against the secret string
