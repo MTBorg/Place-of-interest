@@ -24,13 +24,12 @@ def create_tables(poi_user_name, poi_user_password, db_host, db_port, poi_db_nam
         
         #Create the table
         logging.info("Creating table markers")
-        query = "CREATE TABLE Markers(id SERIAL PRIMARY KEY, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL, ip_address VARCHAR(255) NOT NULL)"
+        query = "CREATE TABLE Markers(id SERIAL PRIMARY KEY, marker geography(POINT, 4326), created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, user_id VARCHAR(255) NOT NULL)"
         cursor.execute(query)
     
         #Create indices
         logging.info("Creating indices for table markers")
         cursor.execute("CREATE INDEX ON markers (user_id)")
-        cursor.execute("CREATE INDEX ON markers (ip_address)")
         
         #Close connections
         logging.info("Closing connection")
