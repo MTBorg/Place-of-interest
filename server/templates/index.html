@@ -41,9 +41,9 @@
                 </div>
             </div>
             <div class="row" id="row2-1" > <!-- The row in which the column is placed -->	
-                <div class="col-lg-5 d-lg-block d-md-none date-margin  " id="mapScaler"> 
+                <div class="col-lg-6 d-lg-block d-md-none date-margin  " id="mapScaler"> 
                         <p id="error-label"> Error:  </p>
-                        <input type="text"  disabled  id="error-log">
+                        <textarea  disabled  id="error-log"> Ingen info ännu!</textarea>
                 </div>      
                 <div class="col-lg-5 col-md-7  date-margin  " id="mapScaler">
                     <p id="slideLabel"> Range:  </p>
@@ -159,9 +159,11 @@
                     icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
                 }
                 );
+                document.getElementById('error-log').value  = response;
                 console.log(response)
             },
             error: function(error) {
+                document.getElementById('error-log').value = "Wait a little longer before putting down marker.";
                 console.log(error);
             }
         });
