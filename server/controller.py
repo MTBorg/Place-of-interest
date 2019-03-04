@@ -43,9 +43,9 @@ class Controller:
                 return response
 
         if request.form["request-specification"] == "Time_personlocation":
-            return self.getMarkersTimeSpan(65.621650, 22.117025,
-                                           request.form["start_date"],request.form["end_date"],
-                                           request.form["start_time"],request.form["end_time"],self.DEFAULT_RADIUS)
+            return self.getMarkersTimeSpan(request.form["lng"], request.form["lat"], 
+                                            request.form["startDate"],request.form["endDate"],
+                                            request.form["startTime"],request.form["endTime"],self.DEFAULT_RADIUS)
         if request.form["request-specification"] == "Time_chosenlocation":
             return self.db.getMarkersAroundLocation(request.form["lng"], request.form["lat"],self.DEFAULT_RADIUS)
 

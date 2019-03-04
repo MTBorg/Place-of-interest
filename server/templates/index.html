@@ -24,19 +24,19 @@
                 
                 <div class="col-md-11 col-lg-11  date-margin  form-group dateform"> 
                     
-                    <input type="text" class="date form-control" name="start_date" min="2019-01-01"  placeholder="Start Date" onfocus="(this.type='date')"> 
-                    <input type="text" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time" placeholder=" Start Time" onfocus="(this.type='time')"> 
-                    <input type="text" class="date form-control" name="end_date" min="2019-01-01"  placeholder="End Date" onfocus="(this.type='date')">
-                    <input type="text" class="time form-control" name="end_time" min="00:00" max="23:59"  placeholder="End Time" onfocus="(this.type='time')">
+                    <input type="text" class="date form-control" id="start_date" min="2019-01-01"  placeholder="Start Date" onfocus="(this.type='date')"> 
+                    <input type="text" class="time form-control" id="start_time" min="00:00" max="23:59 "value="Time" placeholder=" Start Time" onfocus="(this.type='time')"> 
+                    <input type="text" class="date form-control" id="end_date" min="2019-01-01"  placeholder="End Date" onfocus="(this.type='date')">
+                    <input type="text" class="time form-control" id="end_time" min="00:00" max="23:59"  placeholder="End Time" onfocus="(this.type='time')">
                     <select class="form-control" id="searchSelect">
                         <option disabled selected="selected">Search on</option>
                         <option value="Time"> Time only </option>
                         <option value="Area"> Area only</option>
                         <option value="Time_Area"> Time and Area </option>
                     </select>
-                    <input id="latInput" name="lat" type="hidden">
-                    <input id="lngInput" name="lng" type="hidden">
-                    <input class="but-graphics-search btn" type="submit" name="submit" value="Search">
+                    <button class="but-graphics-search btn" name="submit" type="submit" onclick="searchMarkers()">
+                            Search
+                    </button>
                     
                 </div>
             </div>
@@ -173,6 +173,32 @@
             "request-specification": "FetchMarkers",
             "lng": lng,
             "lat": lat,
+        }
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: dataForm,
+            success: function(response) {
+                drawMarkers(response)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    function searchMarkers(){
+        var startDate = document.getElementById("start_date").value;
+        var startTime = document.getElementById("start_time").value;
+        var endDate = document.getElementById("end_date").value;
+        var endTime = document.getElementById("start_time").value;
+        var dataForm = {
+            "request-specification": "Time_personlocation",
+            "lng": lng.value,
+            "lat": lat.value,
+            "startDate": startDate,
+            "startTime": startTime,
+            "endDate": endDate,
+            "endTime": endTime,
         }
         $.ajax({
             type: "POST",
