@@ -19,6 +19,8 @@ body{
     width: 100% !important;
 }
 #timeSeperator {
+	margin-left: 4px;
+	margin-right: 4px;
     font-size: 25px !important;
     color: white !important;
     float: left !important;
