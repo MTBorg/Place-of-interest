@@ -19,47 +19,50 @@
                     {{sndmap.html}} 
 				</div>
             </div>
-            <div class="row" id="row2" > <!-- The row in which the column is placed -->	
-                <!-- WRITE FILE TO SEND DATA TO IN ACTION = "DESINTATION HERE" CONNECT THIS TO BACKEND-->
-                <div class="col-sm-12 col-lg-12 date-margin mx-auto ">
-				<form method="post" class="date-form" action="" class="mx-auto"> 
-					<div id="mapScaler">
-						<p id="slideLabel"> Range:  </p>
-						<input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
-					</div>
-					<div class="form-group  dateform"> 
-                        <input type="text" class="date form-control" name="start_date" min="2019-01-01"  placeholder="Date" onfocus="(this.type='date')"> 
-						<input type="text" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time" placeholder="Time" onfocus="(this.type='time')"> 
-						<p id="timeSeperator"> - </P>
-                        <input type="text" class="date form-control" name="end_date" min="2019-01-01"  placeholder="Date" onfocus="(this.type='date')">
-						<input type="text" class="time form-control" name="end_time" min="00:00" max="23:59"  placeholder="Time" onfocus="(this.type='time')">
-						<select class="form-control" id="searchSelect">
-							<option disabled selected="selected">Search on</option>
-							<option value="Time"> Time only </option>
-							<option value="Area"> Area only</option>
-							<option value="Time_Area"> Time and Area </option>
-						</select>
-                        <input id="latInput" name="lat" type="hidden">
-                        <input id="lngInput" name="lng" type="hidden">
-                        <input class="but-graphics-search btn" type="submit" name="submit" value="Search">
-					</div>
-				</form>
+           
+            <div class="row" id="row2-2" > <!-- The row in which the column is placed -->	  
+                
+                <div class="col-md-11 col-lg-11  date-margin  form-group dateform"> 
+                    
+                    <input type="text" class="date form-control" name="start_date" min="2019-01-01"  placeholder="Start Date" onfocus="(this.type='date')"> 
+                    <input type="text" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time" placeholder=" Start Time" onfocus="(this.type='time')"> 
+                    <input type="text" class="date form-control" name="end_date" min="2019-01-01"  placeholder="End Date" onfocus="(this.type='date')">
+                    <input type="text" class="time form-control" name="end_time" min="00:00" max="23:59"  placeholder="End Time" onfocus="(this.type='time')">
+                    <select class="form-control" id="searchSelect">
+                        <option disabled selected="selected">Search on</option>
+                        <option value="Time"> Time only </option>
+                        <option value="Area"> Area only</option>
+                        <option value="Time_Area"> Time and Area </option>
+                    </select>
+                    <input id="latInput" name="lat" type="hidden">
+                    <input id="lngInput" name="lng" type="hidden">
+                    <input class="but-graphics-search btn" type="submit" name="submit" value="Search">
+                    
                 </div>
-				
             </div>
+            <div class="row" id="row2-1" > <!-- The row in which the column is placed -->	
+                <div class="col-lg-5 d-lg-block d-md-none date-margin  " id="mapScaler"> 
+                        <p id="error-label"> Error:  </p>
+                        <input type="text"  disabled  id="error-log">
+                </div>      
+                <div class="col-lg-5 col-md-7  date-margin  " id="mapScaler">
+                    <p id="slideLabel"> Range:  </p>
+                    <input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
+
+                </div>
+            </div>  
             
             <div class="row " id="row3"> <!-- The row in which the column is placed -->	
 				<div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
                     <nav class="navbar navbar-expand"> <!-- Menu in the bottom of the page -->
                         <ul class="navbar-nav">
                              <li class="nav-item">
-                                <form id="sendLatLng" method="POST" action="/">
-                                    <input id="latInput" name="lat" type="hidden">
-                                    <input id="lngInput" name="lng" type="hidden">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block but-graphics">
-                                        Set marker
-                                    </button>
-                                </form>
+                                <input type="hidden" name="request-specification" value="SetMarker">
+                                <input id="latInput" name="lat" type="hidden">
+                                <input id="lngInput" name="lng" type="hidden">
+                                <button onclick="placeMarker()" class="btn btn-primary btn-lg btn-block but-graphics">
+                                    Set marker
+                                </button>
                              </li> 
                             <li class="nav-item mx-auto">  <!-- Just none-functions buttons for display-->
                                 <button class="btn btn-primary btn-lg btn-block but-graphics" id="toggleBut" onclick="toggleMode()" value="1">
@@ -67,14 +70,14 @@
                                 </button> 
                             </li>
                             <li class="nav-item nav-right-item"> 
-                                <button type="Button" onclick="location.href='/settings'"class="btn btn-primary btn-lg btn-block but-graphics"> Settings </button>
+                                <button type="Button" onclick="location.href='/'"class="btn btn-primary btn-lg btn-block but-graphics"> Settings </button>
                             </li>               
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
@@ -98,9 +101,6 @@
     function reCenterMap() {
 		map.setCenter(new google.maps.LatLng(lat.value, lng.value));
         map.setZoom(16);
-		map.setOptions(
-			{draggable: false}
-		);
     }
 
     function getLocation() {
@@ -112,32 +112,10 @@
       }
     }
     
-    function showPosition(position) {
-        lat.value = position.coords.latitude; 
-        lng.value = position.coords.longitude;
-        if (markerIsSet) {
-            Marker.setMap(null);
-            Marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat.value, lng.value),
-                map: map,
-                icon: "http://maps.google.com/mapfiles/dir_0.png",
-                title: "Updated location",
-            });
-        }
-        else {
-            markerIsSet = true;
-            Marker = new google.maps.Marker({
-                position: new google.maps.LatLng(lat.value, lng.value),
-                map: map,
-                icon: "http://maps.google.com/mapfiles/dir_0.png",
-                title: "Current location",
-            });
-        }
 
-     }
 	 
 	 function changeRange(newRange){
-			window.alert(newRange);
+
 	 }
 	 
 	function toggleMode() {
@@ -154,4 +132,69 @@
 	} 
 
 
+    function drawMarkers(response){
+        for(var i = 0; i < response.length; i++){
+            new google.maps.Marker({
+            position: new google.maps.LatLng(response[i][1], response[i][0]),
+            map: map,
+            icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+            }
+            );
+        }
+    }
+    function placeMarker(){
+        var dataForm = {
+            "request-specification": "SetMarker",
+            "lng": lng.value,
+            "lat": lat.value,
+        }
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: dataForm,
+            success: function(response) {
+                new google.maps.Marker({
+                    position: new google.maps.LatLng(lat.value, lng.value),
+                    map: map,
+                    icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+                }
+                );
+                console.log(response)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    function loadMarkers(lng, lat){
+        var dataForm = {
+            "request-specification": "FetchMarkers",
+            "lng": lng,
+            "lat": lat,
+        }
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: dataForm,
+            success: function(response) {
+                drawMarkers(response)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+    
+    function showPosition(position) {
+        lat.value = position.coords.latitude; 
+        lng.value = position.coords.longitude;
+        new google.maps.Marker({
+            position: new google.maps.LatLng(lat.value, lng.value),
+            map: map,
+            icon: "http://maps.google.com/mapfiles/dir_0.png",
+            title: "Current location",
+        }
+        );
+        loadMarkers(lng.value, lat.value);
+    }
 </script>

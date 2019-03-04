@@ -18,56 +18,57 @@ body{
     text-align: left !important;
     width: 100% !important;
 }
-#timeSeperator {
-	margin-left: 4px;
-	margin-right: 4px;
-    font-size: 25px !important;
-    color: white !important;
-    float: left !important;
-}
 #mapScaler {
-    height: 80%;
-    width: 40% !important;
-    clear: left !important;
+    height: 100%;
+    width: 35% !important;
     float: left !important;
 }
 #slideLabel {
-	
-	height: 100%;
-    font-size: 1.5rem !important;
+    font-size: 1.2rem !important;
     color: white !important;
-    clear: left !important;
-    float: left !important;
+	float: left !important;
+	margin-top: 15px !important;
 }
 #slider1 {
+	margin-left: 3px;
+	margin-top: 15px !important;
 	background-color:	gainsboro;
 	border-radius: 6px !important;
 	height: 50%;
-    width: 60% !important;
-    margin-left: 20px !important;
-    margin-top: 10px !important;
-	margin-bottom: 10px !important;
+	width: 80% !important;
+	float: left !important;
 }
-
+#error-label {
+	clear: left!important;
+    font-size: 1.2rem !important;
+    color: white !important;
+	float: left !important;
+	margin-top: 15px !important;
+}
+#error-log{
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 15px !important;
+	width: 80% !important;
+	height: 50%;
+	float: left !important;
+}
 .date{ 
 	height: 100% !important;
 	width: 17% !important;
 	float: left !important;
 }
-.date-form{
-	 height: 100% !important;
-}
 .dateform {
     height: 100%;
-    clear: left !important;
-    clear: right !important;
-    width: 60% !important;
+    width: 100% !important;
     padding: 2px !important;
     float: right !important;
 }
 .time{
+	margin-right: 20px;
+	margin-left: 2px;
 	height: 100% !important;
-	width: 14% !important;
+	width: 14.5% !important;
 	float: left !important;
 }
 #Cont{
@@ -78,13 +79,16 @@ body{
 }
 
 #row1{
-	height: 75%;
+	height: 70%;
 	margin: auto !important;
 	width: 100% !important;
 	padding: 4px;
 }
-#row2{
-	height: 10% !important;
+#row2-1{
+	height: 6% !important;
+}
+#row2-2{
+	height: 9% !important;
 	
 }
 #row2col1{
@@ -167,7 +171,7 @@ body{
 }
 #searchSelect{
 	height:  100%;
-	margin-left:4px;
+	margin-left:16px;
 	float: left;
 	width: 22%; 
 }
