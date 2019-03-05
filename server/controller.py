@@ -2,8 +2,8 @@ import sys, bcrypt,os, inspect, datetime
 from flask import Flask, jsonify, make_response
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-dbdir = os.path.dirname(currentdir) + "/db/"
-sys.path.insert(0,dbdir)
+db_dir = os.path.dirname(currentdir) + "/db/"
+sys.path.insert(0,db_dir)
 
 import db as database
 import sanitize
@@ -58,35 +58,30 @@ class Controller:
             return self.db.getMarkersAroundLocation(request.form["lng"], request.form["lat"],request.form["radius"])
 
 
-    def getMarkersAroundLocation(self, lat, lng, radius):
+    def getMarkersAroundLocation(self, lng, lat, radius):
         '''Retrieves all markers within a given circle from database
-
         Parameters
         ----------
         lat - latitude
         lng - longitude
-
         Returns
         -------
         A list containing all markers within the given circle 
         '''
-        return self.db.get_markers_from_dist(lat, lng, radius)
+        return self.db.get_markers_from_dist(lng,lat,radius)
 
 
     def getMarkersTimeSpan(self,lng, lat, startDate, endDate, startTime, endTime, radius):
 
         """
         This get the markers filtered by time
-
         :param lat: - latitude of current position
         :param long: - longitude of current position
         :param radius: - Radius of the position given
         :param startTime: - Filter for markers set after this time
         :param endTime: - Filter for markers set Before this time
-
         :return:
         --------
-
         Get the results from the Database
         """
 
@@ -110,14 +105,12 @@ class Controller:
 
     def saveMarker(self, lng, lat, ip, cookieHash):
         '''Stores a given point in the database
-
         Parameters
         ----------
         lat - latitude of current position
         lng - longitude of current position
         ip - clients current ip
         cookieSession - session id from clients cookie
-
         Returns
         -------
         True if point was succesfully stored in the database, otherwise False
