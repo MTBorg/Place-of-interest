@@ -1,3 +1,5 @@
+
+    
 from flask import Flask, render_template, request, jsonify, make_response
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
@@ -10,7 +12,7 @@ path = os.path.dirname(os.path.realpath(__file__))
 #sanitizer
 sanitizer = sanitize.Sanitizer()
 
-#
+#controller
 Controller = controller.Controller()
 
 #What icon to show on map (flagged location & current location of user).
@@ -35,111 +37,21 @@ GoogleMaps(app)
 @app.route("/", methods=['GET', 'POST'])
 def mapview():
     #lng & lat for positions to show.
-        #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")]
-
-
-    print("KJASHDLKJHDLKJAHSDLKJHASD")
-    print(request)
+        #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")
     print(request.form)
-    print(request.args)
-
-    """
-    #TODO These need to be taken from the location that the person is at
-    flaggedLocations = get_poistions_by_radius(65.621650, 22.117025, 10000000000)
-
-
-    #append the marks to marks list so we can render them into the map.
-    for i in range(len(flaggedLocations)):
-        marks.append({
-            "icon": flaggedLocationsIcon,
-            "lat": flaggedLocations[i][1],
-            "lng": flaggedLocations[i][0]
-            #"infobox": flaggedLocations[i][2],
-        })
-    """
-    cookiedata = sanitizer.process_request(request)
-
     if request.method == "POST":
-
-        if (cookiedata == True):
-
-            Controller.createQuery(request,request.cookies.get("hash"))
-
-
-            addMark(request.form["lat"], request.form["lng"])
-            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-            response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
-            return response
-        elif (cookiedata == False):
-
-            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-            return response
-        else:
-
-            Controller.createQuery(request,cookiedata)
-
-            addMark(request.form["lat"], request.form["lng"])
-            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-            response.set_cookie("hash", cookiedata, expires=datetime.datetime.now() + datetime.timedelta(days=30))
-            response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
-            return response
-
+        return Controller.createQuery(request)
 
     if request.method == "GET":
-
-        if len(request.form)== 0:
-
-
-            #TODO Here we need to setup something that so we get the location on the first visit, how?
-            response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-
-
-
-            if len(request.args) > 0:
-
-
-
-                flaggedLocations = Controller.createQuery(request,cookiedata)
-
-                print(flaggedLocations)
-
-                for i in range(len(flaggedLocations)):
-                    marks.append({
-                        "icon": flaggedLocationsIcon,
-                        "lat": flaggedLocations[i][1],
-                        "lng": flaggedLocations[i][0]
-                        #"infobox": flaggedLocations[i][2],
-                    })
-
-
-                response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
-
-
-            print("Do we reachthi?")
-            return response
-
-
-
-
-
-
-
-
-
-def get_poistions_by_radius(lng, lat, radius):
-    list = sanitizer.get_markers_by_radius(lng, lat, radius)
-    return list
-
-
+        response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
+        return response
 
 def addMark(lat, lng):
     '''Retrieves all markers within a given circle from database
-
     Parameters
     ----------
     lat - latitude
     lng - longitude
-
     Returns
     -------
     A list containing all markers within the given circle 
@@ -153,7 +65,6 @@ def addMark(lat, lng):
 
 def renderMap():
     '''Renders the map to send to client.
-
     Returns
     -------
     The map with markers added.

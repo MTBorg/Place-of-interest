@@ -1,57 +1,58 @@
-import sys, bcrypt,os, inspect
-
-
-#sys.path.append("/Users/JohanDelissen/Documents/D0022E/D0020E/db")
-
-
+import sys, bcrypt,os, inspect, datetime
+from flask import Flask, jsonify, make_response
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir) + "/db/"
 sys.path.insert(0,parentdir)
 
-
 import db as database
-
-
+import sanitize
 
 class Controller:
-
-
 
     def __init__(self):
         #create database connection instance to use for db calls.
         self.db = database.db()
         self.DEFAULT_RADIUS = 100000000
+        self.Sanitizer = sanitize.Sanitizer()
 
-
-
-
-
-    def createQuery(self, request,cookiedata):
+    def createQuery(self, request):
         """
         Here we create the query for the
-
         :param request: the request with the informatino needed to create the querry,
         :param cookiedata: Cookiedata given from santizier
         :return: The query of the database
         """
+        if(request.form['request-specification'] == "FetchMarkers"):
+            resultOnReturn = self.getMarkersAroundLocation(request.form['lng'], request.form['lat'], 120000)
+            return make_response(jsonify(resultOnReturn))
 
-        if request.args["request-specification"] == "initialFetch":
+        if request.form["request-specification"] == "SetMarker":
+            check = self.Sanitizer.cookieCheck(request)
+            if(check == True):
+                self.db.save_marker(request.form["lng"], request.form["lat"], request.remote_addr, request.cookies.get("hash"))
+                response = make_response(jsonify(["Marker set"]))
+                response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
+                return response
+            elif(check == False):
+                return make_response(jsonify(["Wait a little longer before putting down marker."]))
+            else:
+                response = make_response(jsonify("Marker set, made new cookie"))
+                response.set_cookie("hash", self.Sanitizer.getHashCookie(), expires=datetime.datetime.now() + datetime.timedelta(days=30))
+                response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
+                return response
 
-            return (self.db.get_markers_from_dist(request.args["lng"], request.args["lat"], self.DEFAULT_RADIUS))
 
-        if request.form["request-specification"] == "Personlocation":
-
-            self.db.save_marker(request.form["lng"], request.form["lat"], request.remote_addr, cookiedata)
-
-        if request.form["request-specification"] == "Time_personlocation":
-
-            return self.getMarkersTimeSpan(request.form["lng"], request.form["lat"],
+        if request.form["request-specification"] == "getMarkersFromTimeAndPerson":
+            result =  self.getMarkersTimeSpan(request.form["lng"], request.form["lat"],
                                            request.form["start_date"],request.form["end_date"],
-                                           request.form["start_time"],request.form["end_time"],self.DEFAULT_RADIUS)
+                                           request.form["start_time"],request.form["end_time"], self.DEFAULT_RADIUS)
+            return make_response(jsonify(result))
+
+
 
         if request.form["request-specification"] == "Time_chosenlocation":
-            pass
+            return self.db.getMarkersAroundLocation(request.form["lng"], request.form["lat"],request.form["radius"])
 
 
     def getMarkersAroundLocation(self, lat, lng, radius):
