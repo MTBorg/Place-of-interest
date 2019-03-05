@@ -1,29 +1,36 @@
 {
+    # All config options for the databae.
     "database" : {
+        # A user for the poi database that can only read and write.
         "poi_user" : {
-            "name" : "poi_admin",
-            "password" : "123"
+            "name" : "poi_admin", 
+            "password" : "123" 
         },
+        # Name of the poi database and the owner.
         "poi_db": {
             "name": "placeofinterest",
-            "owner": "poi_admin"
+            "owner": "poi_admin" # As default it should be the poi_user name.
         },
+        # Databse conetion information.
         "connection" :	{
             "host" : "localhost",
             "port" : "5432"
         },
+        # A superuser to postgres that can create a database, user and table.
         "superuser" : {
             "name": "postgres",
             "password": "123"	
         },
+        # The postgres default databes that is needed to crate a new database.
         "default_db" : {
             "name" : "postgres"
         }
     },
     "server" : {
+        # Values for variables in the sanitize class.
         "sanitize" : {
             "secret_str" : "123", 
-            "time_between_posts" : "10",
+            "time_between_posts" : "10", # Time in secounds that determins how often a marker can be placed by a user.
             "standard_radius" : "1000000000"
         },
         "controller" : {
