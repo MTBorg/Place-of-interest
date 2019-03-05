@@ -36,7 +36,6 @@ GoogleMaps(app)
 def mapview():
     #lng & lat for positions to show.
         #flaggedLocations = [(65.621650, 22.117025, "Vänortsvägen"), (65.618776, 22.139475, "E-huset"), (65.618929, 22.051285, "Storheden")
-    print(request.form)
     if request.method == "POST":
         return Controller.createQuery(request)
 
@@ -88,7 +87,10 @@ def renderMap():
             "z-index:200;"
         ),
         zoom=14,
-        center_on_user_location=True
+        center_on_user_location=True, 
+        zoom_control = False,
+        streetview_control = False,
+        maptype_control = False,
     )
     return sndmap
 
