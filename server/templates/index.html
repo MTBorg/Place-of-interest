@@ -92,11 +92,33 @@
     var form = document.getElementById("sendLatLng")
 	var newRange =  document.getElementById("slider1").value;
 	var oldRange = 5000;
-    interval = setInterval(getLocation, 30000); // Updates the position every half minute
-	
+    interval = setInterval(getLocation, 10000); // Updates the position every half minute
+    function updatePosition(position) {
+        lat.value = position.coords.latitude; 
+        lng.value = position.coords.longitude;
+        if (markerIsSet) {
+            Marker.setMap(null);
+            Marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat.value, lng.value),
+                map: map,
+                icon: "http://maps.google.com/mapfiles/dir_0.png",
+                title: "Updated location",
+            });
+        }
+        else {
+            markerIsSet = true;
+            Marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat.value, lng.value),
+                map: map,
+                icon: "http://maps.google.com/mapfiles/dir_0.png",
+                title: "Current location",
+            });
+        }
+     }
 	function loadPage(){
 		getLocation();
-		reCenterMap()
+		reCenterMap();
+        showPosition();
 	}
     function reCenterMap() {
 		map.setCenter(new google.maps.LatLng(lat.value, lng.value));
@@ -106,7 +128,7 @@
     function getLocation() {
       
       if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
+          navigator.geolocation.getCurrentPosition(updatePosition);
       } else {
         worked.value = "Geolocation is not supported by this browser.";
       }
