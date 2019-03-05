@@ -24,7 +24,7 @@ body{
     float: left !important;
 }
 #slideLabel {
-    font-size: 1.2rem !important;
+    font-size: 1.3rem !important;
     color: white !important;
 	float: left !important;
 	margin-top: 15px !important;
@@ -40,7 +40,7 @@ body{
 }
 #error-label {
 	clear: left!important;
-    font-size: 1.2rem !important;
+    font-size: 1.3rem !important;
     color: white !important;
 	float: left !important;
 	margin-top: 15px !important;
@@ -65,7 +65,7 @@ body{
     float: right !important;
 }
 .time{
-	margin-right: 20px;
+	margin-right: 18px;
 	margin-left: 2px;
 	height: 100% !important;
 	width: 14.5% !important;
@@ -150,7 +150,7 @@ body{
 
 .but-graphics {
     height: 100% !important;
-    font-size: 1.2rem !important;
+    font-size: 1.5rem !important;
     background-color: grey !important;
     border: 1px solid black !important;
     transition: width 2s;
@@ -171,7 +171,6 @@ body{
 }
 #searchSelect{
 	height:  100%;
-	margin-left:16px;
 	float: left;
 	width: 22%; 
 }

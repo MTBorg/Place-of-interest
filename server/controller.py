@@ -3,7 +3,7 @@ from flask import Flask, jsonify, make_response
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 db_dir = os.path.dirname(currentdir) + "/db/"
-sys.path.insert(0,dbdir)
+sys.path.insert(0,db_dir)
 
 import db as database
 import sanitize
@@ -41,6 +41,20 @@ class Controller:
                 response.set_cookie("hash", self.Sanitizer.getHashCookie(), expires=datetime.datetime.now() + datetime.timedelta(days=30))
                 response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
                 return response
+
+
+        if request.form["request-specification"] == "getMarkersFromTimeAndPerson":
+            print(request.form)
+            result =  self.getMarkersTimeSpan(request.form["lng"], request.form["lat"],
+                                           request.form["startDate"],request.form["endDate"],
+                                           request.form["startTime"],request.form["endTime"], self.DEFAULT_RADIUS)
+            return make_response(jsonify(result))
+
+
+
+        if request.form["request-specification"] == "Time_chosenlocation":
+            return self.db.getMarkersAroundLocation(request.form["lng"], request.form["lat"],request.form["radius"])
+
 
     def getMarkersAroundLocation(self, lat, lng, radius):
         '''Retrieves all markers within a given circle from database

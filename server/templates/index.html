@@ -21,31 +21,29 @@
             </div>
            
             <div class="row" id="row2-2" > <!-- The row in which the column is placed -->	  
-                
-                <div class="col-md-11 col-lg-11  date-margin  form-group dateform"> 
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"> </div>
+                <div class="col-md-10 col-lg-10  date-margin  form-group dateform"> 
                     
-                    <input type="text" class="date form-control" id="start_date" min="2019-01-01"  placeholder="Start Date" onfocus="(this.type='date')"> 
-                    <input type="text" class="time form-control" id="start_time" min="00:00" max="23:59 "value="Time" placeholder=" Start Time" onfocus="(this.type='time')"> 
-                    <input type="text" class="date form-control" id="end_date" min="2019-01-01"  placeholder="End Date" onfocus="(this.type='date')">
-                    <input type="text" class="time form-control" id="end_time" min="00:00" max="23:59"  placeholder="End Time" onfocus="(this.type='time')">
+                    <input type="hidden" name="request-specification" value="TimePersonLocation">
+                        <input id="start_date" type="date" class="date form-control" name="start_date" min="2019-01-01" value="Date">
+						<input id="start_time"type="time" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time">
+                        <input id="end_date" type="date" class="date form-control" name="end_date" min="2019-01-01" value="Date">
+						<input id="end_time" type="time" class="time form-control" name="end_time" min="00:00" max="23:59" value="Time">
                     <select class="form-control" id="searchSelect">
                         <option disabled selected="selected">Search on</option>
                         <option value="Time"> Time only </option>
                         <option value="Area"> Area only</option>
                         <option value="Time_Area"> Time and Area </option>
                     </select>
-                    <button class="but-graphics-search btn" name="submit" type="submit" onclick="searchMarkers()">
-                            Search
-                    </button>
                     
                 </div>
             </div>
             <div class="row" id="row2-1" > <!-- The row in which the column is placed -->	
-                <div class="col-lg-6 d-lg-block d-md-none date-margin  " id="mapScaler"> 
+                <div class="col-lg-6 d-lg-block  d-none date-margin  " id="mapScaler"> 
                         <p id="error-label"> Error:  </p>
                         <textarea  disabled  id="error-log"> Ingen info ännu!</textarea>
                 </div>      
-                <div class="col-lg-5 col-md-7  date-margin  " id="mapScaler">
+                <div class="col-lg-5 col-sm-7  d-none  d-md-block date-margin  " id="mapScaler">
                     <p id="slideLabel"> Range:  </p>
                     <input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
 
@@ -70,7 +68,7 @@
                                 </button> 
                             </li>
                             <li class="nav-item nav-right-item"> 
-                                <button type="Button" onclick="location.href='/'"class="btn btn-primary btn-lg btn-block but-graphics"> Settings </button>
+                                <button type="Button" onclick="getPositionbyTime()" class="btn btn-primary btn-lg btn-block but-graphics"> Search </button>
                             </li>               
                         </ul>
                     </nav>
@@ -182,7 +180,7 @@
                 console.log(response)
             },
             error: function(error) {
-                document.getElementById('error-log').value = "Wait a little longer before putting down marker.";
+                document.getElementById('error-log').value = response;
                 console.log(error);
             }
         });
@@ -192,32 +190,6 @@
             "request-specification": "FetchMarkers",
             "lng": lng,
             "lat": lat,
-        }
-        $.ajax({
-            type: "POST",
-            url: "/",
-            data: dataForm,
-            success: function(response) {
-                drawMarkers(response)
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    }
-    function searchMarkers(){
-        var startDate = document.getElementById("start_date").value;
-        var startTime = document.getElementById("start_time").value;
-        var endDate = document.getElementById("end_date").value;
-        var endTime = document.getElementById("start_time").value;
-        var dataForm = {
-            "request-specification": "Time_personlocation",
-            "lng": lng.value,
-            "lat": lat.value,
-            "startDate": startDate,
-            "startTime": startTime,
-            "endDate": endDate,
-            "endTime": endTime,
         }
         $.ajax({
             type: "POST",
@@ -243,5 +215,39 @@
         }
         );
         loadMarkers(lng.value, lat.value);
+    }
+    function getPositionbyTime(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getMarkersByTime);
+      } else {
+        worked.value = "Geolocation is not supported by this browser.";
+      }
+    }
+    function getMarkersByTime(position){
+        var startDate = document.getElementById("start_date").value;
+        var startTime = document.getElementById("start_time").value;
+        var endDate = document.getElementById("end_date").value;
+        var endTime = document.getElementById("start_time").value;
+        var dataForm = {
+            "request-specification": "getMarkersFromTimeAndPerson",
+            "lng": lng.value,
+            "lat": lat.value,
+            "startDate": startDate,
+            "startTime": startTime,
+            "endDate": endDate,
+            "endTime": endTime,
+        }
+        /* TODO Fix removing markers and place new ones  */
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: dataForm,
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     }
 </script>
