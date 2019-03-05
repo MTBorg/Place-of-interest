@@ -1,0 +1,33 @@
+{
+    "database" : {
+        "poi_user" : {
+            "name" : "poi_admin",
+            "password" : "123"
+        },
+        "poi_db": {
+            "name": "placeofinterest",
+            "owner": "poi_admin"
+        },
+        "connection" :	{
+            "host" : "localhost",
+            "port" : "5432"
+        },
+        "superuser" : {
+            "name": "postgres",
+            "password": "123"	
+        },
+        "default_db" : {
+            "name" : "postgres"
+        }
+    },
+    "server" : {
+        "sanitize" : {
+            "secret_str" : "123", 
+            "time_between_posts" : "10",
+            "standard_radius" : "1000000000"
+        },
+        "controller" : {
+            "default_radius" : "1000000"
+        }
+    }
+}
