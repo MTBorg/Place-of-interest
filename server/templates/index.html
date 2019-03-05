@@ -85,9 +85,10 @@
     var markerIsSet
     var Marker 
     var interval
-    var lat = document.getElementById("latInput")
-    var lng = document.getElementById("lngInput")
-    var form = document.getElementById("sendLatLng")
+    var showpos
+    var lat = document.getElementById("latInput");
+    var lng = document.getElementById("lngInput");
+    var form = document.getElementById("sendLatLng");
 	var newRange =  document.getElementById("slider1").value;
 	var oldRange = 5000;
     interval = setInterval(getLocation, 10000); // Updates the position every half minute
@@ -114,9 +115,10 @@
         }
      }
 	function loadPage(){
+        showpos = true;
 		getLocation();
 		reCenterMap();
-        showPosition();
+        showpos = false;
 	}
     function reCenterMap() {
 		map.setCenter(new google.maps.LatLng(lat.value, lng.value));
@@ -124,12 +126,21 @@
     }
 
     function getLocation() {
-      
-      if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(updatePosition);
-      } else {
-        worked.value = "Geolocation is not supported by this browser.";
+        if (showpos){
+            if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            worked.value = "Geolocation is not supported by this browser.";
+        }
+        }
+        else{ 
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(updatePosition);
+            } else {
+                worked.value = "Geolocation is not supported by this browser.";
+        }
       }
+
     }
 	 
 	 function changeRange(newRange){
@@ -203,7 +214,6 @@
             }
         });
     }
-    
     function showPosition(position) {
         lat.value = position.coords.latitude;
         lng.value = position.coords.longitude;
@@ -216,6 +226,7 @@
         );
         loadMarkers(lng.value, lat.value);
     }
+
     function getPositionbyTime(){
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(getMarkersByTime);
@@ -232,10 +243,10 @@
             "request-specification": "getMarkersFromTimeAndPerson",
             "lng": lng.value,
             "lat": lat.value,
-            "startDate": startDate,
-            "startTime": startTime,
-            "endDate": endDate,
-            "endTime": endTime,
+            "start_date": startDate,
+            "start_time": startTime,
+            "end_date": endDate,
+            "end_time": endTime,
         }
         /* TODO Fix removing markers and place new ones  */
         $.ajax({
