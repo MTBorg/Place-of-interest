@@ -1,3 +1,4 @@
+import os
 import unittest
 import db as database
 import logging
@@ -18,6 +19,17 @@ points = [
     {"marker": (22.1509272,65.5857114), "user_id": "3"}, # Kulturens hus, Luleå
     {"marker": (22.1339231,65.6181932), "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
 ]
+
+dirname = os.path.dirname(__file__)
+logging.info("dirname %s", dirname)
+if (dirname == ""): #If the script is run from the same folder we don't want to prepend "/" (as it would result in searching the root)
+    filepath = "testConf.json"
+else:
+    filepath = dirname + "/testConf.json"
+logging.info("Reading file %s", filepath)
+with open(filepath) as f:
+    config = json.load(f)
+
 
 class dbTest(unittest.TestCase):
     @classmethod
@@ -93,7 +105,7 @@ class dbTest(unittest.TestCase):
 
                 #Insert test points
                 logging.info("Connecting to database %s to insert points", cls.test_db["name"])
-                db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+                db = database.db(config) # NOTE: The path is relative to the db file
                 logging.info("Inserting %s points", len(points))
                 for point in points:
                     db.save_marker(
@@ -139,7 +151,7 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(config) # NOTE: The path is relative to the db file
 
         # Check that the function returns a list
         self.assertIsInstance([], type(db.get_markers_from_userid("0")))
@@ -160,7 +172,7 @@ class dbTest(unittest.TestCase):
     
     def test_get_markers_from_dist(self):
         logging.info("Testing getting markers from distance")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(config) # NOTE: The path is relative to the db file
 
         # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), which should return all points
         self.assertEqual(len(points), len(db.get_markers_from_dist(0,0,40075000)))
@@ -178,7 +190,7 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_dist_time(self):
         logging.info("Testing getting markers from distance and time")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(config) # NOTE: The path is relative to the db file
 
         now = datetime.datetime.now() 
         yesterday = now - datetime.timedelta(days = 1)
@@ -206,7 +218,7 @@ class dbTest(unittest.TestCase):
 
     def test_save_marker(self):
         logging.info("Testing saving marker")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(config) # NOTE: The path is relative to the db file
 
         # Testing valid input format
         self.assertTrue(db.save_marker(0.0, 0.0, "user_id"))
