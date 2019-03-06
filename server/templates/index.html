@@ -83,7 +83,9 @@
 <!-- Script for collecting location-->
 <script>
     var markerIsSet
-    var Marker 
+    var loadedMarkerIsSet
+    var markers = []
+    var Marker
     var interval
     var showpos
     var lat = document.getElementById("latInput");
@@ -91,7 +93,9 @@
     var form = document.getElementById("sendLatLng");
 	var newRange =  document.getElementById("slider1").value;
 	var oldRange = 1000;
+
     interval = setInterval(getLocation, 10000); // Updates the position every half minute
+
     function updatePosition(position) {
         lat.value = position.coords.latitude; 
         lng.value = position.coords.longitude;
@@ -160,16 +164,20 @@
 		}
 	} 
 
-    function drawMarkers(response){
-        for(var i = 0; i < response.length; i++){
-            new google.maps.Marker({
-            position: new google.maps.LatLng(response[i][1], response[i][0]),
+    function addMarkers(lat,lng){
+            marker =  new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
             map: map,
             icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
             }
             );
-        }
+            markers.push(marker);
     }
+    function setMapNullOnAll() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+      }
     function placeMarker(){
         var dataForm = {
             "request-specification": "SetMarker",
@@ -181,12 +189,7 @@
             url: "/",
             data: dataForm,
             success: function(response) {
-                new google.maps.Marker({
-                    position: new google.maps.LatLng(lat.value, lng.value),
-                    map: map,
-                    icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-                }
-                );
+                addMarkers(lat.value, lng.value);
                 document.getElementById('error-log').value  = response;
                 console.log(response)
             },
@@ -207,7 +210,9 @@
             url: "/",
             data: dataForm,
             success: function(response) {
-                drawMarkers(response)
+                for (var i = 0; i < response.length; i++){
+                    addMarkers(response[i][1],response[i][0])
+                }
             },
             error: function(error) {
                 console.log(error);
@@ -234,7 +239,7 @@
       } else {
         worked.value = "Geolocation is not supported by this browser.";
       }
-    }
+    } 
     function getMarkersByTime(position){
         var startDate = document.getElementById("start_date").value;
         var startTime = document.getElementById("start_time").value;
@@ -255,7 +260,11 @@
             url: "/",
             data: dataForm,
             success: function(response) {
-                console.log(response)
+                console.log("Den kommer in här");
+                setMapNullOnAll();
+                for (var i = 0; i < response.length; i++){
+                    addMarkers(response[i][1],response[i][0])
+                }
             },
             error: function(error) {
                 console.log(error);
