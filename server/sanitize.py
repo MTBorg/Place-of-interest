@@ -6,33 +6,30 @@ class Sanitizer(object):
 
     __SECRET_STR = b"123"
     __TIME_BETWEEN_POSTS = 10 #seconds
+    __STANDARD_RADIUS = 1000000000
 
     def  __init__(self):
         self.__SECRET_STR = b"123"
-        self. __TIME_BETWEEN_POSTS
-        self.controller = controller.Controller()
+        self. __TIME_BETWEEN_POSTS = 10
+        pass
 
-    def process_request(self):
+    def cookieCheck(self,request):
         """
         This function will take the request from the fronter-end Run.py and depending on how the
         cookie looks like give a return. Now it looks rather naked but more is to be implemented
-
-
         :return:
         Either 0 or 1, this is to check if the time of the cookie is valid or invalid
         Otherwise we return a we get a cookie with a hash that is returnes to be sent in the responce.
-
         """
         if("hash" in request.cookies and self.checkHashCookie(request.cookies.get("hash"))):
             if(self.checkTimeCookie(request.cookies.get("time"))):
-                self.controller.saveMarker(request.form["lng"], request.form["lat"], request.remote_addr, request.cookies.get("hash"))
-                return 0
+                return True
             else:
-                return 1
+                return False
         else:
-            return self.getHashCookie(request.remote_addr, request.form["lng"], request.form["lat"])
+            return None
 
-    def getHashCookie(self,ip, lng, lat):
+    def getHashCookie(self):
         '''Retrieves a hash for the cookie to be stored client-side.
            Because this is a new user, we add the location and IP to the database
         Returns
@@ -40,16 +37,13 @@ class Sanitizer(object):
         A hash for client-side cookie.
         '''
         cookieHash = bcrypt.hashpw(self.__SECRET_STR, bcrypt.gensalt())
-        self.controller.saveMarker(lng, lat, ip, cookieHash)
         return cookieHash
 
     def checkHashCookie(self, cookieHash):
         '''Checks the clients hash against the secret string
-
         Parameters
         ----------
         cookieHash - the hash in the clients cookie.
-
         Returns
         -------
         True or False - if the hash is matching the string or not.
@@ -62,11 +56,9 @@ class Sanitizer(object):
 
     def checkTimeCookie(self, cookieTime):
         '''Checks when the client last added a mark
-
         Parameters
         ----------
         cookieTime - the time client last added a mark
-
         Returns
         -------
         True or False - if the client has waited enough time -> true, else -> false.
@@ -76,8 +68,3 @@ class Sanitizer(object):
             return True
         else:
             return False
-
-    def get_markers_by_radius(self,lat, lng, radius):
-        return self.controller.getMarkersAroundLocation(lat, lng, radius)
-
-        

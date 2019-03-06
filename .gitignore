@@ -1,4 +1,5 @@
 .vscode/
+**/.vs
 
 **/api_key/*
 !readme.md
