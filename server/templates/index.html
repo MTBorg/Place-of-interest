@@ -90,7 +90,7 @@
     var lng = document.getElementById("lngInput");
     var form = document.getElementById("sendLatLng");
 	var newRange =  document.getElementById("slider1").value;
-	var oldRange = 5000;
+	var oldRange = 1000;
     interval = setInterval(getLocation, 10000); // Updates the position every half minute
     function updatePosition(position) {
         lat.value = position.coords.latitude; 
@@ -217,7 +217,8 @@
     function showPosition(position) {
         lat.value = position.coords.latitude;
         lng.value = position.coords.longitude;
-        new google.maps.Marker({
+        markerIsSet = true;
+        Marker = new google.maps.Marker({
             position: new google.maps.LatLng(lat.value, lng.value),
             map: map,
             icon: "http://maps.google.com/mapfiles/dir_0.png",
