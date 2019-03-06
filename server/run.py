@@ -13,7 +13,7 @@ path = os.path.dirname(os.path.realpath(__file__))
 config = loadconfig.load_json_file()
 
 #sanitizer
-sanitizer = sanitize.Sanitizer(config) # Verkar inte användas
+sanitizer = sanitize.Sanitizer(config["server"]) # Verkar inte användas
 
 #controller
 Controller = controller.Controller(config)
