@@ -1,15 +1,24 @@
 {
-	"user" : {
-		"username" : "admin",
+	"poi_user" : {
+		"name" : "poi_admin",
 		"password" : "123"
+	},
+	"poi_db": {
+		"name": "placeofinterest",
+		"owner": "poi_admin"
 	},
 
 	"connection" :	{
-		"dbname" : "placeofinterest",
-		"user" : "postgres",
 		"host" : "localhost",
-		"password" : "123",
 		"port" : "5432"
+	},
 
+	"superuser" : {
+		"name": "postgres",
+		"password": "123"	
+    },
+
+	"default_db" : {
+		"name" : "postgres"
 	}
 }

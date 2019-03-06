@@ -6,23 +6,17 @@ import db
 
 import datetime
 
-#setup.run()
-db = db.db()
+setup.run()
+db = db.db("../setup/data.json")
 
-insert = db.save_marker(40.00001, 20.00001, "aaRHER33WEF/#w", "127.0.0.1")
+insert = db.save_marker(40.00001, 20.00001, "0")
 if (insert == True):
 	print("Marker successfully saved")
 else:
 	print("Failed when saving marker into database")
 
-from_id = db.get_markers_from_userid('aaRHER33WEF/#w')
+from_id = db.get_markers_from_userid("0")
 print("From user id ", from_id)
-
-from_ip = db.get_markers_from_ip("127.0.0.1")
-print("From user id ", from_ip)
-
-from_id_and_ip = db.get_markers_from_userid_and_ip('aaRHER33WEF/#w', '127.0.0.1')
-print("From user id and ip", from_id_and_ip)
 
 from_dist = db.get_markers_from_dist(40, 20, 10000)
 print("From distance ", from_dist)

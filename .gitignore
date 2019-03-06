@@ -1,8 +1,9 @@
 .vscode/
+**/.vs
 
 **/api_key/*
 !readme.md
 
 **/__pycache__/
-
+**/*.log
 **/.python-version
