@@ -32,7 +32,7 @@ class Controller:
         if request.form["request-specification"] == "SetMarker":
             check = self.Sanitizer.cookieCheck(request)
             if(check == True):
-                self.db.save_marker(request.form["lng"], request.form["lat"], request.remote_addr, request.cookies.get("hash"))
+                self.db.save_marker(request.form["lng"], request.form["lat"], request.cookies.get("hash"))
                 response = make_response(jsonify(["Marker set"]))
                 response.set_cookie("time", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
                 return response
@@ -103,19 +103,18 @@ class Controller:
 
 
 
-    def saveMarker(self, lng, lat, ip, cookieHash):
+    def saveMarker(self, lng, lat, cookieHash):
         '''Stores a given point in the database
         Parameters
         ----------
         lat - latitude of current position
         lng - longitude of current position
-        ip - clients current ip
         cookieSession - session id from clients cookie
         Returns
         -------
         True if point was succesfully stored in the database, otherwise False
         '''
         try:
-            self.db.save_marker(lng, lat, ip, cookieHash)
+            self.db.save_marker(lng, lat, cookieHash)
         except Exception as e:
             print("Database Fault due to", e)
