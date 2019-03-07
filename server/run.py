@@ -10,13 +10,17 @@ import loadconfig
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
+
 config = loadconfig.load_json_file()
 
 #sanitizer
-sanitizer = sanitize.Sanitizer(config["server"]) # Verkar inte användas
+#sanitizer = sanitize.Sanitizer() # Verkar inte användas
 
 #controller
 Controller = controller.Controller(config)
+
+config = None
+del config
 
 #What icon to show on map (flagged location & current location of user).
 flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png

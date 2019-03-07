@@ -10,13 +10,8 @@ def load_json_file():
     ----------
     A dictionary with all the data from the json config file
     """
-    dirname = os.path.dirname(__file__)
-    logging.info("dirname %s", dirname)
-    if (dirname == ""): #If the script is run from the same folder we don't want to prepend "/" (as it would result in searching the root)
-        filepath = "Config.json"
-    else:
-        filepath = dirname + "/Config.json"
-    logging.info("Reading file %s", filepath)
+
+    filepath = os.path.dirname(os.path.realpath(__file__)) + "/Config.json"  
     with open(filepath) as f:
         filedata = json.load(f)
     return filedata
