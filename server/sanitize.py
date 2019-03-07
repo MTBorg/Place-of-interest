@@ -10,8 +10,8 @@ class Sanitizer(object):
 
     def  __init__(self, config):
         self.__SECRET_STR = bytes(config["secret_str"], encoding='utf-8')
-        self. __TIME_BETWEEN_POSTS = config["time_between_posts"]
-        self.__STANDARD_RADIUS = config["standard_radius"]
+        self. __TIME_BETWEEN_POSTS = int(config["time_between_posts"])
+        self.__STANDARD_RADIUS = int(config["standard_radius"])
         pass
 
     def cookieCheck(self,request):

@@ -13,7 +13,7 @@ class Controller:
     def __init__(self, config):
         #create database connection instance to use for db calls.
         server_config = config["server"]
-        self.DEFAULT_RADIUS = server_config["default_radius"]
+        self.DEFAULT_RADIUS = int(server_config["default_radius"])
         self.Sanitizer = sanitize.Sanitizer(config["server"])
         self.db = database.db(config["database"])
         
