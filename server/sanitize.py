@@ -31,7 +31,6 @@ class Sanitizer(object):
 
     def getHashCookie(self):
         '''Retrieves a hash for the cookie to be stored client-side.
-           Because this is a new user, we add the location and IP to the database
         Returns
         -------
         A hash for client-side cookie.
