@@ -11,29 +11,78 @@ body{
 .container-fluid{
 	width: 100% !important;
 }
-.date-margin{
-	margin: 0 auto !important;
-	height: 100%; 
-	text-align: left;
-	width: 100% !important;
-}
-#timeSeperator{
-	font-size: 25px; 
-	color: white;
-	float: left;
-	
+
+.extBut{
+		height:90px !important;
+		margin-top:15px;
+		display:none !important;
 }
 
-.date{ 
-	width:200px !important;
+.date-margin {
+    margin: 0 auto !important;
+    height: 100% !important;
+    text-align: left !important;
+    width: 100% !important;
+}
+#mapScaler {
+    height: 100%;
+    width: 35% !important;
+    float: left !important;
+}
+#slideLabel {
+    font-size: 1.3rem !important;
+    color: white !important;
+	float: left !important;
+	margin-top: 15px !important;
+}
+#slider1 {
+	margin-left: 3px;
+	margin-top: 15px !important;
+	background-color:	gainsboro;
+	border-radius: 6px !important;
+	height: 50%;
+	width: 80% !important;
 	float: left !important;
 }
-.dateform{
-	width: 802px;
-	padding: 2px;
+#error-label {
+	clear: left!important;
+    font-size: 1.3rem !important;
+    color: white !important;
+	float: left !important;
+	margin-top: 15px !important;
+}
+
+#mobile{
+	display:none;
+}
+
+#desktop{
+	display:block;
+}
+
+#error-log{
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 15px !important;
+	width: 85% !important;
+	height: 50%;
+	float: left !important;
+}
+.date{ 
+	height: 100% !important;
+	width: 17% !important;
+	float: left !important;
+}
+.dateform {
+    height: 100%;
+    padding: 2px !important;
+    float: right !important;
 }
 .time{
-	width:150px !important;
+	margin-right: 18px;
+	margin-left: 2px;
+	height: 100% !important;
+	width: 14.5% !important;
 	float: left !important;
 }
 #Cont{
@@ -44,20 +93,23 @@ body{
 }
 
 #row1{
-	height: 80%;
+	height: 70%;
 	margin: auto !important;
 	width: 100% !important;
 	padding: 4px;
 }
-#row2{
-	height: 5% !important;
+#row2-1{
+	height: 6% !important;
+}
+#row2-2{
+	height: 9% !important;
 	
 }
 #row2col1{
 	height: 100%;
 }
 #row3{
-	height: 5% !important;
+	height: 10% !important;
 }
 #row3col1{
 	height: 100%;
@@ -66,6 +118,9 @@ body{
 #navUL{
 	width: 100%; 
 	height: 100%;
+}
+.navbar{
+    height: 100% !important;
 }
 #navLI1{
 	float: left !important; 
@@ -94,35 +149,44 @@ body{
 	
 }
 .navbar{
-	height: 10%;
+	height: 100%;
+    border-radius: 4px;
 }
 .navbar-nav{
+	background-color: rgba(34, 34, 34, 0.945) !important; 
 	Width: 100%; 
 	height: 90%;
 }
-.nav-item{
-	width: 33.33% !important;
-	height: 100% !important;
+.nav-item {
+    width: 33.2% !important;
+    height: 100% !important;
 }
 
-.but-graphics{
-	height: 100% !important; 
-	font-size:  2em !important;  
-	background-color: grey !important; 
-	border: 1px solid black !important;
-	transition: width 2s; 
+.but-graphics {
+    height: 100% !important;
+    font-size: 1.5rem !important;
+    background-color: grey !important;
+    border: 1px solid black !important;
+    transition: width 2s;
 }
 .but-graphics:hover {
-	cursor: pointer !important;
-	border: 1px solid white !important;
+    cursor: pointer !important;
+    border: 1px solid white !important;
 }
 .but-graphics-search{
+	height:  100%;
+	float: left;
 	color: white;
 	background-color: grey !important; 
 	border: 1px solid black !important;
 	border-radius: 2px;
 	border-style: outline !Important; 
 	
+}
+#searchSelect{
+	height:  100%;
+	float: left;
+	width: 22%; 
 }
 .but-graphics-search:hover {
 	cursor: pointer !important;
@@ -135,4 +199,113 @@ h1{
 
 #sendLatLng{
 	height:100% !important;
+}
+
+@media only screen and (max-width: 1000px) {
+	
+	#row1{
+		height:65%;
+	}
+	
+	.navbar{
+		margin-top:-110px !important;
+	}
+	
+	.extBut{
+		height:90px !important;
+		margin-top:15px;
+		display:block !important;
+	}
+	
+	.extBut span{
+		font-size: 3Rem !important;
+	}
+	
+	.navbar-nav{
+		flex-direction: column !important;
+		width: 100% !important;
+		padding: 0px !important;
+		margin-right: 2.2% !important;
+		margin-left: -1.7%;
+	}
+	.nav-item{
+		width:104% !important;
+		height:90px !important;
+		margin-top:10px;
+	}
+	.nav-item span{
+		font-size: 3Rem !important;
+	}
+	
+	#mapScaler{
+		width: 100% !important;
+		height: 67% !important;
+		float: left !important;
+		margin-left: 5px !important;
+		margin-top:-30px !important;
+	}
+	
+	#slider1{
+	margin-left: 40px;
+    margin-top: 15px !important;
+    background-color: gainsboro;
+    border-radius: 6px !important;
+    height: 70%;
+    width: 80% !important;
+    float: left !important;
+	}
+	
+	#row2-1{
+		height: 8% !important;
+	}
+	
+	#row2-2{
+		height: 15% !important;
+	}
+	
+	.form-control{
+		width: 48% !important;
+		height: 25% !important;
+		font-size: 3rem !important;
+		color:black !important;
+		text-align:center !important;
+	}
+	
+	.date-margin{
+		margin-top:15px !important;
+		margin-left:15px !important;
+		height:100% !important;
+	}
+	
+	#searchSelect{
+		margin-top: 15px !important;
+		text-align:center !important;
+	}
+	
+	.time{
+		margin-left:20px !important;
+	}
+	
+	.endMargin{
+		margin-top:15px !important;
+	}
+	
+	#mobile{
+		   display: block;
+		float: left;
+		height: 25% !important;
+		width: 48.3% !important;
+		margin-left: 19px;
+		font-size: 3rem !important;
+		line-height: 0px;
+		margin-top: 15px;
+	}
+	
+	#slideLabel{
+		font-size: 3Rem !important;
+	}
+	
+	#desktop{
+		display:none;
+	}
 }
