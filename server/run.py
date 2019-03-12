@@ -3,15 +3,24 @@ from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 import os, sys, sanitize, datetime,controller
 
+dir_loadconfig = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0,dir_loadconfig)
+import loadconfig
+
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
 
+config = loadconfig.load_json_file()
+
 #sanitizer
-sanitizer = sanitize.Sanitizer()
+sanitizer = sanitize.Sanitizer(config["server"]) # Verkar inte användas
 
 #controller
-Controller = controller.Controller()
+Controller = controller.Controller(config)
+
+config = None
+del config
 
 #What icon to show on map (flagged location & current location of user).
 flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
@@ -43,7 +52,7 @@ def mapview():
         response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
         return response
 
-def addMark(lat, lng):
+def addMark(lat, lng): # Verkar inte användas
     '''Retrieves all markers within a given circle from database
     Parameters
     ----------
@@ -60,7 +69,7 @@ def addMark(lat, lng):
         "infobox": "Current location",
     })
 
-def setup():
+def setup(): # Verkar inte användas
 	min_range = 1000
 	max_range = 10000
 	step = 100
@@ -93,6 +102,7 @@ def renderMap():
         maptype_control = False,
     )
     return sndmap
+
 
 if __name__ == "__main__":
     app.run( debug=True)
