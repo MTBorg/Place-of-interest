@@ -26,7 +26,7 @@ body{
 }
 #mapScaler {
     height: 100%;
-    width: 35% !important;
+    width: 22% !important;
     float: left !important;
 }
 #slideLabel {
@@ -34,6 +34,7 @@ body{
     color: white !important;
 	float: left !important;
 	margin-top: 15px !important;
+	width:18.7%;
 }
 #slider1 {
 	margin-left: 3px;
@@ -41,15 +42,16 @@ body{
 	background-color:	gainsboro;
 	border-radius: 6px !important;
 	height: 50%;
-	width: 80% !important;
+	width: 22% !important;
 	float: left !important;
 }
 #error-label {
 	clear: left!important;
     font-size: 1.3rem !important;
     color: white !important;
-	float: left !important;
-	margin-top: 15px !important;
+    float: left !important;
+    width: 18.5%;
+    margin-top: 15px !important;
 }
 
 #mobile{
@@ -64,13 +66,13 @@ body{
 	margin-right: 5px;
 	margin-left: 5px;
 	margin-top: 15px !important;
-	width: 85% !important;
+	width: 22% !important;
 	height: 50%;
 	float: left !important;
 }
 .date{ 
-	height: 100% !important;
-	width: 17% !important;
+	height: 49% !important;
+	width: 40% !important;
 	float: left !important;
 }
 .dateform {
@@ -81,8 +83,8 @@ body{
 .time{
 	margin-right: 18px;
 	margin-left: 2px;
-	height: 100% !important;
-	width: 14.5% !important;
+	height: 49% !important;
+	width: 40% !important;
 	float: left !important;
 }
 #Cont{
@@ -98,18 +100,55 @@ body{
 	width: 100% !important;
 	padding: 4px;
 }
-#row2-1{
-	height: 6% !important;
+
+.timeDateInfo{
+	float:left;
+	color:white;
+	padding-left:15px;
+	padding-right:15px;
+	width:20%;
 }
+
+.row2-1{
+	    height: 24% !important;
+    margin-top: 34px;
+    margin-left: 0px !important;
+    width: 100% !important;
+}
+
+#rangeSlider{
+	margin-top:-23px !important;
+}
+
 #row2-2{
-	height: 9% !important;
+	height: 20% !important;
+	width: 100%;
 	
 }
+
+#end_date{
+	margin-top:10px;
+}
+
+#end_time{
+	margin-top:10px;
+}
+
+.time{
+	width:30% !important;
+}
+
+.date{
+	width:30% !important;
+}
+
+
+
 #row2col1{
 	height: 100%;
 }
 #row3{
-	height: 10% !important;
+	height: 20% !important;
 }
 #row3col1{
 	height: 100%;
@@ -162,6 +201,15 @@ body{
     height: 100% !important;
 }
 
+.menuItems{
+	width:33%;
+	float:left;
+}
+
+.bottomWrapper{
+		height:33%;
+	}
+
 .but-graphics {
     height: 100% !important;
     font-size: 1.5rem !important;
@@ -184,9 +232,10 @@ body{
 	
 }
 #searchSelect{
-	height:  100%;
+	height:  40%;
 	float: left;
-	width: 22%; 
+	width: 22%;
+	margin-top:10px;
 }
 .but-graphics-search:hover {
 	cursor: pointer !important;
@@ -203,8 +252,13 @@ h1{
 
 @media only screen and (max-width: 1000px) {
 	
+	.mobButWidth{
+		width:100% !important;
+		font-size: 3Rem !important;
+	}
+	
 	#row1{
-		height:65%;
+		height:60%;
 	}
 	
 	.navbar{
@@ -238,33 +292,34 @@ h1{
 	}
 	
 	#mapScaler{
-		width: 100% !important;
-		height: 67% !important;
-		float: left !important;
-		margin-left: 5px !important;
-		margin-top:-30px !important;
+		    width: 100% !important;
+    height: 150% !important;
+    float: left !important;
+    margin-left: 5px !important;
+    margin-top: -30px !important;
 	}
 	
 	#slider1{
 	margin-left: 40px;
-    margin-top: 15px !important;
+    margin-top: 10px !important;
     background-color: gainsboro;
     border-radius: 6px !important;
-    height: 70%;
+    height: 50%;
     width: 80% !important;
     float: left !important;
 	}
 	
 	#row2-1{
-		height: 8% !important;
+		height: 11% !important;
 	}
 	
 	#row2-2{
-		height: 15% !important;
+		margin-left:15px;
+		height: 56% !important;
 	}
 	
 	.form-control{
-		width: 48% !important;
+		width: 23% !important;
 		height: 25% !important;
 		font-size: 3rem !important;
 		color:black !important;
@@ -273,7 +328,7 @@ h1{
 	
 	.date-margin{
 		margin-top:15px !important;
-		margin-left:15px !important;
+		margin-left:-15px !important;
 		height:100% !important;
 	}
 	
@@ -283,29 +338,65 @@ h1{
 	}
 	
 	.time{
-		margin-left:20px !important;
+		margin-left:24px !important;
+		margin-right:0px !important;
 	}
 	
 	.endMargin{
 		margin-top:15px !important;
 	}
 	
+	.bottomWrapper{
+		height:33%;
+	}
+	
 	#mobile{
 		   display: block;
 		float: left;
 		height: 25% !important;
-		width: 48.3% !important;
-		margin-left: 19px;
+		width: 23.5% !important;
+		margin-left: 22px;
 		font-size: 3rem !important;
 		line-height: 0px;
 		margin-top: 15px;
 	}
 	
+	.row2-1{
+		display:none !important;
+	}
+	
+	#rangeSlider{
+		display:block !important;
+	}
+	
+	.timeDateInfo{
+		font-size:3Rem !important;
+		width:50.7% !important;
+		padding-left:0px;
+	}
+	
 	#slideLabel{
 		font-size: 3Rem !important;
+		margin-top: 8px !important;
+		width: 15% !important;
 	}
+	
+	
 	
 	#desktop{
 		display:none;
+	}
+	
+	.menuItems{
+		width:49%;
+	}
+	
+	#toggleBut{
+		margin-left:15px;
+	}
+	
+	#row3{
+		margin-top:15px;
+		height: 16% !important;
 	}
 }

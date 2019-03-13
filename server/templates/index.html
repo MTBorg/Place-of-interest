@@ -18,66 +18,70 @@
                     {{sndmap.html}} 
 				</div>
             </div>
+			<div class="bottomWrapper">
            <button value='0' onclick="extMap()" class="btn btn-primary btn-lg btn-block but-graphics extBut">
                                     <span>Extend Map</span>
             </button>
-            <div class="row" id="row2-2" > <!-- The row in which the column is placed -->	  
-                <!-- <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"> </div> -->
-                <div class="col-xs-12  date-margin  form-group dateform"> 
-                    
-                    <input type="hidden" name="request-specification" value="TimePersonLocation">
-                        <input id="start_date" type="date" class="date form-control" name="start_date" min="2019-01-01" value="Date">
-						<input id="start_time"type="time" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time">
-                        <input id="end_date" type="date" class="endMargin date form-control" name="end_date" min="2019-01-01" value="Date">
-						<input id="end_time" type="time" class="endMargin time form-control" name="end_time" min="00:00" max="23:59" value="Time">
-                    <select class="form-control" id="searchSelect">
-                        <option disabled selected="selected">Search on</option>
-                        <option value="Time"> Time only </option>
-                        <option value="Area"> Area only</option>
-                        <option value="Time_Area"> Time and Area </option>
-                    </select>
-					<button type="Button" onclick="getPositionbyTime()" id="mobile" class="btn btn-primary btn-lg btn-block but-graphics"> Search </button>
-                    
-                </div>
-            </div>
 			
-            <div class="row" id="row2-1" > <!-- The row in which the column is placed -->	
-                <div class="col-lg-6 d-lg-block  d-none date-margin  " id="mapScaler"> 
-                        <p id="error-label"> Error:  </p>
-                        <textarea  disabled  id="error-log"> Ingen info ännu!</textarea>
-                </div>      
-                <div class="col-lg-5 col-sx-12  d-none  d-md-block date-margin  " id="mapScaler">
-                    <p id="slideLabel"> Range:  </p>
-                    <input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
+				<div class="row " id="row3"> <!-- The row in which the column is placed -->	
+					<div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
+					   <div class="menuItems">
+					
+									<input type="hidden" name="request-specification" value="SetMarker">
+									<input id="latInput" name="lat" type="hidden">
+									<input id="lngInput" name="lng" type="hidden">
+									<button onclick="placeMarker()" class="btn btn-primary btn-lg btn-block but-graphics mobButWidth">
+										<span>Set marker</span>
+									</button>
+								 </div>
+								 <div class="menuItems">
 
-                </div>
-            </div>  
+									<button class="btn btn-primary btn-lg btn-block but-graphics mobButWidth" id="toggleBut" onclick="toggleMode()" value="1">
+										<span>Locked Mode</span>
+									</button> 
+								</div>
+								<div class="menuItems">
+									<button type="Button" onclick="getPositionbyTime()" id="desktop" class="btn btn-primary btn-lg btn-block but-graphics"> Search </button>
+						
+							</div>
+			  
+					</div>
+				</div>
+				<div class="row" id="row2-2" > <!-- The row in which the column is placed -->	  
+					<!-- <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"> </div> -->
+					<div class="col-xs-12  date-margin  form-group dateform"> 
+						<span class="timeDateInfo">Start Date/Time: </span>
+						<input type="hidden" name="request-specification" value="TimePersonLocation">
+							
+							<input id="start_date" type="date" class="date form-control" name="start_date" min="2019-01-01" value="Date">
+							<input id="start_time"type="time" class="time form-control" name="start_time" min="00:00" max="23:59 "value="Time" placeholder="Start Time">
+							<span class="timeDateInfo">End Date/Time: </span>
+							<input id="end_date" type="date" class="endMargin date form-control" name="end_date" min="2019-01-01" value="Date">
+							<input id="end_time" type="time" class="endMargin time form-control" name="end_time" min="00:00" max="23:59" value="Time">
+						<span class="timeDateInfo">Search Parameters</span>
+						<select class="form-control" id="searchSelect">
+							<option disabled selected="selected">Search on</option>
+							<option value="Time"> Time only </option>
+							<option value="Area"> Area only</option>
+							<option value="Time_Area"> Time and Area </option>
+						</select>
+						<button type="Button" onclick="getPositionbyTime()" id="mobile" class="btn btn-primary btn-lg btn-block but-graphics"> Search </button>
+						
+					</div>
+				</div>
+				
+				<div class="row row2-1"> <!-- The row in which the column is placed -->	
+							<p id="error-label"> Error:  </p>
+							<textarea  disabled  id="error-log"> Ingen info ännu!</textarea>							
+				</div>
+				<div class="row row2-1" id="rangeSlider" > <!-- The row in which the column is placed -->
+						<p id="slideLabel">Range:  </p>
+						<input type="range" class="custom-range" id="slider1"  min="1" max="20" step="1" onchange="changeRange(this.value)">
+				</div>  
             
-            <div class="row " id="row3"> <!-- The row in which the column is placed -->	
-				<div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
-                    <nav class="navbar navbar-expand"> <!-- Menu in the bottom of the page -->
-                        <ul class="navbar-nav">
-                             <li class="nav-item">
-                                <input type="hidden" name="request-specification" value="SetMarker">
-                                <input id="latInput" name="lat" type="hidden">
-                                <input id="lngInput" name="lng" type="hidden">
-                                <button onclick="placeMarker()" class="btn btn-primary btn-lg btn-block but-graphics">
-                                    <span>Set marker</span>
-                                </button>
-                             </li> 
-                            <li class="nav-item mx-auto">  <!-- Just none-functions buttons for display-->
-                                <button class="btn btn-primary btn-lg btn-block but-graphics" id="toggleBut" onclick="toggleMode()" value="1">
-									<span>Locked Mode</span>
-                                </button> 
-                            </li>
-                           <li class="nav-item nav-right-item"> 
-                                <button type="Button" onclick="getPositionbyTime()" id="desktop" class="btn btn-primary btn-lg btn-block but-graphics"> Search </button>
-                            </li>             
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+            
+			</div>
+		</div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -147,7 +151,24 @@
     }
 	 
 	 function changeRange(newRange){
-
+        var dataForm = {
+            "request-specification": "getMarkersFromTimeAndPerson",
+            "lng": lng.value,
+            "lat": lat.value,
+            "end_time": newRange,
+        }
+        /* TODO Fix removing markers and place new ones  */
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: dataForm,
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
 	 }
 	 
 	function toggleMode() {
@@ -177,11 +198,11 @@
 	function extMap(){
 		var element = document.getElementById('row1');
 		if(element.value == 0){
-			element.style.height = '65%';
+			element.style.height = '60%';
 			element.value = 1;
 		}
 		else{
-			element.style.height = '80%'
+			element.style.height = '82%'
 			element.value = 0;
 		}
 	}
