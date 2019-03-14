@@ -23,6 +23,8 @@ Theoretically you should be able get to the project to  work with any HTTP-serve
 * [Gunicorn](https://gunicorn.org/#docs)
 * [Nginx](https://nginx.org/en/docs/)
 
+***NOTE:*** Nginx only supports unix-systems
+
 To add place of interest as a site to be served by nginx:
 ```
 sudo cp server/nginx/poi /etc/nginx/sites-available/poi #Copy the site settings
