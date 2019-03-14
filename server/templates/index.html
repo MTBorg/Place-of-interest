@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     {{sndmap.js}}
   </head>
+    <body id="body1" onload="loadPage()"> <!--Sets the background color -->
     <div class="container-fluid" id ="Cont"> <!-- contains the gridsystem-->
 		  <div class="row" id="row0" > <!-- The row in which the column is placed -->	
         <div class="col-sm-12 col-height" ><!-- Column making the map adjustable to differnt devices-->
@@ -255,7 +256,7 @@
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(getMarkersByTime);
       } else {
-        worked.value = "Geolocation is not supported by this browser.";
+        worked.value ="Geolocation is not supported by this browser.";
       }
     } 
     function getMarkersByTime(position){
