@@ -23,6 +23,20 @@ Theoretically you should be able get to the project to  work with any HTTP-serve
 * [Gunicorn](https://gunicorn.org/#docs)
 * [Nginx](https://nginx.org/en/docs/)
 
+To add place of interest as a site to be served by nginx:
+```
+sudo cp server/nginx/poi /etc/nginx/sites-available/poi #Copy the site settings
+sudo ln -s /etc/nginx/sites-available/poi /etc/nginx/sites-enabled # Create a symlink
+```
+To enable gunicorn as a systemd service:
+```
+sudo cp server/gunicorn/poi.service
+```
+and then run it using
+```
+sudo systemctl start poi
+``` 
+
 # Database 
 All the files that are related to the database are in the db folder. The setup folder in there is for setting up a postgresql database that has all the basic functionality for the PoI application. There is also a json setup file in the setup folder, that can be used to change some key variables of the database. The db.py file is a api for establishing a connection to the database and defining the queries.
 
