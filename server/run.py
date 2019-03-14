@@ -23,8 +23,7 @@ Controller = controller.Controller(config)
 config = None
 del config
 
-#controller
-Controller = controller.Controller()
+
 
 #What icon to show on map (flagged location & current location of user).
 flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
