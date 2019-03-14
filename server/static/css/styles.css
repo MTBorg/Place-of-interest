@@ -12,6 +12,7 @@ body{
 	width: 100% !important;
 }
 
+
 .extBut{
 		height:90px !important;
 		margin-top:15px;
@@ -32,9 +33,9 @@ body{
 #slideLabel {
     font-size: 1.3rem !important;
     color: white !important;
-	float: left !important;
-	margin-top: 15px !important;
-	width:18.7%;
+	  float: left !important;
+	  margin-top: 15px !important;
+	  width:18.7%;
 }
 #slider1 {
 	margin-left: 3px;
@@ -123,7 +124,6 @@ body{
 #row2-2{
 	height: 20% !important;
 	width: 100%;
-	
 }
 
 #end_date{
@@ -201,6 +201,7 @@ body{
     height: 100% !important;
 }
 
+
 .menuItems{
 	width:33%;
 	float:left;
@@ -208,7 +209,7 @@ body{
 
 .bottomWrapper{
 		height:33%;
-	}
+}
 
 .but-graphics {
     height: 100% !important;

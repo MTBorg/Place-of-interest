@@ -20,6 +20,11 @@ import json
 import os
 import sys
 import getopt
+import inspect
+
+dir_loadconfig = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0,dir_loadconfig)
+import loadconfig
 
 
 def __run_setup_files(filedata):    
@@ -73,28 +78,6 @@ def __run_setup_files(filedata):
         print("Exception while running setup scripts:", e)
 
 
-def __load_json_file(filename):
-
-    """Loads file and returns all the data
-
-    Parameters
-    ----------
-    filename: Name of the json file that will be loaded
-    
-    Returns
-    ----------
-    A dictionary with all the data from the json file
-    """
-    dirname = os.path.dirname(__file__)
-    if (dirname == ""): #If the script is run from the same folder we don't want to prepend "/" (as it would result in searching the root)
-        filepath = filename
-    else:
-        filepath = dirname + "/" + filename
-    logging.info("Reading file %s", filepath)
-    with open(filepath) as f:
-        filedata = json.load(f)
-    return filedata 
-
 def run():
     """Runs the script and it's functions
     """
@@ -133,9 +116,9 @@ def run():
                 flog_handler.setFormatter(flog_format)
                 logging.getLogger().addHandler(flog_handler)
 
-        filename = 'data.json'
 
-        filedata = __load_json_file(filename)
+        filedata = loadconfig.load_json_file()
+        filedata = filedata["database"]
         __run_setup_files(filedata)
     except getopt.GetoptError:
         print("Usage:", os.path.basename(__file__), "--logLevel <logLevel> --logFile <logFile>")

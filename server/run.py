@@ -7,6 +7,7 @@ dir_loadconfig = os.path.dirname(os.path.dirname(__file__))
 sys.path.insert(0,dir_loadconfig)
 import loadconfig
 
+
 app = Flask(__name__, template_folder=".")
 #path from where this file is executed.
 path = os.path.dirname(os.path.realpath(__file__))
@@ -21,6 +22,8 @@ Controller = controller.Controller(config)
 
 config = None
 del config
+
+
 
 #What icon to show on map (flagged location & current location of user).
 flaggedLocationsIcon = "http://maps.google.com/mapfiles/ms/icons/green-dot.png" #http://maps.google.com/mapfiles/ms/icons/blue-dot.png
@@ -51,6 +54,7 @@ def mapview():
     if request.method == "GET":
         response = make_response(render_template('./templates/index.html', sndmap=renderMap()))
         return response
+
 
 def addMark(lat, lng): # Verkar inte användas
     '''Retrieves all markers within a given circle from database

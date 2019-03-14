@@ -1,4 +1,7 @@
 .vscode/
+**/.vs
+**/.idea
+,DS_STORE
 
 **/api_key/*
 !readme.md

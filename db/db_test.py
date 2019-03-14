@@ -1,3 +1,4 @@
+import os
 import unittest
 import db as database
 import logging
@@ -11,12 +12,12 @@ from setup import createDatabase, createDBUser, createTables, grantDBUser
 # WARNING: DO NOT remove or edit points (unless you really know what you are doing) as this will most likely break already implemented tests.
 # Instead just add new ones.
 points = [
-    {"marker": (0,0), "ip_address": "123.123.123.123", "user_id": "0"},
-    {"marker": (1,1), "ip_address": "123.123.123.123", "user_id": "0"},
-    {"marker": (100,80), "ip_address": "192.168.10.34", "user_id": "1"},
-    {"marker": (-10,0), "ip_address": "123.123.123.123", "user_id": "2"},
-    {"marker": (22.1509272,65.5857114), "ip_address": "234.234.234.234", "user_id": "3"}, # Kulturens hus, Luleå
-    {"marker": (22.1339231,65.6181932), "ip_address": "234.234.234.234", "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
+    {"marker": (0,0), "user_id": "0"},
+    {"marker": (1,1), "user_id": "0"},
+    {"marker": (100,80), "user_id": "1"},
+    {"marker": (-10,0), "user_id": "2"},
+    {"marker": (22.1509272,65.5857114), "user_id": "3"}, # Kulturens hus, Luleå
+    {"marker": (22.1339231,65.6181932), "user_id": "3"} # Aula Aurora, Luleå University of Technology, Luleå
 ]
 
 class dbTest(unittest.TestCase):
@@ -93,13 +94,12 @@ class dbTest(unittest.TestCase):
 
                 #Insert test points
                 logging.info("Connecting to database %s to insert points", cls.test_db["name"])
-                db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+                db = database.db(loadconfig()) 
                 logging.info("Inserting %s points", len(points))
                 for point in points:
                     db.save_marker(
                         lng = point["marker"][0],
                         lat = point["marker"][1],
-                        ip_address = point["ip_address"],
                         user_id = point["user_id"]
                     )
                 logging.info("Test database %s was successfully setup", cls.test_db["name"])
@@ -140,7 +140,7 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_userid(self):
         logging.info("Testing getting markers from user id")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(loadconfig()) # NOTE: The path is relative to the db file
 
         # Check that the function returns a list
         self.assertIsInstance([], type(db.get_markers_from_userid("0")))
@@ -158,48 +158,10 @@ class dbTest(unittest.TestCase):
         self.assertNotIn((0.001,0.001), db.get_markers_from_userid("66"))
         self.assertEqual(len(db.get_markers_from_userid("66")), 0)
         self.assertEqual(len(db.get_markers_from_userid("454312")), 0)
-
-    def test_get_markers_from_ip(self):
-        logging.info("Testing getting markers from ip")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
-       
-        # Check that the function returns a list
-        self.assertIsInstance([], type(db.get_markers_from_userid("123.123.123.123")))
-
-        #TODO: check multipte values in list?
-        self.assertIn((0,0), db.get_markers_from_ip("123.123.123.123"))
-        self.assertIn((-10,0), db.get_markers_from_ip("123.123.123.123"))
-        self.assertIn((100,80), db.get_markers_from_ip("192.168.10.34"))
-        
-        # May fail if additional points are added
-        self.assertNotIn((0,0), db.get_markers_from_ip("192.168.10.34"))
-        self.assertNotIn((80,100), db.get_markers_from_ip("192.168.10.34"))
-        self.assertNotIn((100.0001,80.001), db.get_markers_from_ip("192.168.10.34"))
-        self.assertNotIn((100.0001,80.001), db.get_markers_from_ip("77"))
-        self.assertEqual(len(db.get_markers_from_ip("77")), 0)
-    
-    def test_get_markers_from_userid_and_ip(self):
-        logging.info("Testing getting markers from user id and ip")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
-
-        # Check that the function returns a list
-        self.assertIsInstance([], type(db.get_markers_from_userid_and_ip("0", "123.123.123.123")))
-
-        #TODO: check multipte values in list?
-        self.assertIn((0,0), db.get_markers_from_userid_and_ip("0", "123.123.123.123"))
-        self.assertIn((1,1), db.get_markers_from_userid_and_ip("0", "123.123.123.123"))
-        self.assertIn((100,80), db.get_markers_from_userid_and_ip("1", "192.168.10.34"))
-        self.assertIn((-10,0), db.get_markers_from_userid_and_ip("2", "123.123.123.123"))
-
-        # May fail if additional points are added
-        self.assertNotIn((80,100), db.get_markers_from_userid_and_ip("1", "192.168.10.34"))
-        self.assertNotIn((10,0), db.get_markers_from_userid_and_ip("2", "123.123.123.123"))
-        self.assertNotIn((10,0), db.get_markers_from_userid_and_ip("66", "77"))
-        self.assertEqual(len(db.get_markers_from_userid_and_ip("66","77")), 0)
     
     def test_get_markers_from_dist(self):
         logging.info("Testing getting markers from distance")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(loadconfig()) 
 
         # Get all markers within a distance of 40080km (earth's circumference~=40075km) from (0,0), which should return all points
         self.assertEqual(len(points), len(db.get_markers_from_dist(0,0,40075000)))
@@ -217,7 +179,7 @@ class dbTest(unittest.TestCase):
 
     def test_get_markers_from_dist_time(self):
         logging.info("Testing getting markers from distance and time")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(loadconfig()) # NOTE: The path is relative to the db file
 
         now = datetime.datetime.now() 
         yesterday = now - datetime.timedelta(days = 1)
@@ -245,34 +207,43 @@ class dbTest(unittest.TestCase):
 
     def test_save_marker(self):
         logging.info("Testing saving marker")
-        db = database.db("../testConf.json") # NOTE: The path is relative to the db file
+        db = database.db(loadconfig()) # NOTE: The path is relative to the db file
 
         # Testing valid input format
-        self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker("0.0", 0.0, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(0.0, "0.0", "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(0.0, 0.0, 0, "user_id"))
-        self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", 0))
-        self.assertTrue(db.save_marker(0.0, 0.0, 11, "user_id"))
-        self.assertTrue(db.save_marker(0.0, 0.0, "ip_address", 11))
+        self.assertTrue(db.save_marker(0.0, 0.0, "user_id"))
+        self.assertTrue(db.save_marker("0.0", 0.0, "user_id"))
+        self.assertTrue(db.save_marker(0.0, "0.0", "user_id"))
+        self.assertTrue(db.save_marker(0.0, 0.0, 10))
 
         # Testing random values for lng and lat
-        self.assertTrue(db.save_marker(1, 2.2222222222, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(1.1111111111, 2, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(100, 1, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(1, 100, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(500, 1, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(1, 500, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(9999999999, 1, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(1, 9999999999, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(9999999999, 9999999999, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(-9999999999, -9999999999, "ip_address", "user_id"))
-        self.assertTrue(db.save_marker(10, 10, "", ""))
+        self.assertTrue(db.save_marker(1, 2.2222222222, "user_id"))
+        self.assertTrue(db.save_marker(1.1111111111, 2, "user_id"))
+        self.assertTrue(db.save_marker(100, 1, "user_id"))
+        self.assertTrue(db.save_marker(1, 100, "user_id"))
+        self.assertTrue(db.save_marker(500, 1, "user_id"))
+        self.assertTrue(db.save_marker(1, 500, "user_id"))
+        self.assertTrue(db.save_marker(9999999999, 1, "user_id"))
+        self.assertTrue(db.save_marker(1, 9999999999, "user_id"))
+        self.assertTrue(db.save_marker(9999999999, 9999999999, "user_id"))
+        self.assertTrue(db.save_marker(-9999999999, -9999999999, "user_id"))
+        self.assertTrue(db.save_marker(10, 10, ""))
 
         with self.assertRaises(Exception):
-            db.save_marker("test", 1, "", "")
-            db.save_marker(1, "test", "", "")
-            db.save_marker("test", "test", "", "")
+            db.save_marker("test", 1, "")
+            db.save_marker(1, "test", "")
+            db.save_marker("test", "test", "")
+
+def loadconfig():
+    dirname = os.path.dirname(__file__)
+    logging.info("dirname %s", dirname)
+    if (dirname == ""): #If the script is run from the same folder we don't want to prepend "/" (as it would result in searching the root)
+        filepath = "testConf.json"
+    else:
+        filepath = dirname + "/testConf.json"
+    logging.info("Reading file %s", filepath)
+    with open(filepath) as f:
+        config = json.load(f)
+    return config
 
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
