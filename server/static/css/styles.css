@@ -43,6 +43,7 @@ body{
 	border-radius: 6px !important;
 	height: 50%;
 	width: 22% !important;
+	width: 29% !important;
 	float: left !important;
 }
 #error-label {
@@ -66,7 +67,7 @@ body{
 	margin-right: 5px;
 	margin-left: 5px;
 	margin-top: 15px !important;
-	width: 22% !important;
+	width: 29% !important;
 	height: 50%;
 	float: left !important;
 }
@@ -234,7 +235,7 @@ body{
 #searchSelect{
 	height:  40%;
 	float: left;
-	width: 22%;
+	width: 29%;
 	margin-top:10px;
 }
 .but-graphics-search:hover {
