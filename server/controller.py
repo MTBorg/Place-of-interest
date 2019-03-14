@@ -10,13 +10,14 @@ import sanitize
 
 class Controller:
 
-    def __init__(self):
+    def __init__(self, config):
         #create database connection instance to use for db calls.
-        
-        self.DEFAULT_RADIUS = 100000000
-        self.Sanitizer = sanitize.Sanitizer()
-        self.db = database.db("data.json")
-        self.DEFAULT_RADIUS = 1000
+
+        server_config = config["server"]
+        self.DEFAULT_RADIUS = int(server_config["default_radius"])
+        self.Sanitizer = sanitize.Sanitizer(config["server"])
+        self.db = database.db(config["database"])
+
 
     def createQuery(self, request):
         """

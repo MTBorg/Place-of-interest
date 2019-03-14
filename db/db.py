@@ -1,40 +1,24 @@
 import psycopg2
 
 import os
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # Verkar inte användas
 
 import json
 
 class db:
 
-    def __init__(self, file_config):
+    def __init__(self, config):
         '''Setup a database object based on json-file
         '''
-        try:
-            filename = file_config
-            dirname = os.path.dirname(__file__)
-            filepath = ""
-            if(dirname == ""): #If the script is run from the same folder a '/' should not be prepended
-                filepath = filename
-            else:
-                filepath = dirname + "/setup/" + filename
+        connection = config["connection"]
+        poi_user = config["poi_user"]
+        poi_db = config["poi_db"]
 
-            #Load file
-            with open(filepath) as f:
-                filedata = json.load(f)
-
-                connection = filedata["connection"]
-                poi_user = filedata["poi_user"]
-                poi_db = filedata["poi_db"]
-                su = filedata["superuser"]
-    
-                self.db_name = poi_db["name"]
-                self.host = connection["host"]
-                self.port = connection["port"]
-                self.user_name = poi_user["name"]
-                self.user_pw = poi_user["password"] 
-        except Exception as e:
-            print("Exception loading json file " + filename + ": " + e)
+        self.db_name = poi_db["name"]
+        self.host = connection["host"]
+        self.port = connection["port"]
+        self.user_name = poi_user["name"]
+        self.user_pw = poi_user["password"] 
 
     def __connect(self):
         ''' Try to connect to database
@@ -74,48 +58,6 @@ class db:
         query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE user_id = %s;"
 
         cursor.execute(query, (user_id,))
-        result = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        return result
-
-
-    def get_markers_from_ip(self, ip_address):
-        '''Retrieves all markers associated with a given user id
-        Parameters
-        ----------
-        ip_address - The ip address to get markers for
-        Returns
-        -------
-        A list of tuples of form (longtiude, latitude) associated with the ip
-        '''
-        connection = self.__connect()
-        cursor = connection.cursor()
-
-        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE ip_address = %s;"
-        cursor.execute(query, (ip_address,))
-        result = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        return result
-
-
-    def get_markers_from_userid_and_ip(self, user_id, ip_address):
-        '''Retrieves all markers associated with a given user id
-        Parameters
-        ----------
-        user_id - The id of the user
-        ip_address - The ip address to get markers for
-        Returns
-        -------
-        A list of tuples of form (longtiude, latitude) associated with the ip and the user_id
-        '''
-        connection = self.__connect()
-        cursor = connection.cursor()
-
-        query = "SELECT ST_X(ST_AsEWKT(marker)), ST_Y(ST_AsEWKT(marker)) FROM markers WHERE user_id=%s AND ip_address=%s;"
-
-        cursor.execute(query, (user_id, ip_address))
         result = cursor.fetchall()
         cursor.close()
         connection.close()
@@ -185,7 +127,7 @@ class db:
         return result
 
 
-    def save_marker(self, lng, lat, ip_address, user_id):
+    def save_marker(self, lng, lat, user_id):
         '''Stores a given point in the database
 
         Parameters
@@ -194,7 +136,6 @@ class db:
         lng - Longitude of marker position
         lat - Latitude of marker position
         user_id - The id of the user
-        ip_address - The ip address of the user
 
         Returns
         -------
@@ -205,8 +146,8 @@ class db:
         cursor = connection.cursor()
 
         coordinates = "POINT(%s %s)" % (lng, lat)
-        query = "INSERT INTO markers (marker, user_id, ip_address) VALUES (ST_GeomFromText(%s, 4326), %s, %s) RETURNING id"
-        data = (coordinates, user_id, ip_address)
+        query = "INSERT INTO markers (marker, user_id) VALUES (ST_GeomFromText(%s, 4326), %s) RETURNING id"
+        data = (coordinates, user_id)
 
         cursor.execute(query, data)
         if cursor.fetchone()[0] != None:

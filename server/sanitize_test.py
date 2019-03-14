@@ -6,6 +6,13 @@ import psycopg2
 import datetime
 from psycopg2.extensions import AsIs
 
+import os
+import sys
+
+dir_loadconfig = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0,dir_loadconfig)
+import loadconfig
+
 class sanitizeTest(unittest.TestCase):
 
     def test_cookieCheck(self):
@@ -15,7 +22,7 @@ class sanitizeTest(unittest.TestCase):
 
     def test_getHashCookie(self):
         logging.info("Test getHashCookie")
-        sanitizer = s.Sanitizer()
+        sanitizer = s.Sanitizer(loadconfig.load_json_file()["server"])
 
         # Should generate and print 3 different cookies
         cookie = sanitizer.getHashCookie()
@@ -32,7 +39,7 @@ class sanitizeTest(unittest.TestCase):
 
     def test_checkHashCookie(self):
         logging.info("Test checkHashCookie")
-        sanitizer = s.Sanitizer()
+        sanitizer = s.Sanitizer(loadconfig.load_json_file()["server"])
          
         cookieHash1 = sanitizer.getHashCookie().decode('utf-8')
         self.assertTrue(sanitizer.checkHashCookie(cookieHash1))
@@ -44,7 +51,8 @@ class sanitizeTest(unittest.TestCase):
 
     def test_checkTimeCookie(self):
         logging.info("Test checkTimeCookie")
-        sanitizer = s.Sanitizer()
+        sanitizer = s.Sanitizer(loadconfig.load_json_file()["server"])
+
 
         # must be on the form "%Y-%m-%d %H:%M:%S" --> example "2019-01-01 00:00:00"
         # based on sanitize.__TIME_BETWEEN_POSTS = 10 (seconds)
