@@ -18,15 +18,14 @@
 All the files that are related to the database are in the db folder. The setup folder in there is for setting up a postgresql database that has all the basic functionality for the PoI application. There is also a json setup file in the setup folder, that can be used to change some key variables of the database. The db.py file is a api for establishing a connection to the database and defining the queries.
 
 ## Database requirements
-Database schemas requirements:
+Database schemas requirements for the current database API:
 * A table named markers.
 
-Table markers requirements:
+Table markers requirements for the current database API:
 * A column named id of type integer, that is primary key and can't be null.
 * A column named marker of type geography, that is not null.
 * A column named created_at of type timestamp with time zone, that can't be null.
 * A column named user_id of type character varying (255), that can't be null.
-* A column named ip_address of type character varying (255), that can't be null.
 
 Database setup requirements(Only needed if running the setup script in the setup folder):
 * A default postgresql username and password. (A superuser that has the right to make a new database with a schema)
