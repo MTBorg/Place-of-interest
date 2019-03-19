@@ -1,0 +1,15 @@
+server {
+	listen 80;
+    server_name <server_name, e.g. localhost for development>
+
+	# Uncomment these lines and commet the line "listen 80;" to enable ssl
+	#listen 443 ssl;
+	#ssl_certificate <Path to certificate file>
+	#ssl_certificate_key <Path to certificate key file>
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/mtborg/D0020E/server/poi.sock;
+        proxy_pass http://unix:<Path to project server directory, e.g. /home/user/project/server>.sock;
+    }
+}

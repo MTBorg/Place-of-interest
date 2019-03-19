@@ -14,6 +14,31 @@
 * PostGis 2.5.1
 * Google Maps API Key
 
+# Server
+The Flask server should work out-of-the-box on its own, however as mentioned in the [Flask Documentation](http://flask.pocoo.org) it should not be used as
+> *Flask’s built-in server is not suitable for production*
+
+Therefore it is recommended that a production HTTP-server such as [Apache](https://httpd.apache.org/) or [Nginx](https://nginx.org/) is used. In order for the server to communicate with the python app a [Web Server Gateway Interface](https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface) (WSGI) has to be used.
+Theoretically you should be able get to the project to  work with any HTTP-server and WSGI, however, for ease of use, configuration files and instructions for [Nginx](https://nginx.org/) and [Gunicorn](https://gunicorn.org/) are provided. These can be configured to your liking by following their documentation
+* [Gunicorn](https://gunicorn.org/#docs)
+* [Nginx](https://nginx.org/en/docs/)
+
+***NOTE:*** Nginx only supports unix-systems
+
+To add place of interest as a site to be served by nginx:
+```
+sudo cp server/nginx/poi /etc/nginx/sites-available/poi #Copy the site settings
+sudo ln -s /etc/nginx/sites-available/poi /etc/nginx/sites-enabled # Create a symlink
+```
+To enable gunicorn as a systemd service:
+```
+sudo cp server/gunicorn/poi.service
+```
+and then run it using
+```
+sudo systemctl start poi
+``` 
+
 # Database 
 All the files that are related to the database are in the db folder. The setup folder in there is for setting up a postgresql database that has all the basic functionality for the PoI application. There is also a json setup file in the setup folder, that can be used to change some key variables of the database. The db.py file is a api for establishing a connection to the database and defining the queries.
 

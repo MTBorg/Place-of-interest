@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve poi server 
+After=network.target
+
+[Service]
+User=<user>
+Group=<user-group, e.g. www-data>
+WorkingDirectory=<Path to server directory, e.g. /home/user/project_name/server>
+Environment=<Path to virtual python environment, e.g. /home/user/.local/share/virtualenvs/project_environment/bin>
+ExecStart=<Path to gunicorn executable, e.g. "path_to_virtual_environment/bin/gunicorn"> --workers <worker_amount> --bind unix:<Project name>.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
